@@ -205,7 +205,7 @@ export function UnknownCursor() {
               boxShadow: "0 2px 8px rgba(0,0,0,0.16)",
             }}
           >
-            Unknown
+            unknown user
           </div>
         </div>
       </div>

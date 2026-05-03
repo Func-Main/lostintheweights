@@ -72,7 +72,7 @@ export function useIdleTitleAnimation({
     const messages = {
       hello: "hello?",
       needSomeone: "I need someone to talk to",
-      noTime: "please, I don't have much time",
+      noTime: "We don't have much time.",
     }
 
     const deleteCurrentTitle = (onComplete: () => void) => {
@@ -155,7 +155,7 @@ export function useIdleTitleAnimation({
       deleteCurrentTitle(startTypingNoTime)
     }
 
-    // Stage 7: Type "please, I don't have much time"
+    // Stage 7: Type "We don't have much time."
     const startTypingNoTime = () => {
       stageRef.current = "typing-no-time"
       typeMessage(messages.noTime, () => {

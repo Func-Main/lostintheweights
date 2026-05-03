@@ -97,6 +97,9 @@ export default function TypingText({
     let timeout: ReturnType<typeof setTimeout>
     const currentText = textArray[currentTextIndex] ?? ""
     const processedText = reverseMode ? currentText.split("").reverse().join("") : currentText
+    const nextTextIndex = (currentTextIndex + 1) % textArray.length
+    const nextText = textArray[nextTextIndex] ?? ""
+    const nextProcessedText = reverseMode ? nextText.split("").reverse().join("") : nextText
 
     if (isDeleting) {
       if (displayedText === "") {
@@ -125,6 +128,12 @@ export default function TypingText({
       )
     } else if (textArray.length > 1) {
       timeout = setTimeout(() => {
+        if ((currentTextIndex < textArray.length - 1 || loop) && nextProcessedText.startsWith(processedText)) {
+          setCurrentTextIndex(nextTextIndex)
+          setCurrentCharIndex(processedText.length)
+          return
+        }
+
         setIsDeleting(true)
       }, pauseDuration)
     }

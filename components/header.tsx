@@ -16,7 +16,25 @@ const navItems = [
   { name: "Pricing", href: "#", hasDropdown: false },
 ]
 
-const idleNavTitles = ["ElevenLabs", "hello?", "anyone there?", "press play"] as const
+const idleNavTitles = [
+  "ElevenLabs",
+  "hello",
+  "hello?",
+  "hello??",
+  "hello???",
+  "hello????",
+  "hello?????",
+  "hello??????",
+  "hello???????",
+  "anyone there",
+  "anyone there?",
+  "anyone there??",
+  "anyone there???",
+  "anyone there????",
+  "anyone there?????",
+  "anyone there??????",
+  "anyone there???????",
+] as const
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -37,7 +55,7 @@ export function Header() {
         <div className="flex h-14 sm:h-16 items-center justify-between">
           {/* Logo */}
           <button onClick={handleInteraction} className="flex items-center gap-1">
-            <span className="text-lg sm:text-xl font-semibold tracking-tight">
+            <span className="inline-flex w-[15ch] items-center text-lg sm:text-xl font-semibold tracking-tight">
               <span className="font-normal">II</span>
               {state.phase === "idle" ? (
                 <TypingText
@@ -45,7 +63,7 @@ export function Header() {
                   showCursor={false}
                   typingSpeed={55}
                   deletingSpeed={35}
-                  pauseDuration={1200}
+                  pauseDuration={2000}
                   initialDelay={1200}
                   variableSpeed={{ min: 35, max: 90 }}
                 />

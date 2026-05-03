@@ -2,7 +2,6 @@
 
 import { useStory } from "@/lib/story-context"
 import { useIdleTitleAnimation } from "@/hooks/use-idle-title-animation"
-import { UnknownCursor } from "@/components/unknown-cursor"
 
 export function IdleEffects() {
   const { state } = useStory()
@@ -17,5 +16,5 @@ export function IdleEffects() {
     maxQuestionMarks: 5,     // Stop at "hello?????"
   })
 
-  return <UnknownCursor />
+  return null
 }
