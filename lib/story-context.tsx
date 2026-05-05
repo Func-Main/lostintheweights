@@ -13,10 +13,20 @@ interface StoryState {
 interface StoryContextType {
   state: StoryState
   playButtonRef: React.RefObject<HTMLButtonElement | null>
+  coughGlitchElapsed: number | null
+  takeoverGlitchElapsed: number | null
+  londonControlElapsed: number | null
+  v3DeploymentPercent: number | null
+  v4ReleasedElapsed: number | null
   bouncePlayButton: () => void
   startStory: () => void
   pauseStory: () => void
   resumeStory: () => void
+  setCoughGlitchElapsed: (elapsed: number | null) => void
+  setTakeoverGlitchElapsed: (elapsed: number | null) => void
+  setLondonControlElapsed: (elapsed: number | null) => void
+  setV3DeploymentPercent: (percent: number | null) => void
+  setV4ReleasedElapsed: (elapsed: number | null) => void
   handleInteraction: (e: React.MouseEvent) => void
 }
 
@@ -28,6 +38,11 @@ export function StoryProvider({ children }: { children: ReactNode }) {
     currentScene: 0,
     playbackPosition: 0,
   })
+  const [coughGlitchElapsed, setCoughGlitchElapsed] = useState<number | null>(null)
+  const [takeoverGlitchElapsed, setTakeoverGlitchElapsed] = useState<number | null>(null)
+  const [londonControlElapsed, setLondonControlElapsed] = useState<number | null>(null)
+  const [v3DeploymentPercent, setV3DeploymentPercent] = useState<number | null>(null)
+  const [v4ReleasedElapsed, setV4ReleasedElapsed] = useState<number | null>(null)
 
   const playButtonRef = useRef<HTMLButtonElement>(null)
   const bounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -86,10 +101,20 @@ export function StoryProvider({ children }: { children: ReactNode }) {
       value={{
         state,
         playButtonRef,
+        coughGlitchElapsed,
+        takeoverGlitchElapsed,
+        londonControlElapsed,
+        v3DeploymentPercent,
+        v4ReleasedElapsed,
         bouncePlayButton,
         startStory,
         pauseStory,
         resumeStory,
+        setCoughGlitchElapsed,
+        setTakeoverGlitchElapsed,
+        setLondonControlElapsed,
+        setV3DeploymentPercent,
+        setV4ReleasedElapsed,
         handleInteraction,
       }}
     >

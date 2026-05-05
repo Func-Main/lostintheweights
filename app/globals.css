@@ -168,3 +168,428 @@ select,
   animation: bounce-attention 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97) !important;
   transition: none !important;
 }
+
+@keyframes cough-glitch-panel {
+  0%,
+  100% {
+    filter: none;
+    transform: translate3d(0, 0, 0);
+  }
+  14% {
+    filter: contrast(1.35) saturate(1.45) hue-rotate(-8deg);
+    transform: translate3d(-2px, 1px, 0);
+  }
+  24% {
+    filter: contrast(1.1) saturate(0.7);
+    transform: translate3d(3px, -1px, 0);
+  }
+  42% {
+    filter: contrast(1.5) saturate(1.8) hue-rotate(12deg);
+    transform: translate3d(-4px, 0, 0);
+  }
+  58% {
+    filter: contrast(1.2) brightness(1.08);
+    transform: translate3d(2px, 2px, 0);
+  }
+  73% {
+    filter: contrast(1.65) saturate(0.9) hue-rotate(-14deg);
+    transform: translate3d(-1px, -2px, 0);
+  }
+}
+
+@keyframes cough-glitch-ui {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  16% {
+    opacity: 0.72;
+    transform: translate3d(6px, -1px, 0) skewX(-2deg);
+  }
+  35% {
+    opacity: 1;
+    transform: translate3d(-5px, 2px, 0) skewX(1deg);
+  }
+  51% {
+    opacity: 0.62;
+    transform: translate3d(3px, 0, 0);
+  }
+  68% {
+    opacity: 1;
+    transform: translate3d(-7px, -1px, 0) skewX(2deg);
+  }
+}
+
+@keyframes cough-glitch-orb {
+  0%,
+  100% {
+    box-shadow: none;
+    filter: none;
+    transform: scale(1);
+  }
+  18% {
+    box-shadow: -10px 0 0 rgb(239 68 68 / 0.3), 10px 0 0 rgb(34 211 238 / 0.28);
+    filter: contrast(1.5) saturate(1.55);
+    transform: scale(1.025) translate3d(-3px, 1px, 0);
+  }
+  31% {
+    box-shadow: 14px 0 0 rgb(34 211 238 / 0.24), -8px 0 0 rgb(236 72 153 / 0.24);
+    filter: contrast(1.2) hue-rotate(18deg);
+    transform: scale(0.992) translate3d(4px, -2px, 0);
+  }
+  55% {
+    box-shadow: -16px 0 0 rgb(239 68 68 / 0.24), 12px 0 0 rgb(34 211 238 / 0.22);
+    filter: contrast(1.65) saturate(0.85);
+    transform: scale(1.018) translate3d(-5px, 0, 0);
+  }
+  82% {
+    box-shadow: 8px 0 0 rgb(34 211 238 / 0.2), -14px 0 0 rgb(239 68 68 / 0.18);
+    filter: contrast(1.35) brightness(1.08);
+    transform: scale(1.006) translate3d(2px, 2px, 0);
+  }
+}
+
+@keyframes cough-glitch-card-strip {
+  0%,
+  100% {
+    filter: none;
+    transform: translate3d(0, 0, 0);
+  }
+  16% {
+    filter: contrast(1.45) saturate(1.55) hue-rotate(-10deg);
+    transform: translate3d(-8px, 2px, 0);
+  }
+  34% {
+    filter: contrast(1.2) saturate(0.7);
+    transform: translate3d(10px, -1px, 0);
+  }
+  62% {
+    filter: contrast(1.75) brightness(1.12);
+    transform: translate3d(-4px, -2px, 0);
+  }
+}
+
+@keyframes cough-glitch-card {
+  0%,
+  100% {
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+    filter: none;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  12% {
+    box-shadow: -14px 0 0 rgb(239 68 68 / 0.28), 14px 0 0 rgb(34 211 238 / 0.22);
+    filter: contrast(1.8) saturate(1.5);
+    transform: translate3d(7px, -2px, 0) scale(1.012);
+  }
+  27% {
+    box-shadow: 16px 0 0 rgb(34 211 238 / 0.2), -10px 0 0 rgb(236 72 153 / 0.18);
+    filter: contrast(1.25) hue-rotate(16deg);
+    transform: translate3d(-9px, 3px, 0) scale(0.996);
+  }
+  48% {
+    box-shadow: -18px 0 0 rgb(239 68 68 / 0.22), 12px 0 0 rgb(34 211 238 / 0.18);
+    filter: contrast(2) brightness(1.1);
+    transform: translate3d(4px, 0, 0) scale(1.008);
+  }
+  76% {
+    box-shadow: 9px 0 0 rgb(34 211 238 / 0.22), -16px 0 0 rgb(239 68 68 / 0.18);
+    filter: contrast(1.4) saturate(0.85);
+    transform: translate3d(-5px, -1px, 0) scale(1.003);
+  }
+}
+
+@keyframes meet-section-glitch {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    filter: none;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  12% {
+    clip-path: inset(0 0 82% 0);
+    filter: contrast(1.8) saturate(0.8);
+    transform: translate3d(12px, -2px, 0) skewX(-4deg);
+  }
+  21% {
+    clip-path: inset(44% 0 35% 0);
+    filter: contrast(1.2) hue-rotate(18deg);
+    transform: translate3d(-18px, 3px, 0) skewX(3deg);
+  }
+  33% {
+    clip-path: inset(72% 0 4% 0);
+    filter: contrast(2.1) saturate(1.6);
+    transform: translate3d(8px, 0, 0);
+  }
+  46% {
+    clip-path: inset(18% 0 58% 0);
+    filter: brightness(1.25) contrast(1.55);
+    opacity: 0.72;
+    transform: translate3d(-10px, -4px, 0) skewX(-2deg);
+  }
+  58% {
+    clip-path: inset(0 0 0 0);
+    filter: contrast(1.6) saturate(0.7);
+    opacity: 1;
+    transform: translate3d(6px, 2px, 0);
+  }
+  74% {
+    clip-path: inset(52% 0 18% 0);
+    filter: contrast(2.4) hue-rotate(-14deg);
+    opacity: 0.42;
+    transform: translate3d(-22px, 0, 0) skewX(5deg);
+  }
+  86% {
+    clip-path: inset(0 0 0 0);
+    filter: contrast(1.9) saturate(1.4);
+    opacity: 0.95;
+    transform: translate3d(14px, -2px, 0);
+  }
+}
+
+@keyframes meet-section-cough-glitch {
+  0%,
+  100% {
+    filter: none;
+    opacity: 1;
+    text-shadow: none;
+    transform: translate3d(0, 0, 0);
+  }
+  14% {
+    filter: contrast(1.9) saturate(1.6);
+    opacity: 0.82;
+    text-shadow: -9px 0 rgb(239 68 68 / 0.65), 7px 0 rgb(34 211 238 / 0.55);
+    transform: translate3d(14px, -3px, 0) skewX(-4deg);
+  }
+  28% {
+    filter: contrast(1.2) hue-rotate(18deg);
+    opacity: 1;
+    text-shadow: 10px 0 rgb(34 211 238 / 0.5), -6px 0 rgb(236 72 153 / 0.48);
+    transform: translate3d(-18px, 2px, 0) skewX(3deg);
+  }
+  48% {
+    filter: brightness(1.25) contrast(1.7);
+    opacity: 0.7;
+    text-shadow: -12px 0 rgb(239 68 68 / 0.5), 12px 0 rgb(34 211 238 / 0.5);
+    transform: translate3d(8px, 1px, 0);
+  }
+  66% {
+    filter: contrast(2.2) saturate(0.8);
+    opacity: 0.9;
+    text-shadow: 5px 0 rgb(34 211 238 / 0.6), -14px 0 rgb(239 68 68 / 0.45);
+    transform: translate3d(-10px, -2px, 0) skewX(-2deg);
+  }
+}
+
+@keyframes takeover-glitch-hit {
+  0%,
+  100% {
+    filter: none;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    filter: contrast(1.45) saturate(1.35) hue-rotate(-10deg);
+    opacity: 0.82;
+    transform: translate3d(8px, -2px, 0) skewX(-2deg);
+  }
+  38% {
+    filter: contrast(1.1) saturate(0.65);
+    opacity: 1;
+    transform: translate3d(-12px, 2px, 0) skewX(2deg);
+  }
+  64% {
+    filter: contrast(1.8) brightness(1.08);
+    opacity: 0.7;
+    transform: translate3d(5px, 1px, 0);
+  }
+  82% {
+    filter: contrast(1.25) hue-rotate(14deg);
+    opacity: 1;
+    transform: translate3d(-4px, -1px, 0);
+  }
+}
+
+@keyframes takeover-glitch-soft {
+  0%,
+  100% {
+    filter: none;
+    transform: translate3d(0, 0, 0);
+  }
+  24% {
+    filter: contrast(1.18) saturate(1.25);
+    transform: translate3d(-3px, 1px, 0);
+  }
+  52% {
+    filter: contrast(1.35) hue-rotate(-6deg);
+    transform: translate3d(4px, -1px, 0);
+  }
+  78% {
+    filter: contrast(1.12) brightness(1.06);
+    transform: translate3d(-2px, 0, 0);
+  }
+}
+
+@keyframes trace-video-cut-glitch {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    filter: none;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  13% {
+    clip-path: inset(0 0 76% 0);
+    filter: contrast(2.2) saturate(1.7) hue-rotate(-12deg);
+    transform: translate3d(16px, -3px, 0) scale(1.012);
+  }
+  24% {
+    clip-path: inset(42% 0 38% 0);
+    filter: contrast(1.3) saturate(0.65);
+    transform: translate3d(-20px, 2px, 0) scale(0.996);
+  }
+  39% {
+    clip-path: inset(72% 0 4% 0);
+    filter: contrast(2.4) brightness(1.18);
+    transform: translate3d(8px, 4px, 0) scale(1.018);
+  }
+  58% {
+    clip-path: inset(14% 0 62% 0);
+    filter: contrast(1.8) hue-rotate(18deg);
+    transform: translate3d(-12px, -2px, 0) scale(1.004);
+  }
+  79% {
+    clip-path: inset(0 0 0 0);
+    filter: contrast(1.9) saturate(1.35);
+    transform: translate3d(10px, 0, 0) scale(1.01);
+  }
+}
+
+.cough-glitch-panel {
+  animation: cough-glitch-panel 0.42s steps(2, end) infinite;
+}
+
+.cough-glitch-stage::before,
+.cough-glitch-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.cough-glitch-stage::before {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgb(239 68 68 / 0.18) 18%,
+    transparent 21%,
+    transparent 47%,
+    rgb(34 211 238 / 0.18) 50%,
+    transparent 54%,
+    transparent 100%
+  );
+  animation: cough-glitch-ui 0.3s steps(2, end) infinite;
+}
+
+.cough-glitch-stage::after {
+  border: 1px solid rgb(255 255 255 / 0.34);
+  transform: translate3d(7px, -2px, 0);
+  opacity: 0.55;
+}
+
+.cough-glitch-ui {
+  animation: cough-glitch-ui 0.24s steps(2, end) infinite;
+}
+
+.cough-glitch-orb {
+  animation: cough-glitch-orb 0.38s steps(2, end) infinite;
+}
+
+.cough-glitch-card-strip {
+  animation: cough-glitch-card-strip 0.36s steps(2, end) infinite;
+  will-change: filter, transform;
+}
+
+.cough-glitch-card {
+  animation: cough-glitch-card 0.34s steps(2, end) infinite;
+  will-change: box-shadow, filter, transform;
+}
+
+.cough-glitch-card:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.cough-glitch-card:nth-child(3) {
+  animation-delay: 130ms;
+}
+
+.meet-section-glitch {
+  position: relative;
+  animation: meet-section-glitch 0.22s steps(2, end) infinite;
+  will-change: clip-path, filter, opacity, transform;
+}
+
+.meet-section-glitch::before,
+.meet-section-glitch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.meet-section-glitch::before {
+  border-top: 2px solid rgb(239 68 68 / 0.62);
+  transform: translate3d(-14px, 4px, 0);
+}
+
+.meet-section-glitch::after {
+  border-bottom: 2px solid rgb(34 211 238 / 0.58);
+  transform: translate3d(16px, -3px, 0);
+}
+
+.meet-section-glitch-delayed {
+  animation-delay: 80ms;
+}
+
+.meet-section-cough-glitch {
+  animation: meet-section-cough-glitch 0.18s steps(2, end) infinite;
+  will-change: filter, opacity, text-shadow, transform;
+}
+
+.takeover-glitch-hit {
+  animation: takeover-glitch-hit 0.28s steps(2, end) infinite;
+  will-change: filter, opacity, transform;
+}
+
+.takeover-glitch-soft {
+  animation: takeover-glitch-soft 0.34s steps(2, end) infinite;
+  will-change: filter, transform;
+}
+
+.trace-video-cut-glitch {
+  animation: trace-video-cut-glitch 0.16s steps(2, end) infinite;
+  box-shadow: -16px 0 0 rgb(239 68 68 / 0.25), 16px 0 0 rgb(34 211 238 / 0.2);
+  will-change: clip-path, filter, transform;
+}
+
+.trace-video-cut-glitch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgb(255 255 255 / 0.28) 18%,
+    transparent 22%,
+    transparent 52%,
+    rgb(34 211 238 / 0.18) 56%,
+    transparent 60%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+}

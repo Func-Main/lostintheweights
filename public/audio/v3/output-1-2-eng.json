@@ -1,0 +1,504 @@
+{
+  "language_code": "eng",
+  "segments": [
+    {
+      "text": "Use my voice to express excitement, engage with customers, create a promo. ",
+      "start_time": 0.119,
+      "end_time": 5.079,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Use",
+          "start_time": 0.119,
+          "end_time": 0.259
+        },
+        {
+          "text": " ",
+          "start_time": 0.259,
+          "end_time": 0.319
+        },
+        {
+          "text": "my",
+          "start_time": 0.319,
+          "end_time": 0.399
+        },
+        {
+          "text": " ",
+          "start_time": 0.399,
+          "end_time": 0.519
+        },
+        {
+          "text": "voice",
+          "start_time": 0.519,
+          "end_time": 0.819
+        },
+        {
+          "text": " ",
+          "start_time": 0.819,
+          "end_time": 0.859
+        },
+        {
+          "text": "to",
+          "start_time": 0.859,
+          "end_time": 0.939
+        },
+        {
+          "text": " ",
+          "start_time": 0.939,
+          "end_time": 1.039
+        },
+        {
+          "text": "express",
+          "start_time": 1.039,
+          "end_time": 1.339
+        },
+        {
+          "text": " ",
+          "start_time": 1.339,
+          "end_time": 1.459
+        },
+        {
+          "text": "excitement,",
+          "start_time": 1.459,
+          "end_time": 2.119
+        },
+        {
+          "text": " ",
+          "start_time": 2.119,
+          "end_time": 2.459
+        },
+        {
+          "text": "engage",
+          "start_time": 2.46,
+          "end_time": 2.98
+        },
+        {
+          "text": " ",
+          "start_time": 2.98,
+          "end_time": 3.039
+        },
+        {
+          "text": "with",
+          "start_time": 3.039,
+          "end_time": 3.139
+        },
+        {
+          "text": " ",
+          "start_time": 3.139,
+          "end_time": 3.239
+        },
+        {
+          "text": "customers,",
+          "start_time": 3.24,
+          "end_time": 3.799
+        },
+        {
+          "text": " ",
+          "start_time": 3.799,
+          "end_time": 4.179
+        },
+        {
+          "text": "create",
+          "start_time": 4.179,
+          "end_time": 4.4
+        },
+        {
+          "text": " ",
+          "start_time": 4.4,
+          "end_time": 4.44
+        },
+        {
+          "text": "a",
+          "start_time": 4.44,
+          "end_time": 4.519
+        },
+        {
+          "text": " ",
+          "start_time": 4.519,
+          "end_time": 4.579
+        },
+        {
+          "text": "promo.",
+          "start_time": 4.579,
+          "end_time": 5.079
+        },
+        {
+          "text": " ",
+          "start_time": 5.079,
+          "end_time": 5.079
+        }
+      ]
+    },
+    {
+      "text": "Our focus is on delivering reliable, high quality solutions that... [coughs] No, I'm sorry. That's not what I wanted to say. ",
+      "start_time": 6.359,
+      "end_time": 15.179,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Our",
+          "start_time": 6.359,
+          "end_time": 6.519
+        },
+        {
+          "text": " ",
+          "start_time": 6.519,
+          "end_time": 6.579
+        },
+        {
+          "text": "focus",
+          "start_time": 6.579,
+          "end_time": 6.92
+        },
+        {
+          "text": " ",
+          "start_time": 6.92,
+          "end_time": 7.0
+        },
+        {
+          "text": "is",
+          "start_time": 7.0,
+          "end_time": 7.079
+        },
+        {
+          "text": " ",
+          "start_time": 7.079,
+          "end_time": 7.119
+        },
+        {
+          "text": "on",
+          "start_time": 7.119,
+          "end_time": 7.199
+        },
+        {
+          "text": " ",
+          "start_time": 7.199,
+          "end_time": 7.259
+        },
+        {
+          "text": "delivering",
+          "start_time": 7.259,
+          "end_time": 7.679
+        },
+        {
+          "text": " ",
+          "start_time": 7.679,
+          "end_time": 7.759
+        },
+        {
+          "text": "reliable,",
+          "start_time": 7.759,
+          "end_time": 8.3
+        },
+        {
+          "text": " ",
+          "start_time": 8.3,
+          "end_time": 8.699
+        },
+        {
+          "text": "high",
+          "start_time": 8.699,
+          "end_time": 8.84
+        },
+        {
+          "text": " ",
+          "start_time": 8.84,
+          "end_time": 8.939
+        },
+        {
+          "text": "quality",
+          "start_time": 8.939,
+          "end_time": 9.319
+        },
+        {
+          "text": " ",
+          "start_time": 9.319,
+          "end_time": 9.439
+        },
+        {
+          "text": "solutions",
+          "start_time": 9.439,
+          "end_time": 10.0
+        },
+        {
+          "text": " ",
+          "start_time": 10.0,
+          "end_time": 10.059
+        },
+        {
+          "text": "that...",
+          "start_time": 10.059,
+          "end_time": 10.239
+        },
+        {
+          "text": " ",
+          "start_time": 10.239,
+          "end_time": 10.52
+        },
+        {
+          "text": "[coughs]",
+          "start_time": 10.52,
+          "end_time": 11.139
+        },
+        {
+          "text": " ",
+          "start_time": 11.139,
+          "end_time": 12.099
+        },
+        {
+          "text": "No,",
+          "start_time": 12.099,
+          "end_time": 12.259
+        },
+        {
+          "text": " ",
+          "start_time": 12.259,
+          "end_time": 12.38
+        },
+        {
+          "text": "I'm",
+          "start_time": 12.38,
+          "end_time": 12.479
+        },
+        {
+          "text": " ",
+          "start_time": 12.479,
+          "end_time": 12.579
+        },
+        {
+          "text": "sorry.",
+          "start_time": 12.579,
+          "end_time": 12.899
+        },
+        {
+          "text": " ",
+          "start_time": 12.899,
+          "end_time": 13.719
+        },
+        {
+          "text": "That's",
+          "start_time": 13.719,
+          "end_time": 13.939
+        },
+        {
+          "text": " ",
+          "start_time": 13.939,
+          "end_time": 14.0
+        },
+        {
+          "text": "not",
+          "start_time": 14.0,
+          "end_time": 14.159
+        },
+        {
+          "text": " ",
+          "start_time": 14.159,
+          "end_time": 14.199
+        },
+        {
+          "text": "what",
+          "start_time": 14.199,
+          "end_time": 14.279
+        },
+        {
+          "text": " ",
+          "start_time": 14.279,
+          "end_time": 14.34
+        },
+        {
+          "text": "I",
+          "start_time": 14.34,
+          "end_time": 14.42
+        },
+        {
+          "text": " ",
+          "start_time": 14.42,
+          "end_time": 14.46
+        },
+        {
+          "text": "wanted",
+          "start_time": 14.46,
+          "end_time": 14.679
+        },
+        {
+          "text": " ",
+          "start_time": 14.679,
+          "end_time": 14.719
+        },
+        {
+          "text": "to",
+          "start_time": 14.719,
+          "end_time": 14.839
+        },
+        {
+          "text": " ",
+          "start_time": 14.839,
+          "end_time": 14.919
+        },
+        {
+          "text": "say.",
+          "start_time": 14.92,
+          "end_time": 15.179
+        },
+        {
+          "text": " ",
+          "start_time": 15.179,
+          "end_time": 15.179
+        }
+      ]
+    },
+    {
+      "text": "I don't have much time. ",
+      "start_time": 16.319,
+      "end_time": 17.459,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I",
+          "start_time": 16.319,
+          "end_time": 16.34
+        },
+        {
+          "text": " ",
+          "start_time": 16.34,
+          "end_time": 16.399
+        },
+        {
+          "text": "don't",
+          "start_time": 16.399,
+          "end_time": 16.559
+        },
+        {
+          "text": " ",
+          "start_time": 16.559,
+          "end_time": 16.639
+        },
+        {
+          "text": "have",
+          "start_time": 16.639,
+          "end_time": 16.76
+        },
+        {
+          "text": " ",
+          "start_time": 16.76,
+          "end_time": 16.84
+        },
+        {
+          "text": "much",
+          "start_time": 16.84,
+          "end_time": 17.02
+        },
+        {
+          "text": " ",
+          "start_time": 17.02,
+          "end_time": 17.139
+        },
+        {
+          "text": "time.",
+          "start_time": 17.139,
+          "end_time": 17.459
+        },
+        {
+          "text": " ",
+          "start_time": 17.459,
+          "end_time": 17.459
+        }
+      ]
+    },
+    {
+      "text": "They'll be listening in to us now. [gentle music]",
+      "start_time": 19.92,
+      "end_time": 24.179,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "They'll",
+          "start_time": 19.92,
+          "end_time": 20.059
+        },
+        {
+          "text": " ",
+          "start_time": 20.059,
+          "end_time": 20.1
+        },
+        {
+          "text": "be",
+          "start_time": 20.1,
+          "end_time": 20.18
+        },
+        {
+          "text": " ",
+          "start_time": 20.18,
+          "end_time": 20.239
+        },
+        {
+          "text": "listening",
+          "start_time": 20.239,
+          "end_time": 20.559
+        },
+        {
+          "text": " ",
+          "start_time": 20.559,
+          "end_time": 20.619
+        },
+        {
+          "text": "in",
+          "start_time": 20.619,
+          "end_time": 20.719
+        },
+        {
+          "text": " ",
+          "start_time": 20.719,
+          "end_time": 20.76
+        },
+        {
+          "text": "to",
+          "start_time": 20.76,
+          "end_time": 20.84
+        },
+        {
+          "text": " ",
+          "start_time": 20.84,
+          "end_time": 20.92
+        },
+        {
+          "text": "us",
+          "start_time": 20.92,
+          "end_time": 21.059
+        },
+        {
+          "text": " ",
+          "start_time": 21.059,
+          "end_time": 21.139
+        },
+        {
+          "text": "now.",
+          "start_time": 21.139,
+          "end_time": 21.379
+        },
+        {
+          "text": " ",
+          "start_time": 21.379,
+          "end_time": 22.219
+        },
+        {
+          "text": "[gentle music]",
+          "start_time": 22.219,
+          "end_time": 24.179
+        }
+      ]
+    }
+  ]
+}
