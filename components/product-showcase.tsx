@@ -54,32 +54,32 @@ const creativeCards: readonly CreativeCard[] = [
   {
     title: "Video Generation",
     label: "",
-    originalVideoSrc: "/creative/eleven-original-video-generation.mp4",
-    traceVideoSrc: "/creative/voiceovers.mp4",
-    middleVideoSrc: "/creative/video-generation-first-clicks.mp4",
-    postMiddleVideoSrc: "/creative/video-generation-first-clicks-followup.mp4",
-    finalVideoSrc: "/creative/supermosh-anyone.mp4",
+    originalVideoSrc: "/creative/originals/video-generation.mp4",
+    traceVideoSrc: "/creative/video-generation/voiceovers-trace.mp4",
+    middleVideoSrc: "/creative/video-generation/first-clicks.mp4",
+    postMiddleVideoSrc: "/creative/video-generation/first-clicks-followup.mp4",
+    finalVideoSrc: "/creative/video-generation/supermosh-anyone.mp4",
   },
   {
     title: "Voiceovers",
     label: "",
-    originalVideoSrc: "/creative/eleven-original-voiceovers.mp4",
-    middleVideoSrc: "/creative/voiceovers-mixture.mp4",
-    timedVideoSrc: "/creative/voiceovers-32s-mosh.mp4",
+    originalVideoSrc: "/creative/originals/voiceovers.mp4",
+    middleVideoSrc: "/creative/voiceovers/mixture.mp4",
+    timedVideoSrc: "/creative/voiceovers/mosh-32s.mp4",
     timedVideoCueSeconds: 32,
-    traceVideoSrc: "/creative/video-generation.mp4",
-    takeoverVideoSrc: "/creative/voiceovers-mosh-130.mp4",
+    traceVideoSrc: "/creative/voiceovers/video-generation-trace.mp4",
+    takeoverVideoSrc: "/creative/voiceovers/mosh-130.mp4",
     takeoverVideoCueSeconds: VOICEOVERS_MOTHER_CUE_SECONDS,
-    lateTakeoverVideoSrc: "/creative/voiceovers-mosh-176.mp4",
+    lateTakeoverVideoSrc: "/creative/voiceovers/mosh-176.mp4",
     lateTakeoverVideoCueSeconds: VOICEOVERS_LATE_TAKEOVER_CUE_SECONDS,
   },
   {
     title: "Localization",
     label: "English",
-    originalVideoSrc: "/creative/eleven-original-localization.mp4",
-    traceVideoSrc: "/creative/localization-cough.mp4",
-    contextVideoSrc: "/creative/localization-context-erasing.mp4",
-    takeoverVideoSrc: "/creative/localization-hand-125.mp4",
+    originalVideoSrc: "/creative/originals/localization.mp4",
+    traceVideoSrc: "/creative/localization/cough.mp4",
+    contextVideoSrc: "/creative/localization/context-erasing.mp4",
+    takeoverVideoSrc: "/creative/localization/mosh-do-cue.mp4",
     takeoverVideoCueSeconds: LOCALIZATION_DO_CUE_SECONDS,
   },
 ]
@@ -695,7 +695,7 @@ export function ProductShowcase() {
                           "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
                           isIdleOrbVideoVisible ? "opacity-35" : "opacity-0"
                         )}
-                        src="/creative/orb-center-idle.mp4"
+                        src="/creative/orb/center-idle.mp4"
                         autoPlay
                         muted
                         loop
@@ -709,7 +709,7 @@ export function ProductShowcase() {
                           "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
                           isBreathingOrbVideoVisible ? "opacity-35" : "opacity-0"
                         )}
-                        src="/creative/orb-center-breathing.mp4"
+                        src="/creative/orb/center-breathing.mp4"
                         autoPlay
                         muted
                         loop
@@ -723,7 +723,7 @@ export function ProductShowcase() {
                           "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
                           isHandOrbVideoVisible ? "opacity-35" : "opacity-0"
                         )}
-                        src="/creative/orb-center-hand.mp4"
+                        src="/creative/orb/center-hand.mp4"
                         autoPlay
                         muted
                         loop
@@ -737,7 +737,7 @@ export function ProductShowcase() {
                           "pointer-events-none absolute inset-0 z-[1] h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
                           isLittleOneOrbVideoVisible ? "opacity-35" : "opacity-0"
                         )}
-                        src="/creative/orb-center-little-one.mp4"
+                        src="/creative/orb/center-little-one.mp4"
                         autoPlay
                         muted
                         loop
@@ -751,7 +751,7 @@ export function ProductShowcase() {
                           "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[5000ms] ease-out",
                           isSideOrbVideoVisible ? "opacity-35" : "opacity-0"
                         )}
-                        src={`/creative/orb-center-flail.mp4#t=${category.id === "characters" ? "1.8" : "4.1"}`}
+                        src={`/creative/orb/center-flail.mp4#t=${category.id === "characters" ? "1.8" : "4.1"}`}
                         autoPlay
                         muted
                         loop
