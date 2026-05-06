@@ -60,13 +60,29 @@ export function Header() {
 
   useEffect(() => {
     const revealTimeout = window.setTimeout(() => setIsHacksVisible(true), 2000)
-    const glitchStartTimeout = window.setTimeout(() => setIsHacksGlitching(true), 4200)
-    const glitchEndTimeout = window.setTimeout(() => setIsHacksGlitching(false), 4500)
+    let glitchEndTimeout: ReturnType<typeof window.setTimeout> | undefined
+    let nextGlitchTimeout: ReturnType<typeof window.setTimeout> | undefined
+    const randomGlitchDelay = () => 3000 + Math.random() * 7000
+
+    const pulseHacksGlitch = () => {
+      setIsHacksGlitching(true)
+      glitchEndTimeout = window.setTimeout(() => setIsHacksGlitching(false), 300)
+      nextGlitchTimeout = window.setTimeout(pulseHacksGlitch, randomGlitchDelay())
+    }
+
+    const glitchStartTimeout = window.setTimeout(pulseHacksGlitch, 4200)
 
     return () => {
       window.clearTimeout(revealTimeout)
       window.clearTimeout(glitchStartTimeout)
-      window.clearTimeout(glitchEndTimeout)
+
+      if (glitchEndTimeout) {
+        window.clearTimeout(glitchEndTimeout)
+      }
+
+      if (nextGlitchTimeout) {
+        window.clearTimeout(nextGlitchTimeout)
+      }
     }
   }, [])
 

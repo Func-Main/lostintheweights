@@ -7,12 +7,6 @@ import { useStory } from "@/lib/story-context"
 import { cn } from "@/lib/utils"
 
 const GLITCH_TITLE_WORDS = ["bringing", "technology", "to", "life"] as const
-const GLITCH_SOUND_SOURCES = [
-  "/audio/glitch/Glitch1.mp3",
-  "/audio/glitch/Glitch2.mp3",
-  "/audio/glitch/Glitch3.mp3",
-]
-const GLITCH_SOUND_VOLUME = 0.05
 type GlitchTitleWord = (typeof GLITCH_TITLE_WORDS)[number]
 const HERO_TWO_COLUMN_QUERY = "(min-width: 640px)"
 
@@ -204,8 +198,6 @@ export function HeroSection() {
                   <GlitchText
                     speed={coughGlitchWords.bringing ? 0.12 : 0.35}
                     active={coughGlitchWords.bringing || glitchingTitleWord === "bringing" || isHeadlineReplacementGlitching}
-                    glitchSoundSrc={(coughGlitchWords.bringing || isHeadlineReplacementGlitching) ? undefined : GLITCH_SOUND_SOURCES}
-                    glitchSoundVolume={GLITCH_SOUND_VOLUME}
                   >
                     Bringing
                   </GlitchText>
@@ -213,24 +205,18 @@ export function HeroSection() {
                   <GlitchText
                     speed={coughGlitchWords.technology ? 0.12 : 0.35}
                     active={coughGlitchWords.technology || glitchingTitleWord === "technology" || isHeadlineReplacementGlitching}
-                    glitchSoundSrc={(coughGlitchWords.technology || isHeadlineReplacementGlitching) ? undefined : GLITCH_SOUND_SOURCES}
-                    glitchSoundVolume={GLITCH_SOUND_VOLUME}
                   >
                     technology
                   </GlitchText>{" "}
                   <GlitchText
                     speed={coughGlitchWords.to ? 0.12 : 0.35}
                     active={coughGlitchWords.to || glitchingTitleWord === "to" || isHeadlineReplacementGlitching}
-                    glitchSoundSrc={(coughGlitchWords.to || isHeadlineReplacementGlitching) ? undefined : GLITCH_SOUND_SOURCES}
-                    glitchSoundVolume={GLITCH_SOUND_VOLUME}
                   >
                     to
                   </GlitchText>{" "}
                   <GlitchText
                     speed={coughGlitchWords.life ? 0.12 : 0.35}
                     active={coughGlitchWords.life || glitchingTitleWord === "life" || isHeadlineReplacementGlitching}
-                    glitchSoundSrc={(coughGlitchWords.life || isHeadlineReplacementGlitching) ? undefined : GLITCH_SOUND_SOURCES}
-                    glitchSoundVolume={GLITCH_SOUND_VOLUME}
                   >
                     life
                   </GlitchText>
@@ -270,6 +256,26 @@ export function HeroSection() {
                   deprecation
                 </GlitchText>{" "}
                 notice • Effective {landingTimestamp ?? "on arrival"}
+              </p>
+            )}
+            {isV4Released && (
+              <p
+                className="theme-color-transition mt-4 border-t border-border/60 pt-3 text-xs text-muted-foreground/75 sm:text-sm"
+                style={{
+                  marginLeft: isHeroTwoColumn ? "auto" : undefined,
+                  maxWidth: isHeroTwoColumn ? 420 : 600,
+                  textAlign: isHeroTwoColumn ? "right" : undefined,
+                }}
+              >
+                An ElevenLabs Hack by{" "}
+                <a
+                  href="https://www.instagram.com/danoflondon?igsh=MXB3bWpydG8xYjFkYQ%3D%3D&utm_source=qr"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-muted-foreground"
+                >
+                  @danoflondon
+                </a>
               </p>
             )}
           </div>
