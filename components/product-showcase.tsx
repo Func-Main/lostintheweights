@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight, ChevronsDown, ChevronsUp, RotateCcw } from "lucide-react"
+import { Orb } from "@/components/ui/orb"
 import { cn } from "@/lib/utils"
 import { useStory } from "@/lib/story-context"
 
@@ -86,6 +87,7 @@ const creativeCards: readonly CreativeCard[] = [
 
 const V3_FINAL_SET_AUDIO_SRC = "/audio/v3/v4-3-no-end.m4a"
 const V3_TIMELINE_SRC = "/audio/v3/v4-3-no-end-eng.json"
+const V3_AUDIO_ENVELOPE_SRC = "/audio/v3/v4-3-no-end-speaker-0-envelope.json"
 const COUGH_GLITCH_LEAD_IN_SECONDS = 0.24
 const COUGH_GLITCH_TAIL_SECONDS = 0.12
 const COUGH_GLITCH_FIRST_START_SECONDS = 9.15
@@ -120,6 +122,11 @@ const LIVE_TIMELINE_UPDATE_INTERVAL_MS = 1000 / 30
 const CREATIVE_VIDEO_STAGGER_SECONDS = 0.85
 const REWIND_REVEAL_CUE_SECONDS = 204
 const TRACE_VIDEO_GLITCH_SECONDS = 0.68
+const BREATH_PATTERN_RANGES_SECONDS: readonly [number, number][] = [
+  [61, 80],
+  [88, 185],
+]
+const BREATH_PATTERN_CYCLE_SECONDS = 2
 
 type TimelineWord = {
   text: string
@@ -136,6 +143,11 @@ type TimelineSegment = {
 
 type TimelineData = {
   segments?: TimelineSegment[]
+}
+
+type AudioEnvelopePoint = {
+  time: number
+  volume: number
 }
 
 const normalizedTimelineText = (text = "") => text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()
@@ -164,9 +176,44 @@ const interpolateDeploymentPercent = (
   return 0
 }
 
+const interpolateAudioEnvelopeVolume = (currentTime: number, envelope: AudioEnvelopePoint[]) => {
+  if (envelope.length === 0 || currentTime < envelope[0].time) {
+    return 0
+  }
+
+  for (let index = 1; index < envelope.length; index += 1) {
+    const previous = envelope[index - 1]
+    const next = envelope[index]
+
+    if (currentTime <= next.time) {
+      const progress = (currentTime - previous.time) / Math.max(0.001, next.time - previous.time)
+      return previous.volume + (next.volume - previous.volume) * progress
+    }
+  }
+
+  return envelope[envelope.length - 1].volume
+}
+
+const getBreathPatternVolume = (currentTime: number) => {
+  const activeRange = BREATH_PATTERN_RANGES_SECONDS.find(([start, end]) => currentTime >= start && currentTime <= end)
+
+  if (!activeRange) {
+    return 0
+  }
+
+  const [start, end] = activeRange
+  const fadeIn = Math.min(1, Math.max(0, (currentTime - start) / 1.5))
+  const fadeOut = Math.min(1, Math.max(0, (end - currentTime) / 1.5))
+  const rangeFade = Math.min(fadeIn, fadeOut)
+  const cycleProgress = ((currentTime - start) % BREATH_PATTERN_CYCLE_SECONDS) / BREATH_PATTERN_CYCLE_SECONDS
+  const breathCurve = 0.5 - 0.5 * Math.cos(cycleProgress * Math.PI * 2)
+
+  return rangeFade * (0.18 + breathCurve * 0.82)
+}
+
 export function ProductShowcase() {
   const [isV3AudioPlaying, setIsV3AudioPlaying] = useState(false)
-  const [isDevPlaybackBarMinimized, setIsDevPlaybackBarMinimized] = useState(false)
+  const [isDevPlaybackBarMinimized, setIsDevPlaybackBarMinimized] = useState(true)
   const [coughGlitchStartSeconds, setCoughGlitchStartSeconds] = useState(COUGH_GLITCH_START_FALLBACK_SECONDS)
   const [coughGlitchEndSeconds, setCoughGlitchEndSeconds] = useState(COUGH_GLITCH_END_FALLBACK_SECONDS)
   const [humanOrbCueSeconds, setHumanOrbCueSeconds] = useState(HUMAN_ORB_CUE_FALLBACK_SECONDS)
@@ -189,6 +236,7 @@ export function ProductShowcase() {
   const [isSideOrbVideoVisible, setIsSideOrbVideoVisible] = useState(false)
   const [audioCurrentTime, setAudioCurrentTime] = useState(0)
   const [audioDuration, setAudioDuration] = useState(0)
+  const [audioEnvelope, setAudioEnvelope] = useState<AudioEnvelopePoint[]>([])
   const v3AudioRef = useRef<HTMLAudioElement | null>(null)
   const timelineAnimationFrameRef = useRef<number | null>(null)
   const lastLiveTimelineUpdateRef = useRef(0)
@@ -215,6 +263,12 @@ export function ProductShowcase() {
   const showNearEndRewind =
     !isV3AudioPlaying &&
     audioCurrentTime >= REWIND_REVEAL_CUE_SECONDS
+  const rawElevenLabsOrbVolume = interpolateAudioEnvelopeVolume(audioCurrentTime, audioEnvelope)
+  const breathPatternVolume = getBreathPatternVolume(audioCurrentTime)
+  const voiceOrbVolume = Math.pow(rawElevenLabsOrbVolume, 0.5)
+  const breathOrbVolume = Math.pow(breathPatternVolume, 0.42)
+  const elevenLabsOrbVolume = Math.min(1, Math.max(voiceOrbVolume * 3, breathOrbVolume * 4.8))
+  const elevenLabsOrbRingVolume = Math.min(1, Math.max(voiceOrbVolume * 5, breathOrbVolume * 7.5))
   const coughGlitchPanelActive = isCoughGlitchInWindow(0.04, 0.22) || isCoughGlitchInWindow(0.46, 0.62)
   const coughGlitchStageActive = isCoughGlitchInWindow(0.08, 0.42) || isCoughGlitchInWindow(0.52, 0.78)
   const coughGlitchOrbActive =
@@ -355,6 +409,19 @@ export function ProductShowcase() {
 
   useEffect(() => {
     let isMounted = true
+
+    const loadAudioEnvelope = async () => {
+      try {
+        const response = await fetch(V3_AUDIO_ENVELOPE_SRC)
+        const envelope = (await response.json()) as AudioEnvelopePoint[]
+
+        if (isMounted) {
+          setAudioEnvelope(envelope)
+        }
+      } catch (error) {
+        console.warn("Unable to load V3 audio envelope data.", error)
+      }
+    }
 
     const loadTimelineCues = async () => {
       try {
@@ -518,6 +585,7 @@ export function ProductShowcase() {
       }
     }
 
+    void loadAudioEnvelope()
     void loadTimelineCues()
 
     return () => {
@@ -759,6 +827,19 @@ export function ProductShowcase() {
                         : "w-28 h-28 sm:w-44 sm:h-44 lg:w-52 lg:h-52"
                     )}
                   >
+                    {category.featured && (
+                      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-full opacity-35 mix-blend-soft-light saturate-50 contrast-125">
+                        <Orb
+                          className="h-full w-full scale-[1.14]"
+                          colors={["#111827", "#6b7280"]}
+                          seed={1104}
+                          agentState={isV3AudioPlaying ? "talking" : null}
+                          volumeMode="manual"
+                          manualInput={isV3AudioPlaying ? elevenLabsOrbRingVolume : 0}
+                          manualOutput={isV3AudioPlaying ? elevenLabsOrbVolume : 0.3}
+                        />
+                      </div>
+                    )}
                     {category.featured && (
                       <video
                         className={cn(
