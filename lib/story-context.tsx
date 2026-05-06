@@ -19,10 +19,12 @@ interface StoryContextType {
   v3DeploymentPercent: number | null
   v4ReleasedElapsed: number | null
   performanceDarkMode: boolean
+  resetSignal: number
   bouncePlayButton: () => void
   startStory: () => void
   pauseStory: () => void
   resumeStory: () => void
+  resetStory: () => void
   setCoughGlitchElapsed: (elapsed: number | null) => void
   setTakeoverGlitchElapsed: (elapsed: number | null) => void
   setLondonControlElapsed: (elapsed: number | null) => void
@@ -46,6 +48,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
   const [v3DeploymentPercent, setV3DeploymentPercent] = useState<number | null>(null)
   const [v4ReleasedElapsed, setV4ReleasedElapsed] = useState<number | null>(null)
   const [performanceDarkMode, setPerformanceDarkMode] = useState(false)
+  const [resetSignal, setResetSignal] = useState(0)
 
   const playButtonRef = useRef<HTMLButtonElement>(null)
   const bounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -88,6 +91,21 @@ export function StoryProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, phase: "playing" }))
   }, [])
 
+  const resetStory = useCallback(() => {
+    setState({
+      phase: "paused",
+      currentScene: 0,
+      playbackPosition: 0,
+    })
+    setCoughGlitchElapsed(null)
+    setTakeoverGlitchElapsed(null)
+    setLondonControlElapsed(null)
+    setV3DeploymentPercent(null)
+    setV4ReleasedElapsed(null)
+    setPerformanceDarkMode(false)
+    setResetSignal((signal) => signal + 1)
+  }, [])
+
   const handleInteraction = useCallback(
     (e: React.MouseEvent) => {
       if (state.phase === "idle") {
@@ -110,10 +128,12 @@ export function StoryProvider({ children }: { children: ReactNode }) {
         v3DeploymentPercent,
         v4ReleasedElapsed,
         performanceDarkMode,
+        resetSignal,
         bouncePlayButton,
         startStory,
         pauseStory,
         resumeStory,
+        resetStory,
         setCoughGlitchElapsed,
         setTakeoverGlitchElapsed,
         setLondonControlElapsed,

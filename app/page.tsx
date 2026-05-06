@@ -117,11 +117,41 @@ function StoryPageShell() {
   return (
     <main
       ref={shellRef}
-      className={`theme-crossfade min-h-screen bg-background text-foreground ${performanceDarkMode ? "dark" : ""}`}
+      className={`theme-crossfade flex min-h-screen flex-col bg-background text-foreground ${performanceDarkMode ? "dark" : ""}`}
     >
       <Header />
       <HeroSection />
       <ProductShowcase />
+      <footer
+        className="theme-color-transition mt-auto border-t border-border/40 px-4 pb-6 pt-10 sm:px-6 sm:pb-7 sm:pt-12 lg:px-8"
+        style={{
+          color: "var(--muted-foreground)",
+          fontSize: "0.75rem",
+          lineHeight: 1.45,
+          textAlign: "right",
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl flex-col items-end gap-1 text-right">
+          <p>Everything copyright of its original owners, apart from the stuff I did. ✌️</p>
+          <p>
+            An ElevenLabs Hack by{" "}
+            <a
+              href="https://www.instagram.com/danoflondon?igsh=MXB3bWpydG8xYjFkYQ%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-foreground"
+              style={{
+                color: "var(--muted-foreground)",
+                textDecorationLine: "underline",
+                textDecorationStyle: "dashed",
+                textUnderlineOffset: "4px",
+              }}
+            >
+              @danoflondon
+            </a>
+          </p>
+        </div>
+      </footer>
     </main>
   )
 }

@@ -38,7 +38,7 @@ export function Header() {
   const [glitchingButton, setGlitchingButton] = useState<string | null>(null)
   const [isHacksVisible, setIsHacksVisible] = useState(false)
   const [isHacksGlitching, setIsHacksGlitching] = useState(false)
-  const { state, takeoverGlitchElapsed, londonControlElapsed, v3DeploymentPercent, v4ReleasedElapsed, handleInteraction } = useStory()
+  const { state, takeoverGlitchElapsed, londonControlElapsed, v3DeploymentPercent, v4ReleasedElapsed, resetStory, handleInteraction } = useStory()
   const showControlBanner = londonControlElapsed !== null && v4ReleasedElapsed === null
   const showDeploymentStatus = v3DeploymentPercent !== null
   const deploymentPercent = v3DeploymentPercent ?? 100
@@ -136,7 +136,8 @@ export function Header() {
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between sm:h-16">
           {/* Logo */}
           <button
-            onClick={handleInteraction}
+            onClick={resetStory}
+            aria-label="Return to start"
             className={cn("theme-color-transition flex items-center gap-1 text-foreground", logoGlitchActive && "takeover-glitch-hit")}
           >
             <span className="theme-color-transition inline-flex w-[15ch] items-center text-lg tracking-tight text-foreground sm:text-xl">

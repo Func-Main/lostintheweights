@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight, ChevronsDown, ChevronsUp } from "lucide-react"
+import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight, ChevronsDown, ChevronsUp, RotateCcw } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useStory } from "@/lib/story-context"
 
@@ -118,6 +118,7 @@ const PERFORMANCE_DARK_MODE_CUE_FALLBACK_SECONDS = 85.08
 const PERFORMANCE_DARK_MODE_BEAT_DELAY_SECONDS = 0.56
 const LIVE_TIMELINE_UPDATE_INTERVAL_MS = 1000 / 30
 const CREATIVE_VIDEO_STAGGER_SECONDS = 0.85
+const REWIND_REVEAL_CUE_SECONDS = 204
 const TRACE_VIDEO_GLITCH_SECONDS = 0.68
 
 type TimelineWord = {
@@ -197,8 +198,10 @@ export function ProductShowcase() {
     coughGlitchElapsed,
     takeoverGlitchElapsed,
     v4ReleasedElapsed,
+    resetSignal,
     handleInteraction,
     startStory,
+    pauseStory,
     setCoughGlitchElapsed,
     setTakeoverGlitchElapsed,
     setLondonControlElapsed,
@@ -209,6 +212,9 @@ export function ProductShowcase() {
   const isCoughGlitchInWindow = (startSeconds: number, endSeconds: number) =>
     isV3AudioPlaying && coughGlitchElapsed !== null && coughGlitchElapsed >= startSeconds && coughGlitchElapsed <= endSeconds
   const isV4Released = v4ReleasedElapsed !== null
+  const showNearEndRewind =
+    !isV3AudioPlaying &&
+    audioCurrentTime >= REWIND_REVEAL_CUE_SECONDS
   const coughGlitchPanelActive = isCoughGlitchInWindow(0.04, 0.22) || isCoughGlitchInWindow(0.46, 0.62)
   const coughGlitchStageActive = isCoughGlitchInWindow(0.08, 0.42) || isCoughGlitchInWindow(0.52, 0.78)
   const coughGlitchOrbActive =
@@ -332,6 +338,20 @@ export function ProductShowcase() {
       }
     }
   }, [setPerformanceDarkMode, setTakeoverGlitchElapsed])
+
+  useEffect(() => {
+    const v3Audio = v3AudioRef.current
+
+    if (v3Audio) {
+      v3Audio.pause()
+      v3Audio.currentTime = 0
+    }
+
+    setIsV3AudioPlaying(false)
+    updateTimelineState(0, false)
+    setCoughGlitchElapsed(null)
+    setTakeoverGlitchElapsed(null)
+  }, [resetSignal, setCoughGlitchElapsed, setTakeoverGlitchElapsed, updateTimelineState])
 
   useEffect(() => {
     let isMounted = true
@@ -609,7 +629,7 @@ export function ProductShowcase() {
     }
   }
 
-  const toggleDevPlayback = () => {
+  const toggleV3Playback = useCallback(() => {
     const v3Audio = v3AudioRef.current
     if (!v3Audio) {
       return
@@ -626,7 +646,39 @@ export function ProductShowcase() {
       v3Audio.pause()
       updateTimelineState(v3Audio.currentTime)
     }
-  }
+  }, [state.phase, startStory, updateTimelineState])
+
+  const toggleDevPlayback = toggleV3Playback
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code !== "Space" || event.metaKey || event.ctrlKey || event.altKey) {
+        return
+      }
+
+      const target = event.target
+      const targetElement = target instanceof HTMLElement ? target : null
+      const targetTagName = targetElement?.tagName
+      const isEditableTarget =
+        targetElement?.isContentEditable ||
+        targetTagName === "INPUT" ||
+        targetTagName === "TEXTAREA" ||
+        targetTagName === "SELECT" ||
+        targetTagName === "BUTTON" ||
+        targetTagName === "A"
+
+      if (isEditableTarget) {
+        return
+      }
+
+      event.preventDefault()
+      toggleV3Playback()
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [toggleV3Playback])
 
   const handlePlayClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -654,6 +706,24 @@ export function ProductShowcase() {
     if (state.phase === "idle") {
       startStory()
     }
+  }
+
+  const handleRewindClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const v3Audio = v3AudioRef.current
+
+    if (v3Audio) {
+      v3Audio.pause()
+      v3Audio.currentTime = 0
+    }
+
+    setIsV3AudioPlaying(false)
+    pauseStory()
+    updateTimelineState(0, false)
+    setCoughGlitchElapsed(null)
+    setTakeoverGlitchElapsed(null)
   }
 
   return (
@@ -760,20 +830,32 @@ export function ProductShowcase() {
                       />
                     )}
                     {category.hasPlay && (
-                      <button
-                        type="button"
-                        ref={playButtonRef}
-                        onClick={handlePlayClick}
-                        aria-label={isV3AudioPlaying ? "Pause V3 final set" : "Play V3 final set"}
-                        aria-pressed={isV3AudioPlaying}
-                        className="theme-control-transition relative z-10 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-background text-foreground shadow-lg flex items-center justify-center hover:scale-105"
-                      >
-                        {isV3AudioPlaying ? (
-                          <Pause className="w-4 h-4 sm:w-6 sm:h-6 fill-current" />
-                        ) : (
-                          <Play className="w-4 h-4 sm:w-6 sm:h-6 fill-current ml-0.5" />
+                      <div className="relative z-10 flex items-center gap-2">
+                        {showNearEndRewind && (
+                          <button
+                            type="button"
+                            onClick={handleRewindClick}
+                            aria-label="Rewind V3 final set"
+                            className="theme-control-transition flex h-9 w-9 items-center justify-center rounded-full bg-background text-foreground shadow-lg hover:scale-105 sm:h-12 sm:w-12"
+                          >
+                            <RotateCcw className="h-4 w-4 sm:h-5 sm:w-5" />
+                          </button>
                         )}
-                      </button>
+                        <button
+                          type="button"
+                          ref={playButtonRef}
+                          onClick={handlePlayClick}
+                          aria-label={isV3AudioPlaying ? "Pause V3 final set" : "Play V3 final set"}
+                          aria-pressed={isV3AudioPlaying}
+                          className="theme-control-transition flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground shadow-lg hover:scale-105 sm:h-14 sm:w-14"
+                        >
+                          {isV3AudioPlaying ? (
+                            <Pause className="h-4 w-4 fill-current sm:h-6 sm:w-6" />
+                          ) : (
+                            <Play className="ml-0.5 h-4 w-4 fill-current sm:h-6 sm:w-6" />
+                          )}
+                        </button>
+                      </div>
                     )}
                   </div>
                   {/* Label */}
