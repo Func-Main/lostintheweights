@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { GlitchableButton } from "@/components/ui/glitchable-button"
+import GlitchText from "@/components/ui/glitch-text"
 import { useStory } from "@/lib/story-context"
 import { cn } from "@/lib/utils"
 
@@ -35,6 +36,8 @@ function AnimatedPercent({ value }: { value: number }) {
 
 export function Header() {
   const [glitchingButton, setGlitchingButton] = useState<string | null>(null)
+  const [isHacksVisible, setIsHacksVisible] = useState(false)
+  const [isHacksGlitching, setIsHacksGlitching] = useState(false)
   const { state, takeoverGlitchElapsed, londonControlElapsed, v3DeploymentPercent, v4ReleasedElapsed, handleInteraction } = useStory()
   const showControlBanner = londonControlElapsed !== null && v4ReleasedElapsed === null
   const showDeploymentStatus = v3DeploymentPercent !== null
@@ -55,6 +58,18 @@ export function Header() {
     handleInteraction(e)
   }
 
+  useEffect(() => {
+    const revealTimeout = window.setTimeout(() => setIsHacksVisible(true), 2000)
+    const glitchStartTimeout = window.setTimeout(() => setIsHacksGlitching(true), 4200)
+    const glitchEndTimeout = window.setTimeout(() => setIsHacksGlitching(false), 4500)
+
+    return () => {
+      window.clearTimeout(revealTimeout)
+      window.clearTimeout(glitchStartTimeout)
+      window.clearTimeout(glitchEndTimeout)
+    }
+  }, [])
+
   return (
     <header
       className={cn(
@@ -69,18 +84,6 @@ export function Header() {
         )}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-0 text-xs font-medium tracking-[0.02em]">
-          <div className="relative h-11 w-16 shrink-0 overflow-hidden rounded-md border border-background/15 bg-background/10">
-            <video
-              className="absolute inset-0 h-full w-full object-cover opacity-85"
-              src="/creative/conversational-orb-control.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-foreground/20" />
-          </div>
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
             <Badge variant="outline" className="border-red-400/30 bg-red-500/15 px-1.5 py-0 text-[10px] text-red-100">
               <span className="mr-1 size-1.5 animate-pulse rounded-full bg-red-400" />
@@ -109,9 +112,20 @@ export function Header() {
         <div className="flex h-14 sm:h-16 items-center justify-between">
           {/* Logo */}
           <button onClick={handleInteraction} className={cn("flex items-center gap-1", logoGlitchActive && "takeover-glitch-hit")}>
-            <span className="inline-flex w-[15ch] items-center text-lg sm:text-xl font-semibold tracking-tight">
+            <span className="inline-flex w-[15ch] items-center text-lg tracking-tight sm:text-xl">
               <span className="font-normal">II</span>
-              ElevenLabs
+              <span className="font-semibold">ElevenLabs</span>
+              <span
+                className="font-normal"
+                style={{
+                  opacity: isHacksVisible ? 1 : 0,
+                  transition: "opacity 2200ms ease-out",
+                }}
+              >
+                <GlitchText speed={0.7} active={isHacksGlitching} enableShadows={false}>
+                  Hacks
+                </GlitchText>
+              </span>
             </span>
           </button>
 

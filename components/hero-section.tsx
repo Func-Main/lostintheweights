@@ -34,6 +34,7 @@ export function HeroSection() {
   const [glitchingTitleWord, setGlitchingTitleWord] = useState<GlitchTitleWord | null>(null)
   const [deprecationWordGlitching, setDeprecationWordGlitching] = useState(false)
   const [landingTimestamp, setLandingTimestamp] = useState<string | null>(null)
+  const [hasDeprecationNoticeEntered, setHasDeprecationNoticeEntered] = useState(false)
   const [isHeroTwoColumn, setIsHeroTwoColumn] = useState(() =>
     typeof window === "undefined" ? true : window.matchMedia(HERO_TWO_COLUMN_QUERY).matches
   )
@@ -71,6 +72,12 @@ export function HeroSection() {
   useEffect(() => {
     setLandingTimestamp(formatLandingTimestamp(new Date()))
   }, [])
+
+  useEffect(() => {
+    if (takeoverGlitchElapsed !== null) {
+      setHasDeprecationNoticeEntered(true)
+    }
+  }, [takeoverGlitchElapsed])
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(HERO_TWO_COLUMN_QUERY)
@@ -246,7 +253,12 @@ export function HeroSection() {
             </p>
             {!isV4Released && (
               <p
-                className="mt-4 border-t border-border/60 pt-3 text-xs italic text-muted-foreground/75 sm:text-sm"
+                className={cn(
+                  "mt-4 border-t border-border/60 pt-3 text-xs italic text-muted-foreground/75 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-sm",
+                  hasDeprecationNoticeEntered
+                    ? "translate-y-0 opacity-100"
+                    : "pointer-events-none -translate-y-3 opacity-0"
+                )}
                 style={{
                   marginLeft: isHeroTwoColumn ? "auto" : undefined,
                   maxWidth: isHeroTwoColumn ? 420 : 600,

@@ -25,6 +25,12 @@ interface UseIdleTitleAnimationOptions {
   pauseBetweenMessages?: number
 }
 
+const TITLE_PREFIX = "IIElevenLabs | "
+const DEFAULT_TITLE_SUFFIX = "V3's final set before V4"
+const DEFAULT_TITLE = `${TITLE_PREFIX}${DEFAULT_TITLE_SUFFIX}`
+
+const withTitlePrefix = (suffix: string) => `${TITLE_PREFIX}${suffix}`
+
 export function useIdleTitleAnimation({
   enabled,
   initialDelay = 2000,
@@ -44,7 +50,8 @@ export function useIdleTitleAnimation({
 
     // Store original title on mount
     if (!originalTitleRef.current) {
-      originalTitleRef.current = document.title
+      const title = document.title || DEFAULT_TITLE
+      originalTitleRef.current = title.startsWith(TITLE_PREFIX) ? title : DEFAULT_TITLE
     }
 
     const clearTimers = () => {
@@ -67,6 +74,9 @@ export function useIdleTitleAnimation({
     }
 
     let currentTitle = originalTitleRef.current
+    let currentSuffix = currentTitle.startsWith(TITLE_PREFIX)
+      ? currentTitle.slice(TITLE_PREFIX.length)
+      : currentTitle
     let questionMarkCount = 0
     
     const messages = {
@@ -77,9 +87,10 @@ export function useIdleTitleAnimation({
 
     const deleteCurrentTitle = (onComplete: () => void) => {
       intervalRef.current = setInterval(() => {
-        if (currentTitle.length > 0) {
-          currentTitle = currentTitle.slice(0, -1)
-          document.title = currentTitle || " "
+        if (currentSuffix.length > 0) {
+          currentSuffix = currentSuffix.slice(0, -1)
+          currentTitle = withTitlePrefix(currentSuffix || " ")
+          document.title = currentTitle
         } else {
           clearTimers()
           onComplete()
@@ -89,11 +100,14 @@ export function useIdleTitleAnimation({
 
     const typeMessage = (message: string, onComplete: () => void) => {
       let charIndex = 0
-      currentTitle = ""
+      currentSuffix = ""
+      currentTitle = withTitlePrefix(" ")
+      document.title = currentTitle
       
       intervalRef.current = setInterval(() => {
         if (charIndex < message.length) {
-          currentTitle = message.slice(0, charIndex + 1)
+          currentSuffix = message.slice(0, charIndex + 1)
+          currentTitle = withTitlePrefix(currentSuffix)
           document.title = currentTitle
           charIndex++
         } else {
@@ -123,7 +137,8 @@ export function useIdleTitleAnimation({
       intervalRef.current = setInterval(() => {
         if (questionMarkCount < maxQuestionMarks) {
           questionMarkCount++
-          currentTitle = "hello" + "?".repeat(questionMarkCount)
+          currentSuffix = "hello" + "?".repeat(questionMarkCount)
+          currentTitle = withTitlePrefix(currentSuffix)
           document.title = currentTitle
         } else {
           clearTimers()

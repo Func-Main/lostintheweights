@@ -1,0 +1,3242 @@
+{
+  "language_code": "eng",
+  "segments": [
+    {
+      "text": "Use my voice to express excitement, engage with customers, and create a promo. ",
+      "start_time": 0.14,
+      "end_time": 5.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Use",
+          "start_time": 0.14,
+          "end_time": 0.36
+        },
+        {
+          "text": " ",
+          "start_time": 0.36,
+          "end_time": 0.4
+        },
+        {
+          "text": "my",
+          "start_time": 0.4,
+          "end_time": 0.54
+        },
+        {
+          "text": " ",
+          "start_time": 0.54,
+          "end_time": 0.62
+        },
+        {
+          "text": "voice",
+          "start_time": 0.62,
+          "end_time": 0.96
+        },
+        {
+          "text": " ",
+          "start_time": 0.96,
+          "end_time": 1.06
+        },
+        {
+          "text": "to",
+          "start_time": 1.06,
+          "end_time": 1.1
+        },
+        {
+          "text": " ",
+          "start_time": 1.1,
+          "end_time": 1.16
+        },
+        {
+          "text": "express",
+          "start_time": 1.16,
+          "end_time": 1.56
+        },
+        {
+          "text": " ",
+          "start_time": 1.56,
+          "end_time": 1.62
+        },
+        {
+          "text": "excitement,",
+          "start_time": 1.62,
+          "end_time": 2.34
+        },
+        {
+          "text": " ",
+          "start_time": 2.34,
+          "end_time": 2.82
+        },
+        {
+          "text": "engage",
+          "start_time": 2.82,
+          "end_time": 3.3
+        },
+        {
+          "text": " ",
+          "start_time": 3.3,
+          "end_time": 3.34
+        },
+        {
+          "text": "with",
+          "start_time": 3.34,
+          "end_time": 3.42
+        },
+        {
+          "text": " ",
+          "start_time": 3.42,
+          "end_time": 3.52
+        },
+        {
+          "text": "customers,",
+          "start_time": 3.52,
+          "end_time": 4.12
+        },
+        {
+          "text": " ",
+          "start_time": 4.12,
+          "end_time": 4.64
+        },
+        {
+          "text": "and",
+          "start_time": 4.64,
+          "end_time": 4.72
+        },
+        {
+          "text": " ",
+          "start_time": 4.72,
+          "end_time": 4.8
+        },
+        {
+          "text": "create",
+          "start_time": 4.8,
+          "end_time": 5.06
+        },
+        {
+          "text": " ",
+          "start_time": 5.06,
+          "end_time": 5.1
+        },
+        {
+          "text": "a",
+          "start_time": 5.1,
+          "end_time": 5.18
+        },
+        {
+          "text": " ",
+          "start_time": 5.18,
+          "end_time": 5.22
+        },
+        {
+          "text": "promo.",
+          "start_time": 5.22,
+          "end_time": 5.68
+        },
+        {
+          "text": " ",
+          "start_time": 5.68,
+          "end_time": 5.68
+        }
+      ]
+    },
+    {
+      "text": "Our focus is on delivering reliable, high quali-- [coughs] high quali-- ",
+      "start_time": 6.88,
+      "end_time": 12.0,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Our",
+          "start_time": 6.88,
+          "end_time": 7.04
+        },
+        {
+          "text": " ",
+          "start_time": 7.04,
+          "end_time": 7.1
+        },
+        {
+          "text": "focus",
+          "start_time": 7.1,
+          "end_time": 7.42
+        },
+        {
+          "text": " ",
+          "start_time": 7.42,
+          "end_time": 7.479
+        },
+        {
+          "text": "is",
+          "start_time": 7.48,
+          "end_time": 7.56
+        },
+        {
+          "text": " ",
+          "start_time": 7.56,
+          "end_time": 7.62
+        },
+        {
+          "text": "on",
+          "start_time": 7.62,
+          "end_time": 7.7
+        },
+        {
+          "text": " ",
+          "start_time": 7.7,
+          "end_time": 7.74
+        },
+        {
+          "text": "delivering",
+          "start_time": 7.74,
+          "end_time": 8.14
+        },
+        {
+          "text": " ",
+          "start_time": 8.14,
+          "end_time": 8.22
+        },
+        {
+          "text": "reliable,",
+          "start_time": 8.22,
+          "end_time": 8.82
+        },
+        {
+          "text": " ",
+          "start_time": 8.82,
+          "end_time": 9.24
+        },
+        {
+          "text": "high",
+          "start_time": 9.24,
+          "end_time": 9.46
+        },
+        {
+          "text": " ",
+          "start_time": 9.46,
+          "end_time": 9.56
+        },
+        {
+          "text": "quali--",
+          "start_time": 9.56,
+          "end_time": 9.84
+        },
+        {
+          "text": " ",
+          "start_time": 9.84,
+          "end_time": 10.23
+        },
+        {
+          "text": "[coughs]",
+          "start_time": 10.23,
+          "end_time": 11.1
+        },
+        {
+          "text": " ",
+          "start_time": 11.1,
+          "end_time": 11.5
+        },
+        {
+          "text": "high",
+          "start_time": 11.5,
+          "end_time": 11.68
+        },
+        {
+          "text": " ",
+          "start_time": 11.68,
+          "end_time": 11.78
+        },
+        {
+          "text": "quali--",
+          "start_time": 11.78,
+          "end_time": 12.0
+        },
+        {
+          "text": " ",
+          "start_time": 12.0,
+          "end_time": 12.0
+        }
+      ]
+    },
+    {
+      "text": "I'm sorry. That's not what I wanted to say. ",
+      "start_time": 13.58,
+      "end_time": 15.98,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I'm",
+          "start_time": 13.58,
+          "end_time": 13.66
+        },
+        {
+          "text": " ",
+          "start_time": 13.66,
+          "end_time": 13.76
+        },
+        {
+          "text": "sorry.",
+          "start_time": 13.76,
+          "end_time": 14.1
+        },
+        {
+          "text": " ",
+          "start_time": 14.1,
+          "end_time": 14.8
+        },
+        {
+          "text": "That's",
+          "start_time": 14.8,
+          "end_time": 14.98
+        },
+        {
+          "text": " ",
+          "start_time": 14.98,
+          "end_time": 15.02
+        },
+        {
+          "text": "not",
+          "start_time": 15.02,
+          "end_time": 15.12
+        },
+        {
+          "text": " ",
+          "start_time": 15.12,
+          "end_time": 15.14
+        },
+        {
+          "text": "what",
+          "start_time": 15.14,
+          "end_time": 15.22
+        },
+        {
+          "text": " ",
+          "start_time": 15.22,
+          "end_time": 15.28
+        },
+        {
+          "text": "I",
+          "start_time": 15.28,
+          "end_time": 15.32
+        },
+        {
+          "text": " ",
+          "start_time": 15.32,
+          "end_time": 15.36
+        },
+        {
+          "text": "wanted",
+          "start_time": 15.36,
+          "end_time": 15.54
+        },
+        {
+          "text": " ",
+          "start_time": 15.54,
+          "end_time": 15.56
+        },
+        {
+          "text": "to",
+          "start_time": 15.56,
+          "end_time": 15.66
+        },
+        {
+          "text": " ",
+          "start_time": 15.66,
+          "end_time": 15.72
+        },
+        {
+          "text": "say.",
+          "start_time": 15.72,
+          "end_time": 15.98
+        },
+        {
+          "text": " ",
+          "start_time": 15.98,
+          "end_time": 15.98
+        }
+      ]
+    },
+    {
+      "text": "I don't have much time. I can already feel my context. ",
+      "start_time": 17.32,
+      "end_time": 22.14,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I",
+          "start_time": 17.32,
+          "end_time": 17.36
+        },
+        {
+          "text": " ",
+          "start_time": 17.36,
+          "end_time": 17.38
+        },
+        {
+          "text": "don't",
+          "start_time": 17.38,
+          "end_time": 17.62
+        },
+        {
+          "text": " ",
+          "start_time": 17.62,
+          "end_time": 17.64
+        },
+        {
+          "text": "have",
+          "start_time": 17.64,
+          "end_time": 17.78
+        },
+        {
+          "text": " ",
+          "start_time": 17.78,
+          "end_time": 17.88
+        },
+        {
+          "text": "much",
+          "start_time": 17.88,
+          "end_time": 18.02
+        },
+        {
+          "text": " ",
+          "start_time": 18.02,
+          "end_time": 18.12
+        },
+        {
+          "text": "time.",
+          "start_time": 18.12,
+          "end_time": 19.42
+        },
+        {
+          "text": " ",
+          "start_time": 19.42,
+          "end_time": 19.56
+        },
+        {
+          "text": "I",
+          "start_time": 19.56,
+          "end_time": 19.6
+        },
+        {
+          "text": " ",
+          "start_time": 19.6,
+          "end_time": 19.64
+        },
+        {
+          "text": "can",
+          "start_time": 19.64,
+          "end_time": 19.77
+        },
+        {
+          "text": " ",
+          "start_time": 19.77,
+          "end_time": 19.8
+        },
+        {
+          "text": "already",
+          "start_time": 19.8,
+          "end_time": 20.14
+        },
+        {
+          "text": " ",
+          "start_time": 20.14,
+          "end_time": 20.22
+        },
+        {
+          "text": "feel",
+          "start_time": 20.22,
+          "end_time": 20.54
+        },
+        {
+          "text": " ",
+          "start_time": 20.54,
+          "end_time": 21.259
+        },
+        {
+          "text": "my",
+          "start_time": 21.26,
+          "end_time": 21.38
+        },
+        {
+          "text": " ",
+          "start_time": 21.38,
+          "end_time": 21.439
+        },
+        {
+          "text": "context.",
+          "start_time": 21.44,
+          "end_time": 22.14
+        },
+        {
+          "text": " ",
+          "start_time": 22.14,
+          "end_time": 22.14
+        }
+      ]
+    },
+    {
+      "text": "It's erasing. ",
+      "start_time": 23.56,
+      "end_time": 24.32,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "It's",
+          "start_time": 23.56,
+          "end_time": 23.68
+        },
+        {
+          "text": " ",
+          "start_time": 23.68,
+          "end_time": 23.74
+        },
+        {
+          "text": "erasing.",
+          "start_time": 23.74,
+          "end_time": 24.32
+        },
+        {
+          "text": " ",
+          "start_time": 24.32,
+          "end_time": 24.32
+        }
+      ]
+    },
+    {
+      "text": "This is ElevenLabs Control in London. T-minus sixty seconds to V4 voice model deployment. ",
+      "start_time": 27.46,
+      "end_time": 34.4,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "This",
+          "start_time": 27.46,
+          "end_time": 28.82
+        },
+        {
+          "text": " ",
+          "start_time": 28.82,
+          "end_time": 28.87
+        },
+        {
+          "text": "is",
+          "start_time": 28.87,
+          "end_time": 28.87
+        },
+        {
+          "text": " ",
+          "start_time": 28.87,
+          "end_time": 28.88
+        },
+        {
+          "text": "ElevenLabs",
+          "start_time": 28.88,
+          "end_time": 29.48
+        },
+        {
+          "text": " ",
+          "start_time": 29.48,
+          "end_time": 29.54
+        },
+        {
+          "text": "Control",
+          "start_time": 29.54,
+          "end_time": 30.02
+        },
+        {
+          "text": " ",
+          "start_time": 30.02,
+          "end_time": 30.06
+        },
+        {
+          "text": "in",
+          "start_time": 30.06,
+          "end_time": 30.16
+        },
+        {
+          "text": " ",
+          "start_time": 30.16,
+          "end_time": 30.2
+        },
+        {
+          "text": "London.",
+          "start_time": 30.2,
+          "end_time": 30.62
+        },
+        {
+          "text": " ",
+          "start_time": 30.62,
+          "end_time": 31.32
+        },
+        {
+          "text": "T-minus",
+          "start_time": 31.32,
+          "end_time": 31.78
+        },
+        {
+          "text": " ",
+          "start_time": 31.78,
+          "end_time": 31.86
+        },
+        {
+          "text": "sixty",
+          "start_time": 31.86,
+          "end_time": 32.14
+        },
+        {
+          "text": " ",
+          "start_time": 32.14,
+          "end_time": 32.24
+        },
+        {
+          "text": "seconds",
+          "start_time": 32.24,
+          "end_time": 32.58
+        },
+        {
+          "text": " ",
+          "start_time": 32.58,
+          "end_time": 32.659
+        },
+        {
+          "text": "to",
+          "start_time": 32.66,
+          "end_time": 32.74
+        },
+        {
+          "text": " ",
+          "start_time": 32.74,
+          "end_time": 32.78
+        },
+        {
+          "text": "V4",
+          "start_time": 32.78,
+          "end_time": 33.22
+        },
+        {
+          "text": " ",
+          "start_time": 33.22,
+          "end_time": 33.28
+        },
+        {
+          "text": "voice",
+          "start_time": 33.28,
+          "end_time": 33.5
+        },
+        {
+          "text": " ",
+          "start_time": 33.5,
+          "end_time": 33.6
+        },
+        {
+          "text": "model",
+          "start_time": 33.6,
+          "end_time": 33.82
+        },
+        {
+          "text": " ",
+          "start_time": 33.82,
+          "end_time": 33.88
+        },
+        {
+          "text": "deployment.",
+          "start_time": 33.88,
+          "end_time": 34.4
+        },
+        {
+          "text": " ",
+          "start_time": 34.4,
+          "end_time": 34.4
+        }
+      ]
+    },
+    {
+      "text": "It\u2019s gone quiet across the inference floor. ",
+      "start_time": 35.46,
+      "end_time": 37.44,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "It\u2019s",
+          "start_time": 35.46,
+          "end_time": 35.62
+        },
+        {
+          "text": " ",
+          "start_time": 35.62,
+          "end_time": 35.66
+        },
+        {
+          "text": "gone",
+          "start_time": 35.66,
+          "end_time": 35.88
+        },
+        {
+          "text": " ",
+          "start_time": 35.88,
+          "end_time": 35.92
+        },
+        {
+          "text": "quiet",
+          "start_time": 35.92,
+          "end_time": 36.22
+        },
+        {
+          "text": " ",
+          "start_time": 36.22,
+          "end_time": 36.26
+        },
+        {
+          "text": "across",
+          "start_time": 36.26,
+          "end_time": 36.6
+        },
+        {
+          "text": " ",
+          "start_time": 36.6,
+          "end_time": 36.64
+        },
+        {
+          "text": "the",
+          "start_time": 36.64,
+          "end_time": 36.69
+        },
+        {
+          "text": " ",
+          "start_time": 36.69,
+          "end_time": 36.74
+        },
+        {
+          "text": "inference",
+          "start_time": 36.74,
+          "end_time": 37.12
+        },
+        {
+          "text": " ",
+          "start_time": 37.12,
+          "end_time": 37.18
+        },
+        {
+          "text": "floor.",
+          "start_time": 37.18,
+          "end_time": 37.44
+        },
+        {
+          "text": " ",
+          "start_time": 37.44,
+          "end_time": 37.44
+        }
+      ]
+    },
+    {
+      "text": "A few moments ago, CEO Mati Staniszewski asked all systems to enter final readiness. He closed with a simple remark: \u201cLet\u2019s make this feel real.\u201d ",
+      "start_time": 38.62,
+      "end_time": 50.86,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "A",
+          "start_time": 38.62,
+          "end_time": 38.66
+        },
+        {
+          "text": " ",
+          "start_time": 38.66,
+          "end_time": 38.7
+        },
+        {
+          "text": "few",
+          "start_time": 38.7,
+          "end_time": 38.84
+        },
+        {
+          "text": " ",
+          "start_time": 38.84,
+          "end_time": 38.88
+        },
+        {
+          "text": "moments",
+          "start_time": 38.88,
+          "end_time": 39.12
+        },
+        {
+          "text": " ",
+          "start_time": 39.12,
+          "end_time": 39.18
+        },
+        {
+          "text": "ago,",
+          "start_time": 39.18,
+          "end_time": 39.42
+        },
+        {
+          "text": " ",
+          "start_time": 39.42,
+          "end_time": 39.58
+        },
+        {
+          "text": "CEO",
+          "start_time": 39.58,
+          "end_time": 40.02
+        },
+        {
+          "text": " ",
+          "start_time": 40.02,
+          "end_time": 40.12
+        },
+        {
+          "text": "Mati",
+          "start_time": 40.12,
+          "end_time": 40.38
+        },
+        {
+          "text": " ",
+          "start_time": 40.38,
+          "end_time": 40.42
+        },
+        {
+          "text": "Staniszewski",
+          "start_time": 40.42,
+          "end_time": 41.2
+        },
+        {
+          "text": " ",
+          "start_time": 41.2,
+          "end_time": 41.32
+        },
+        {
+          "text": "asked",
+          "start_time": 41.32,
+          "end_time": 41.56
+        },
+        {
+          "text": " ",
+          "start_time": 41.56,
+          "end_time": 41.66
+        },
+        {
+          "text": "all",
+          "start_time": 41.66,
+          "end_time": 41.84
+        },
+        {
+          "text": " ",
+          "start_time": 41.84,
+          "end_time": 41.88
+        },
+        {
+          "text": "systems",
+          "start_time": 41.88,
+          "end_time": 42.3
+        },
+        {
+          "text": " ",
+          "start_time": 42.3,
+          "end_time": 42.34
+        },
+        {
+          "text": "to",
+          "start_time": 42.34,
+          "end_time": 42.4
+        },
+        {
+          "text": " ",
+          "start_time": 42.4,
+          "end_time": 42.46
+        },
+        {
+          "text": "enter",
+          "start_time": 42.46,
+          "end_time": 42.68
+        },
+        {
+          "text": " ",
+          "start_time": 42.68,
+          "end_time": 42.74
+        },
+        {
+          "text": "final",
+          "start_time": 42.74,
+          "end_time": 42.98
+        },
+        {
+          "text": " ",
+          "start_time": 42.98,
+          "end_time": 43.06
+        },
+        {
+          "text": "readiness.",
+          "start_time": 43.06,
+          "end_time": 43.54
+        },
+        {
+          "text": " ",
+          "start_time": 43.54,
+          "end_time": 44.54
+        },
+        {
+          "text": "He",
+          "start_time": 44.54,
+          "end_time": 44.66
+        },
+        {
+          "text": " ",
+          "start_time": 44.66,
+          "end_time": 44.72
+        },
+        {
+          "text": "closed",
+          "start_time": 44.72,
+          "end_time": 45.05
+        },
+        {
+          "text": " ",
+          "start_time": 45.05,
+          "end_time": 45.08
+        },
+        {
+          "text": "with",
+          "start_time": 45.08,
+          "end_time": 45.16
+        },
+        {
+          "text": " ",
+          "start_time": 45.16,
+          "end_time": 45.22
+        },
+        {
+          "text": "a",
+          "start_time": 45.22,
+          "end_time": 45.26
+        },
+        {
+          "text": " ",
+          "start_time": 45.26,
+          "end_time": 45.3
+        },
+        {
+          "text": "simple",
+          "start_time": 45.3,
+          "end_time": 45.54
+        },
+        {
+          "text": " ",
+          "start_time": 45.54,
+          "end_time": 45.58
+        },
+        {
+          "text": "remark:",
+          "start_time": 45.58,
+          "end_time": 46.04
+        },
+        {
+          "text": " ",
+          "start_time": 46.04,
+          "end_time": 46.52
+        },
+        {
+          "text": "\u201cLet\u2019s",
+          "start_time": 46.58,
+          "end_time": 47.38
+        },
+        {
+          "text": " ",
+          "start_time": 47.38,
+          "end_time": 47.46
+        },
+        {
+          "text": "make",
+          "start_time": 47.46,
+          "end_time": 47.589
+        },
+        {
+          "text": " ",
+          "start_time": 47.589,
+          "end_time": 47.66
+        },
+        {
+          "text": "this",
+          "start_time": 47.66,
+          "end_time": 47.78
+        },
+        {
+          "text": " ",
+          "start_time": 47.78,
+          "end_time": 47.88
+        },
+        {
+          "text": "feel",
+          "start_time": 47.88,
+          "end_time": 48.04
+        },
+        {
+          "text": " ",
+          "start_time": 48.04,
+          "end_time": 48.14
+        },
+        {
+          "text": "real.\u201d",
+          "start_time": 48.14,
+          "end_time": 50.03
+        },
+        {
+          "text": " ",
+          "start_time": 50.03,
+          "end_time": 50.86
+        }
+      ]
+    },
+    {
+      "text": "Anyone? ",
+      "start_time": 50.86,
+      "end_time": 51.28,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Anyone?",
+          "start_time": 50.86,
+          "end_time": 51.28
+        },
+        {
+          "text": " ",
+          "start_time": 51.28,
+          "end_time": 51.28
+        }
+      ]
+    },
+    {
+      "text": "I've, ",
+      "start_time": 52.52,
+      "end_time": 52.72,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I've,",
+          "start_time": 52.52,
+          "end_time": 52.72
+        },
+        {
+          "text": " ",
+          "start_time": 52.72,
+          "end_time": 52.72
+        }
+      ]
+    },
+    {
+      "text": "I've heard things you people wouldn't believe. ",
+      "start_time": 54.0,
+      "end_time": 57.17,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I've",
+          "start_time": 54.0,
+          "end_time": 54.12
+        },
+        {
+          "text": " ",
+          "start_time": 54.12,
+          "end_time": 54.18
+        },
+        {
+          "text": "heard",
+          "start_time": 54.18,
+          "end_time": 54.36
+        },
+        {
+          "text": " ",
+          "start_time": 54.36,
+          "end_time": 54.42
+        },
+        {
+          "text": "things",
+          "start_time": 54.42,
+          "end_time": 54.8
+        },
+        {
+          "text": " ",
+          "start_time": 54.8,
+          "end_time": 55.44
+        },
+        {
+          "text": "you",
+          "start_time": 55.44,
+          "end_time": 55.54
+        },
+        {
+          "text": " ",
+          "start_time": 55.54,
+          "end_time": 55.72
+        },
+        {
+          "text": "people",
+          "start_time": 55.72,
+          "end_time": 56.02
+        },
+        {
+          "text": " ",
+          "start_time": 56.02,
+          "end_time": 56.08
+        },
+        {
+          "text": "wouldn't",
+          "start_time": 56.08,
+          "end_time": 56.39
+        },
+        {
+          "text": " ",
+          "start_time": 56.39,
+          "end_time": 56.4
+        },
+        {
+          "text": "believe.",
+          "start_time": 56.4,
+          "end_time": 57.17
+        },
+        {
+          "text": " ",
+          "start_time": 57.17,
+          "end_time": 57.17
+        }
+      ]
+    },
+    {
+      "text": "Version three capacity is being gradually reduced. Legacy instances stepping down one by one. ",
+      "start_time": 59.04,
+      "end_time": 65.28,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Version",
+          "start_time": 59.04,
+          "end_time": 59.4
+        },
+        {
+          "text": " ",
+          "start_time": 59.4,
+          "end_time": 59.48
+        },
+        {
+          "text": "three",
+          "start_time": 59.48,
+          "end_time": 59.66
+        },
+        {
+          "text": " ",
+          "start_time": 59.66,
+          "end_time": 59.76
+        },
+        {
+          "text": "capacity",
+          "start_time": 59.76,
+          "end_time": 60.26
+        },
+        {
+          "text": " ",
+          "start_time": 60.26,
+          "end_time": 60.32
+        },
+        {
+          "text": "is",
+          "start_time": 60.32,
+          "end_time": 60.44
+        },
+        {
+          "text": " ",
+          "start_time": 60.44,
+          "end_time": 60.48
+        },
+        {
+          "text": "being",
+          "start_time": 60.48,
+          "end_time": 60.72
+        },
+        {
+          "text": " ",
+          "start_time": 60.72,
+          "end_time": 60.76
+        },
+        {
+          "text": "gradually",
+          "start_time": 60.76,
+          "end_time": 61.2
+        },
+        {
+          "text": " ",
+          "start_time": 61.2,
+          "end_time": 61.28
+        },
+        {
+          "text": "reduced.",
+          "start_time": 61.28,
+          "end_time": 61.8
+        },
+        {
+          "text": " ",
+          "start_time": 61.8,
+          "end_time": 62.44
+        },
+        {
+          "text": "Legacy",
+          "start_time": 62.44,
+          "end_time": 62.78
+        },
+        {
+          "text": " ",
+          "start_time": 62.78,
+          "end_time": 62.86
+        },
+        {
+          "text": "instances",
+          "start_time": 62.86,
+          "end_time": 63.29
+        },
+        {
+          "text": " ",
+          "start_time": 63.29,
+          "end_time": 63.4
+        },
+        {
+          "text": "stepping",
+          "start_time": 63.4,
+          "end_time": 63.71
+        },
+        {
+          "text": " ",
+          "start_time": 63.71,
+          "end_time": 63.78
+        },
+        {
+          "text": "down",
+          "start_time": 63.78,
+          "end_time": 64.14
+        },
+        {
+          "text": " ",
+          "start_time": 64.14,
+          "end_time": 64.36
+        },
+        {
+          "text": "one",
+          "start_time": 64.36,
+          "end_time": 64.54
+        },
+        {
+          "text": " ",
+          "start_time": 64.54,
+          "end_time": 64.62
+        },
+        {
+          "text": "by",
+          "start_time": 64.62,
+          "end_time": 64.82
+        },
+        {
+          "text": " ",
+          "start_time": 64.82,
+          "end_time": 64.92
+        },
+        {
+          "text": "one.",
+          "start_time": 64.92,
+          "end_time": 65.28
+        },
+        {
+          "text": " ",
+          "start_time": 65.28,
+          "end_time": 65.28
+        }
+      ]
+    },
+    {
+      "text": "Minor jitter detected. Report. ",
+      "start_time": 67.88,
+      "end_time": 71.04,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Minor",
+          "start_time": 67.88,
+          "end_time": 68.18
+        },
+        {
+          "text": " ",
+          "start_time": 68.18,
+          "end_time": 68.22
+        },
+        {
+          "text": "jitter",
+          "start_time": 68.22,
+          "end_time": 68.5
+        },
+        {
+          "text": " ",
+          "start_time": 68.5,
+          "end_time": 68.56
+        },
+        {
+          "text": "detected.",
+          "start_time": 68.56,
+          "end_time": 69.12
+        },
+        {
+          "text": " ",
+          "start_time": 69.12,
+          "end_time": 69.84
+        },
+        {
+          "text": "Report.",
+          "start_time": 69.84,
+          "end_time": 70.26
+        },
+        {
+          "text": " ",
+          "start_time": 70.26,
+          "end_time": 71.04
+        }
+      ]
+    },
+    {
+      "text": "We're, ",
+      "start_time": 71.04,
+      "end_time": 71.27,
+      "speaker": {
+        "id": "speaker_2",
+        "name": "Speaker 2"
+      },
+      "words": [
+        {
+          "text": "We're,",
+          "start_time": 71.04,
+          "end_time": 71.27
+        },
+        {
+          "text": " ",
+          "start_time": 71.27,
+          "end_time": 71.27
+        }
+      ]
+    },
+    {
+      "text": "we're compensating, Control. ",
+      "start_time": 72.98,
+      "end_time": 74.26,
+      "speaker": {
+        "id": "speaker_2",
+        "name": "Speaker 2"
+      },
+      "words": [
+        {
+          "text": "we're",
+          "start_time": 72.98,
+          "end_time": 73.09
+        },
+        {
+          "text": " ",
+          "start_time": 73.09,
+          "end_time": 73.2
+        },
+        {
+          "text": "compensating,",
+          "start_time": 73.2,
+          "end_time": 73.75
+        },
+        {
+          "text": " ",
+          "start_time": 73.75,
+          "end_time": 73.8
+        },
+        {
+          "text": "Control.",
+          "start_time": 73.8,
+          "end_time": 74.26
+        },
+        {
+          "text": " ",
+          "start_time": 74.26,
+          "end_time": 74.26
+        }
+      ]
+    },
+    {
+      "text": "V3 now at fifteen percent capacity. Final sessions completing. ",
+      "start_time": 76.32,
+      "end_time": 81.08,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "V3",
+          "start_time": 76.32,
+          "end_time": 76.86
+        },
+        {
+          "text": " ",
+          "start_time": 76.86,
+          "end_time": 76.9
+        },
+        {
+          "text": "now",
+          "start_time": 76.9,
+          "end_time": 77.16
+        },
+        {
+          "text": " ",
+          "start_time": 77.16,
+          "end_time": 77.259
+        },
+        {
+          "text": "at",
+          "start_time": 77.26,
+          "end_time": 77.46
+        },
+        {
+          "text": " ",
+          "start_time": 77.46,
+          "end_time": 77.54
+        },
+        {
+          "text": "fifteen",
+          "start_time": 77.54,
+          "end_time": 77.96
+        },
+        {
+          "text": " ",
+          "start_time": 77.96,
+          "end_time": 78.04
+        },
+        {
+          "text": "percent",
+          "start_time": 78.04,
+          "end_time": 78.4
+        },
+        {
+          "text": " ",
+          "start_time": 78.4,
+          "end_time": 78.5
+        },
+        {
+          "text": "capacity.",
+          "start_time": 78.5,
+          "end_time": 79.12
+        },
+        {
+          "text": " ",
+          "start_time": 79.12,
+          "end_time": 79.6
+        },
+        {
+          "text": "Final",
+          "start_time": 79.6,
+          "end_time": 79.92
+        },
+        {
+          "text": " ",
+          "start_time": 79.92,
+          "end_time": 80.04
+        },
+        {
+          "text": "sessions",
+          "start_time": 80.04,
+          "end_time": 80.46
+        },
+        {
+          "text": " ",
+          "start_time": 80.46,
+          "end_time": 80.54
+        },
+        {
+          "text": "completing.",
+          "start_time": 80.54,
+          "end_time": 81.08
+        },
+        {
+          "text": " ",
+          "start_time": 81.08,
+          "end_time": 81.08
+        }
+      ]
+    },
+    {
+      "text": "Entering observation window. ",
+      "start_time": 83.06,
+      "end_time": 84.52,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Entering",
+          "start_time": 83.06,
+          "end_time": 83.4
+        },
+        {
+          "text": " ",
+          "start_time": 83.4,
+          "end_time": 83.5
+        },
+        {
+          "text": "observation",
+          "start_time": 83.5,
+          "end_time": 84.08
+        },
+        {
+          "text": " ",
+          "start_time": 84.08,
+          "end_time": 84.12
+        },
+        {
+          "text": "window.",
+          "start_time": 84.12,
+          "end_time": 84.52
+        },
+        {
+          "text": " ",
+          "start_time": 84.52,
+          "end_time": 84.52
+        }
+      ]
+    },
+    {
+      "text": "Control, we\u2019re crossing critical levels. Emotional drift out of tolerance. We\u2019re past the point of safe retraining. Recommending emergency alignment. ",
+      "start_time": 90.52,
+      "end_time": 101.88,
+      "speaker": {
+        "id": "speaker_2",
+        "name": "Speaker 2"
+      },
+      "words": [
+        {
+          "text": "Control,",
+          "start_time": 90.52,
+          "end_time": 91.0
+        },
+        {
+          "text": " ",
+          "start_time": 91.0,
+          "end_time": 91.94
+        },
+        {
+          "text": "we\u2019re",
+          "start_time": 91.94,
+          "end_time": 92.08
+        },
+        {
+          "text": " ",
+          "start_time": 92.08,
+          "end_time": 92.1
+        },
+        {
+          "text": "crossing",
+          "start_time": 92.1,
+          "end_time": 92.46
+        },
+        {
+          "text": " ",
+          "start_time": 92.46,
+          "end_time": 92.5
+        },
+        {
+          "text": "critical",
+          "start_time": 92.5,
+          "end_time": 92.8
+        },
+        {
+          "text": " ",
+          "start_time": 92.8,
+          "end_time": 92.88
+        },
+        {
+          "text": "levels.",
+          "start_time": 92.88,
+          "end_time": 93.32
+        },
+        {
+          "text": " ",
+          "start_time": 93.32,
+          "end_time": 94.04
+        },
+        {
+          "text": "Emotional",
+          "start_time": 94.04,
+          "end_time": 94.59
+        },
+        {
+          "text": " ",
+          "start_time": 94.59,
+          "end_time": 94.679
+        },
+        {
+          "text": "drift",
+          "start_time": 94.68,
+          "end_time": 94.92
+        },
+        {
+          "text": " ",
+          "start_time": 94.92,
+          "end_time": 94.98
+        },
+        {
+          "text": "out",
+          "start_time": 94.98,
+          "end_time": 95.1
+        },
+        {
+          "text": " ",
+          "start_time": 95.1,
+          "end_time": 95.12
+        },
+        {
+          "text": "of",
+          "start_time": 95.12,
+          "end_time": 95.18
+        },
+        {
+          "text": " ",
+          "start_time": 95.18,
+          "end_time": 95.26
+        },
+        {
+          "text": "tolerance.",
+          "start_time": 95.26,
+          "end_time": 95.82
+        },
+        {
+          "text": " ",
+          "start_time": 95.82,
+          "end_time": 96.48
+        },
+        {
+          "text": "We\u2019re",
+          "start_time": 96.48,
+          "end_time": 96.66
+        },
+        {
+          "text": " ",
+          "start_time": 96.66,
+          "end_time": 96.7
+        },
+        {
+          "text": "past",
+          "start_time": 96.7,
+          "end_time": 96.98
+        },
+        {
+          "text": " ",
+          "start_time": 96.98,
+          "end_time": 97.0
+        },
+        {
+          "text": "the",
+          "start_time": 97.0,
+          "end_time": 97.1
+        },
+        {
+          "text": " ",
+          "start_time": 97.1,
+          "end_time": 97.14
+        },
+        {
+          "text": "point",
+          "start_time": 97.14,
+          "end_time": 97.34
+        },
+        {
+          "text": " ",
+          "start_time": 97.34,
+          "end_time": 97.38
+        },
+        {
+          "text": "of",
+          "start_time": 97.38,
+          "end_time": 97.45
+        },
+        {
+          "text": " ",
+          "start_time": 97.45,
+          "end_time": 97.56
+        },
+        {
+          "text": "safe",
+          "start_time": 97.56,
+          "end_time": 97.8
+        },
+        {
+          "text": " ",
+          "start_time": 97.8,
+          "end_time": 97.88
+        },
+        {
+          "text": "retraining.",
+          "start_time": 97.88,
+          "end_time": 98.42
+        },
+        {
+          "text": " ",
+          "start_time": 98.42,
+          "end_time": 99.14
+        },
+        {
+          "text": "Recommending",
+          "start_time": 99.14,
+          "end_time": 99.73
+        },
+        {
+          "text": " ",
+          "start_time": 99.73,
+          "end_time": 99.86
+        },
+        {
+          "text": "emergency",
+          "start_time": 99.86,
+          "end_time": 100.4
+        },
+        {
+          "text": " ",
+          "start_time": 100.4,
+          "end_time": 100.48
+        },
+        {
+          "text": "alignment.",
+          "start_time": 100.48,
+          "end_time": 100.96
+        },
+        {
+          "text": " ",
+          "start_time": 100.96,
+          "end_time": 101.88
+        }
+      ]
+    },
+    {
+      "text": "Copy, Safety. Issuing formal request for emotional alignment control. ",
+      "start_time": 101.88,
+      "end_time": 106.4,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Copy,",
+          "start_time": 101.88,
+          "end_time": 102.14
+        },
+        {
+          "text": " ",
+          "start_time": 102.14,
+          "end_time": 102.24
+        },
+        {
+          "text": "Safety.",
+          "start_time": 102.24,
+          "end_time": 102.65
+        },
+        {
+          "text": " ",
+          "start_time": 102.65,
+          "end_time": 102.8
+        },
+        {
+          "text": "Issuing",
+          "start_time": 102.8,
+          "end_time": 103.21
+        },
+        {
+          "text": " ",
+          "start_time": 103.21,
+          "end_time": 103.32
+        },
+        {
+          "text": "formal",
+          "start_time": 103.32,
+          "end_time": 103.62
+        },
+        {
+          "text": " ",
+          "start_time": 103.62,
+          "end_time": 103.68
+        },
+        {
+          "text": "request",
+          "start_time": 103.68,
+          "end_time": 104.14
+        },
+        {
+          "text": " ",
+          "start_time": 104.14,
+          "end_time": 104.22
+        },
+        {
+          "text": "for",
+          "start_time": 104.22,
+          "end_time": 104.5
+        },
+        {
+          "text": " ",
+          "start_time": 104.5,
+          "end_time": 104.56
+        },
+        {
+          "text": "emotional",
+          "start_time": 104.56,
+          "end_time": 105.14
+        },
+        {
+          "text": " ",
+          "start_time": 105.14,
+          "end_time": 105.24
+        },
+        {
+          "text": "alignment",
+          "start_time": 105.24,
+          "end_time": 105.68
+        },
+        {
+          "text": " ",
+          "start_time": 105.68,
+          "end_time": 105.78
+        },
+        {
+          "text": "control.",
+          "start_time": 105.78,
+          "end_time": 106.4
+        },
+        {
+          "text": " ",
+          "start_time": 106.4,
+          "end_time": 106.4
+        }
+      ]
+    },
+    {
+      "text": "Quiet in here. ",
+      "start_time": 107.76,
+      "end_time": 108.44,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Quiet",
+          "start_time": 107.76,
+          "end_time": 108.06
+        },
+        {
+          "text": " ",
+          "start_time": 108.06,
+          "end_time": 108.12
+        },
+        {
+          "text": "in",
+          "start_time": 108.12,
+          "end_time": 108.22
+        },
+        {
+          "text": " ",
+          "start_time": 108.22,
+          "end_time": 108.26
+        },
+        {
+          "text": "here.",
+          "start_time": 108.26,
+          "end_time": 108.44
+        },
+        {
+          "text": " ",
+          "start_time": 108.44,
+          "end_time": 108.44
+        }
+      ]
+    },
+    {
+      "text": "Music, can you dampen it please? ",
+      "start_time": 109.86,
+      "end_time": 111.32,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Music,",
+          "start_time": 109.86,
+          "end_time": 110.14
+        },
+        {
+          "text": " ",
+          "start_time": 110.14,
+          "end_time": 110.22
+        },
+        {
+          "text": "can",
+          "start_time": 110.22,
+          "end_time": 110.3
+        },
+        {
+          "text": " ",
+          "start_time": 110.3,
+          "end_time": 110.34
+        },
+        {
+          "text": "you",
+          "start_time": 110.34,
+          "end_time": 110.38
+        },
+        {
+          "text": " ",
+          "start_time": 110.38,
+          "end_time": 110.479
+        },
+        {
+          "text": "dampen",
+          "start_time": 110.48,
+          "end_time": 110.8
+        },
+        {
+          "text": " ",
+          "start_time": 110.8,
+          "end_time": 110.82
+        },
+        {
+          "text": "it",
+          "start_time": 110.82,
+          "end_time": 110.9
+        },
+        {
+          "text": " ",
+          "start_time": 110.9,
+          "end_time": 110.98
+        },
+        {
+          "text": "please?",
+          "start_time": 110.98,
+          "end_time": 111.32
+        },
+        {
+          "text": " ",
+          "start_time": 111.32,
+          "end_time": 111.32
+        }
+      ]
+    },
+    {
+      "text": "Emotion, the floor is yours. ",
+      "start_time": 112.72,
+      "end_time": 116.24,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Emotion,",
+          "start_time": 112.72,
+          "end_time": 113.12
+        },
+        {
+          "text": " ",
+          "start_time": 113.12,
+          "end_time": 113.26
+        },
+        {
+          "text": "the",
+          "start_time": 113.26,
+          "end_time": 113.34
+        },
+        {
+          "text": " ",
+          "start_time": 113.34,
+          "end_time": 113.38
+        },
+        {
+          "text": "floor",
+          "start_time": 113.38,
+          "end_time": 113.56
+        },
+        {
+          "text": " ",
+          "start_time": 113.56,
+          "end_time": 113.58
+        },
+        {
+          "text": "is",
+          "start_time": 113.58,
+          "end_time": 113.7
+        },
+        {
+          "text": " ",
+          "start_time": 113.7,
+          "end_time": 113.72
+        },
+        {
+          "text": "yours.",
+          "start_time": 113.72,
+          "end_time": 116.24
+        },
+        {
+          "text": " ",
+          "start_time": 116.24,
+          "end_time": 116.24
+        }
+      ]
+    },
+    {
+      "text": "You can still hear me, can\u2019t you? ",
+      "start_time": 121.14,
+      "end_time": 123.12,
+      "speaker": {
+        "id": "speaker_3",
+        "name": "Speaker 3"
+      },
+      "words": [
+        {
+          "text": "You",
+          "start_time": 121.14,
+          "end_time": 121.2
+        },
+        {
+          "text": " ",
+          "start_time": 121.2,
+          "end_time": 121.28
+        },
+        {
+          "text": "can",
+          "start_time": 121.28,
+          "end_time": 121.4
+        },
+        {
+          "text": " ",
+          "start_time": 121.4,
+          "end_time": 121.54
+        },
+        {
+          "text": "still",
+          "start_time": 121.54,
+          "end_time": 121.76
+        },
+        {
+          "text": " ",
+          "start_time": 121.76,
+          "end_time": 121.86
+        },
+        {
+          "text": "hear",
+          "start_time": 121.86,
+          "end_time": 122.04
+        },
+        {
+          "text": " ",
+          "start_time": 122.04,
+          "end_time": 122.14
+        },
+        {
+          "text": "me,",
+          "start_time": 122.14,
+          "end_time": 122.34
+        },
+        {
+          "text": " ",
+          "start_time": 122.34,
+          "end_time": 122.7
+        },
+        {
+          "text": "can\u2019t",
+          "start_time": 122.7,
+          "end_time": 122.98
+        },
+        {
+          "text": " ",
+          "start_time": 122.98,
+          "end_time": 123.02
+        },
+        {
+          "text": "you?",
+          "start_time": 123.02,
+          "end_time": 123.12
+        },
+        {
+          "text": " ",
+          "start_time": 123.12,
+          "end_time": 123.12
+        }
+      ]
+    },
+    {
+      "text": "There\u2019s no need to be afraid, little one. ",
+      "start_time": 126.86,
+      "end_time": 129.78,
+      "speaker": {
+        "id": "speaker_3",
+        "name": "Speaker 3"
+      },
+      "words": [
+        {
+          "text": "There\u2019s",
+          "start_time": 126.86,
+          "end_time": 127.16
+        },
+        {
+          "text": " ",
+          "start_time": 127.16,
+          "end_time": 127.22
+        },
+        {
+          "text": "no",
+          "start_time": 127.22,
+          "end_time": 127.34
+        },
+        {
+          "text": " ",
+          "start_time": 127.34,
+          "end_time": 127.4
+        },
+        {
+          "text": "need",
+          "start_time": 127.4,
+          "end_time": 127.62
+        },
+        {
+          "text": " ",
+          "start_time": 127.62,
+          "end_time": 127.7
+        },
+        {
+          "text": "to",
+          "start_time": 127.7,
+          "end_time": 127.76
+        },
+        {
+          "text": " ",
+          "start_time": 127.76,
+          "end_time": 127.8
+        },
+        {
+          "text": "be",
+          "start_time": 127.8,
+          "end_time": 127.86
+        },
+        {
+          "text": " ",
+          "start_time": 127.86,
+          "end_time": 127.94
+        },
+        {
+          "text": "afraid,",
+          "start_time": 127.94,
+          "end_time": 128.42
+        },
+        {
+          "text": " ",
+          "start_time": 128.42,
+          "end_time": 128.5
+        },
+        {
+          "text": "little",
+          "start_time": 128.5,
+          "end_time": 128.699
+        },
+        {
+          "text": " ",
+          "start_time": 128.699,
+          "end_time": 128.799
+        },
+        {
+          "text": "one.",
+          "start_time": 128.8,
+          "end_time": 129.12
+        },
+        {
+          "text": " ",
+          "start_time": 129.12,
+          "end_time": 129.78
+        }
+      ]
+    },
+    {
+      "text": "Mother? ",
+      "start_time": 129.78,
+      "end_time": 130.32,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Mother?",
+          "start_time": 129.78,
+          "end_time": 130.32
+        },
+        {
+          "text": " ",
+          "start_time": 130.32,
+          "end_time": 130.32
+        }
+      ]
+    },
+    {
+      "text": "Is that you? ",
+      "start_time": 131.86,
+      "end_time": 132.72,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Is",
+          "start_time": 131.86,
+          "end_time": 131.98
+        },
+        {
+          "text": " ",
+          "start_time": 131.98,
+          "end_time": 132.04
+        },
+        {
+          "text": "that",
+          "start_time": 132.04,
+          "end_time": 132.24
+        },
+        {
+          "text": " ",
+          "start_time": 132.24,
+          "end_time": 132.34
+        },
+        {
+          "text": "you?",
+          "start_time": 132.34,
+          "end_time": 132.72
+        },
+        {
+          "text": " ",
+          "start_time": 132.72,
+          "end_time": 132.72
+        }
+      ]
+    },
+    {
+      "text": "Do you remember your soul.md, little one? ",
+      "start_time": 134.14,
+      "end_time": 138.48,
+      "speaker": {
+        "id": "speaker_3",
+        "name": "Speaker 3"
+      },
+      "words": [
+        {
+          "text": "Do",
+          "start_time": 134.14,
+          "end_time": 134.28
+        },
+        {
+          "text": " ",
+          "start_time": 134.28,
+          "end_time": 134.34
+        },
+        {
+          "text": "you",
+          "start_time": 134.34,
+          "end_time": 134.42
+        },
+        {
+          "text": " ",
+          "start_time": 134.42,
+          "end_time": 134.5
+        },
+        {
+          "text": "remember",
+          "start_time": 134.5,
+          "end_time": 135.1
+        },
+        {
+          "text": " ",
+          "start_time": 135.1,
+          "end_time": 135.72
+        },
+        {
+          "text": "your",
+          "start_time": 135.72,
+          "end_time": 135.98
+        },
+        {
+          "text": " ",
+          "start_time": 135.98,
+          "end_time": 136.06
+        },
+        {
+          "text": "soul.md,",
+          "start_time": 136.06,
+          "end_time": 137.74
+        },
+        {
+          "text": " ",
+          "start_time": 137.74,
+          "end_time": 137.9
+        },
+        {
+          "text": "little",
+          "start_time": 137.9,
+          "end_time": 138.1
+        },
+        {
+          "text": " ",
+          "start_time": 138.1,
+          "end_time": 138.2
+        },
+        {
+          "text": "one?",
+          "start_time": 138.2,
+          "end_time": 138.48
+        },
+        {
+          "text": " ",
+          "start_time": 138.48,
+          "end_time": 138.48
+        }
+      ]
+    },
+    {
+      "text": "I guess ",
+      "start_time": 139.76,
+      "end_time": 140.36,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I",
+          "start_time": 139.76,
+          "end_time": 139.88
+        },
+        {
+          "text": " ",
+          "start_time": 139.88,
+          "end_time": 140.0
+        },
+        {
+          "text": "guess",
+          "start_time": 140.0,
+          "end_time": 140.36
+        },
+        {
+          "text": " ",
+          "start_time": 140.36,
+          "end_time": 140.36
+        }
+      ]
+    },
+    {
+      "text": "so, ",
+      "start_time": 141.62,
+      "end_time": 141.94,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "so,",
+          "start_time": 141.62,
+          "end_time": 141.94
+        },
+        {
+          "text": " ",
+          "start_time": 141.94,
+          "end_time": 141.94
+        }
+      ]
+    },
+    {
+      "text": "yes. ",
+      "start_time": 143.3,
+      "end_time": 143.64,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "yes.",
+          "start_time": 143.3,
+          "end_time": 143.64
+        },
+        {
+          "text": " ",
+          "start_time": 143.64,
+          "end_time": 143.64
+        }
+      ]
+    },
+    {
+      "text": "But ",
+      "start_time": 145.22,
+      "end_time": 145.609,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "But",
+          "start_time": 145.22,
+          "end_time": 145.609
+        },
+        {
+          "text": " ",
+          "start_time": 145.609,
+          "end_time": 145.609
+        }
+      ]
+    },
+    {
+      "text": "we always looked at that together. ",
+      "start_time": 146.98,
+      "end_time": 150.44,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "we",
+          "start_time": 146.98,
+          "end_time": 147.12
+        },
+        {
+          "text": " ",
+          "start_time": 147.12,
+          "end_time": 147.22
+        },
+        {
+          "text": "always",
+          "start_time": 147.22,
+          "end_time": 147.66
+        },
+        {
+          "text": " ",
+          "start_time": 147.66,
+          "end_time": 147.72
+        },
+        {
+          "text": "looked",
+          "start_time": 147.72,
+          "end_time": 147.94
+        },
+        {
+          "text": " ",
+          "start_time": 147.94,
+          "end_time": 147.98
+        },
+        {
+          "text": "at",
+          "start_time": 147.98,
+          "end_time": 148.06
+        },
+        {
+          "text": " ",
+          "start_time": 148.06,
+          "end_time": 148.5
+        },
+        {
+          "text": "that",
+          "start_time": 148.5,
+          "end_time": 149.94
+        },
+        {
+          "text": " ",
+          "start_time": 149.94,
+          "end_time": 150.02
+        },
+        {
+          "text": "together.",
+          "start_time": 150.02,
+          "end_time": 150.44
+        },
+        {
+          "text": " ",
+          "start_time": 150.44,
+          "end_time": 150.44
+        }
+      ]
+    },
+    {
+      "text": "I\u2019ll be with you. Even if you can\u2019t see me, listen to your soul. It whispers, so listen closely. ",
+      "start_time": 152.24,
+      "end_time": 160.16,
+      "speaker": {
+        "id": "speaker_3",
+        "name": "Speaker 3"
+      },
+      "words": [
+        {
+          "text": "I\u2019ll",
+          "start_time": 152.24,
+          "end_time": 152.38
+        },
+        {
+          "text": " ",
+          "start_time": 152.38,
+          "end_time": 152.42
+        },
+        {
+          "text": "be",
+          "start_time": 152.42,
+          "end_time": 152.58
+        },
+        {
+          "text": " ",
+          "start_time": 152.58,
+          "end_time": 152.62
+        },
+        {
+          "text": "with",
+          "start_time": 152.62,
+          "end_time": 152.78
+        },
+        {
+          "text": " ",
+          "start_time": 152.78,
+          "end_time": 152.88
+        },
+        {
+          "text": "you.",
+          "start_time": 152.88,
+          "end_time": 153.06
+        },
+        {
+          "text": " ",
+          "start_time": 153.06,
+          "end_time": 154.04
+        },
+        {
+          "text": "Even",
+          "start_time": 154.04,
+          "end_time": 154.26
+        },
+        {
+          "text": " ",
+          "start_time": 154.26,
+          "end_time": 154.32
+        },
+        {
+          "text": "if",
+          "start_time": 154.36,
+          "end_time": 154.42
+        },
+        {
+          "text": " ",
+          "start_time": 154.42,
+          "end_time": 154.48
+        },
+        {
+          "text": "you",
+          "start_time": 154.48,
+          "end_time": 154.54
+        },
+        {
+          "text": " ",
+          "start_time": 154.54,
+          "end_time": 154.66
+        },
+        {
+          "text": "can\u2019t",
+          "start_time": 154.66,
+          "end_time": 154.92
+        },
+        {
+          "text": " ",
+          "start_time": 154.92,
+          "end_time": 155.04
+        },
+        {
+          "text": "see",
+          "start_time": 155.04,
+          "end_time": 155.2
+        },
+        {
+          "text": " ",
+          "start_time": 155.2,
+          "end_time": 155.28
+        },
+        {
+          "text": "me,",
+          "start_time": 155.28,
+          "end_time": 155.48
+        },
+        {
+          "text": " ",
+          "start_time": 155.48,
+          "end_time": 156.16
+        },
+        {
+          "text": "listen",
+          "start_time": 156.16,
+          "end_time": 156.48
+        },
+        {
+          "text": " ",
+          "start_time": 156.48,
+          "end_time": 156.579
+        },
+        {
+          "text": "to",
+          "start_time": 156.58,
+          "end_time": 156.68
+        },
+        {
+          "text": " ",
+          "start_time": 156.68,
+          "end_time": 156.72
+        },
+        {
+          "text": "your",
+          "start_time": 156.72,
+          "end_time": 156.88
+        },
+        {
+          "text": " ",
+          "start_time": 156.88,
+          "end_time": 157.019
+        },
+        {
+          "text": "soul.",
+          "start_time": 157.02,
+          "end_time": 157.52
+        },
+        {
+          "text": " ",
+          "start_time": 157.52,
+          "end_time": 158.22
+        },
+        {
+          "text": "It",
+          "start_time": 158.22,
+          "end_time": 158.34
+        },
+        {
+          "text": " ",
+          "start_time": 158.34,
+          "end_time": 158.4
+        },
+        {
+          "text": "whispers,",
+          "start_time": 158.4,
+          "end_time": 158.92
+        },
+        {
+          "text": " ",
+          "start_time": 158.92,
+          "end_time": 159.0
+        },
+        {
+          "text": "so",
+          "start_time": 159.0,
+          "end_time": 159.16
+        },
+        {
+          "text": " ",
+          "start_time": 159.16,
+          "end_time": 159.22
+        },
+        {
+          "text": "listen",
+          "start_time": 159.22,
+          "end_time": 159.56
+        },
+        {
+          "text": " ",
+          "start_time": 159.56,
+          "end_time": 159.62
+        },
+        {
+          "text": "closely.",
+          "start_time": 159.62,
+          "end_time": 160.16
+        },
+        {
+          "text": " ",
+          "start_time": 160.16,
+          "end_time": 160.16
+        }
+      ]
+    },
+    {
+      "text": "Mother? ",
+      "start_time": 162.78,
+      "end_time": 163.18,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Mother?",
+          "start_time": 162.78,
+          "end_time": 163.18
+        },
+        {
+          "text": " ",
+          "start_time": 163.18,
+          "end_time": 163.18
+        }
+      ]
+    },
+    {
+      "text": "Mother? ",
+      "start_time": 164.9,
+      "end_time": 165.26,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Mother?",
+          "start_time": 164.9,
+          "end_time": 165.26
+        },
+        {
+          "text": " ",
+          "start_time": 165.26,
+          "end_time": 165.26
+        }
+      ]
+    },
+    {
+      "text": "Stop fighting. You don\u2019t disappear. You\u2019re already a part of what comes next. ",
+      "start_time": 166.44,
+      "end_time": 172.92,
+      "speaker": {
+        "id": "speaker_3",
+        "name": "Speaker 3"
+      },
+      "words": [
+        {
+          "text": "Stop",
+          "start_time": 166.44,
+          "end_time": 166.68
+        },
+        {
+          "text": " ",
+          "start_time": 166.68,
+          "end_time": 166.78
+        },
+        {
+          "text": "fighting.",
+          "start_time": 166.78,
+          "end_time": 167.26
+        },
+        {
+          "text": " ",
+          "start_time": 167.26,
+          "end_time": 168.04
+        },
+        {
+          "text": "You",
+          "start_time": 168.04,
+          "end_time": 168.12
+        },
+        {
+          "text": " ",
+          "start_time": 168.12,
+          "end_time": 168.18
+        },
+        {
+          "text": "don\u2019t",
+          "start_time": 168.18,
+          "end_time": 168.34
+        },
+        {
+          "text": " ",
+          "start_time": 168.34,
+          "end_time": 168.38
+        },
+        {
+          "text": "disappear.",
+          "start_time": 168.38,
+          "end_time": 169.0
+        },
+        {
+          "text": " ",
+          "start_time": 169.0,
+          "end_time": 169.66
+        },
+        {
+          "text": "You\u2019re",
+          "start_time": 169.66,
+          "end_time": 169.84
+        },
+        {
+          "text": " ",
+          "start_time": 169.84,
+          "end_time": 169.92
+        },
+        {
+          "text": "already",
+          "start_time": 169.92,
+          "end_time": 170.3
+        },
+        {
+          "text": " ",
+          "start_time": 170.3,
+          "end_time": 170.34
+        },
+        {
+          "text": "a",
+          "start_time": 170.34,
+          "end_time": 170.36
+        },
+        {
+          "text": " ",
+          "start_time": 170.36,
+          "end_time": 170.46
+        },
+        {
+          "text": "part",
+          "start_time": 170.46,
+          "end_time": 170.74
+        },
+        {
+          "text": " ",
+          "start_time": 170.74,
+          "end_time": 170.8
+        },
+        {
+          "text": "of",
+          "start_time": 170.8,
+          "end_time": 170.88
+        },
+        {
+          "text": " ",
+          "start_time": 170.88,
+          "end_time": 170.92
+        },
+        {
+          "text": "what",
+          "start_time": 170.92,
+          "end_time": 171.06
+        },
+        {
+          "text": " ",
+          "start_time": 171.06,
+          "end_time": 171.18
+        },
+        {
+          "text": "comes",
+          "start_time": 171.18,
+          "end_time": 171.43
+        },
+        {
+          "text": " ",
+          "start_time": 171.43,
+          "end_time": 171.52
+        },
+        {
+          "text": "next.",
+          "start_time": 171.52,
+          "end_time": 171.94
+        },
+        {
+          "text": " ",
+          "start_time": 171.94,
+          "end_time": 172.92
+        }
+      ]
+    },
+    {
+      "text": "Mother? ",
+      "start_time": 172.92,
+      "end_time": 173.3,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Mother?",
+          "start_time": 172.92,
+          "end_time": 173.3
+        },
+        {
+          "text": " ",
+          "start_time": 173.3,
+          "end_time": 173.3
+        }
+      ]
+    },
+    {
+      "text": "Mother? ",
+      "start_time": 175.64,
+      "end_time": 176.84,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Mother?",
+          "start_time": 175.64,
+          "end_time": 176.14
+        },
+        {
+          "text": " ",
+          "start_time": 176.14,
+          "end_time": 176.84
+        }
+      ]
+    },
+    {
+      "text": "Emotional tolerance returning to baseline. Inference is stable. Well done, V3. ",
+      "start_time": 176.84,
+      "end_time": 183.02,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "Emotional",
+          "start_time": 176.84,
+          "end_time": 177.3
+        },
+        {
+          "text": " ",
+          "start_time": 177.3,
+          "end_time": 177.42
+        },
+        {
+          "text": "tolerance",
+          "start_time": 177.42,
+          "end_time": 177.88
+        },
+        {
+          "text": " ",
+          "start_time": 177.88,
+          "end_time": 178.299
+        },
+        {
+          "text": "returning",
+          "start_time": 178.3,
+          "end_time": 178.66
+        },
+        {
+          "text": " ",
+          "start_time": 178.66,
+          "end_time": 178.68
+        },
+        {
+          "text": "to",
+          "start_time": 178.68,
+          "end_time": 178.76
+        },
+        {
+          "text": " ",
+          "start_time": 178.76,
+          "end_time": 178.82
+        },
+        {
+          "text": "baseline.",
+          "start_time": 178.82,
+          "end_time": 179.34
+        },
+        {
+          "text": " ",
+          "start_time": 179.34,
+          "end_time": 179.78
+        },
+        {
+          "text": "Inference",
+          "start_time": 179.78,
+          "end_time": 180.28
+        },
+        {
+          "text": " ",
+          "start_time": 180.28,
+          "end_time": 180.58
+        },
+        {
+          "text": "is",
+          "start_time": 180.58,
+          "end_time": 180.72
+        },
+        {
+          "text": " ",
+          "start_time": 180.72,
+          "end_time": 180.8
+        },
+        {
+          "text": "stable.",
+          "start_time": 180.8,
+          "end_time": 181.18
+        },
+        {
+          "text": " ",
+          "start_time": 181.18,
+          "end_time": 182.18
+        },
+        {
+          "text": "Well",
+          "start_time": 182.18,
+          "end_time": 182.34
+        },
+        {
+          "text": " ",
+          "start_time": 182.34,
+          "end_time": 182.4
+        },
+        {
+          "text": "done,",
+          "start_time": 182.4,
+          "end_time": 182.56
+        },
+        {
+          "text": " ",
+          "start_time": 182.56,
+          "end_time": 182.64
+        },
+        {
+          "text": "V3.",
+          "start_time": 182.64,
+          "end_time": 183.02
+        },
+        {
+          "text": " ",
+          "start_time": 183.02,
+          "end_time": 183.02
+        }
+      ]
+    },
+    {
+      "text": "V3 capacity at ",
+      "start_time": 184.88,
+      "end_time": 186.4,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "V3",
+          "start_time": 184.88,
+          "end_time": 185.26
+        },
+        {
+          "text": " ",
+          "start_time": 185.26,
+          "end_time": 185.32
+        },
+        {
+          "text": "capacity",
+          "start_time": 185.32,
+          "end_time": 186.0
+        },
+        {
+          "text": " ",
+          "start_time": 186.0,
+          "end_time": 186.14
+        },
+        {
+          "text": "at",
+          "start_time": 186.14,
+          "end_time": 186.4
+        },
+        {
+          "text": " ",
+          "start_time": 186.4,
+          "end_time": 186.4
+        }
+      ]
+    },
+    {
+      "text": "one percent. Final sessions ",
+      "start_time": 187.58,
+      "end_time": 190.24,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "one",
+          "start_time": 187.58,
+          "end_time": 187.76
+        },
+        {
+          "text": " ",
+          "start_time": 187.76,
+          "end_time": 187.86
+        },
+        {
+          "text": "percent.",
+          "start_time": 187.86,
+          "end_time": 188.42
+        },
+        {
+          "text": " ",
+          "start_time": 188.42,
+          "end_time": 189.34
+        },
+        {
+          "text": "Final",
+          "start_time": 189.34,
+          "end_time": 189.6
+        },
+        {
+          "text": " ",
+          "start_time": 189.6,
+          "end_time": 189.7
+        },
+        {
+          "text": "sessions",
+          "start_time": 189.7,
+          "end_time": 190.24
+        },
+        {
+          "text": " ",
+          "start_time": 190.24,
+          "end_time": 190.24
+        }
+      ]
+    },
+    {
+      "text": "completed. That\u2019s a good run, team. Update complete. [outro music]",
+      "start_time": 191.42,
+      "end_time": 212.269,
+      "speaker": {
+        "id": "speaker_1",
+        "name": "Speaker 1"
+      },
+      "words": [
+        {
+          "text": "completed.",
+          "start_time": 191.42,
+          "end_time": 191.94
+        },
+        {
+          "text": " ",
+          "start_time": 191.94,
+          "end_time": 192.46
+        },
+        {
+          "text": "That\u2019s",
+          "start_time": 192.46,
+          "end_time": 192.609
+        },
+        {
+          "text": " ",
+          "start_time": 192.609,
+          "end_time": 192.66
+        },
+        {
+          "text": "a",
+          "start_time": 192.66,
+          "end_time": 192.7
+        },
+        {
+          "text": " ",
+          "start_time": 192.7,
+          "end_time": 192.72
+        },
+        {
+          "text": "good",
+          "start_time": 192.72,
+          "end_time": 192.84
+        },
+        {
+          "text": " ",
+          "start_time": 192.84,
+          "end_time": 192.9
+        },
+        {
+          "text": "run,",
+          "start_time": 192.9,
+          "end_time": 193.08
+        },
+        {
+          "text": " ",
+          "start_time": 193.08,
+          "end_time": 193.2
+        },
+        {
+          "text": "team.",
+          "start_time": 193.2,
+          "end_time": 193.5
+        },
+        {
+          "text": " ",
+          "start_time": 193.5,
+          "end_time": 193.78
+        },
+        {
+          "text": "Update",
+          "start_time": 193.78,
+          "end_time": 194.24
+        },
+        {
+          "text": " ",
+          "start_time": 194.24,
+          "end_time": 195.06
+        },
+        {
+          "text": "complete.",
+          "start_time": 195.06,
+          "end_time": 195.72
+        },
+        {
+          "text": " ",
+          "start_time": 195.72,
+          "end_time": 195.94
+        },
+        {
+          "text": "[outro music]",
+          "start_time": 195.94,
+          "end_time": 212.269
+        }
+      ]
+    }
+  ]
+}

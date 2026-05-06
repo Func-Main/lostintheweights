@@ -70,8 +70,8 @@ const creativeCards = [
   },
 ] as const satisfies readonly CreativeCard[]
 
-const V3_FINAL_SET_AUDIO_SRC = "/audio/v3/v4-2.m4a"
-const V3_TIMELINE_SRC = "/audio/v3/v4-2-eng.json"
+const V3_FINAL_SET_AUDIO_SRC = "/audio/v3/v4-3-no-end.m4a"
+const V3_TIMELINE_SRC = "/audio/v3/v4-3-no-end-eng.json"
 const COUGH_GLITCH_LEAD_IN_SECONDS = 0.24
 const COUGH_GLITCH_TAIL_SECONDS = 0.12
 const COUGH_GLITCH_FIRST_START_SECONDS = 9.15
@@ -84,15 +84,20 @@ const TRACE_VIDEO_CUE_FALLBACK_SECONDS = 19.92
 const LOCALIZATION_COUGH_TAKEOVER_CUE_SECONDS = 9.85
 const CONTEXT_ERASING_CUE_FALLBACK_SECONDS = 21.24
 const VOICEOVERS_MIXTURE_TAKEOVER_CUE_SECONDS = 11
-const VIDEO_GENERATION_FIRST_CLICKS_DURATION_SECONDS = 5.041667
+const VIDEO_GENERATION_FIRST_CLICKS_DURATION_SECONDS = 9.75
 const VIDEO_GENERATION_TAKEOVER_CUE_SECONDS = 48
+const ORB_SIDE_CROSSING_CUE_SECONDS = 88
+const ORB_BREATHING_CUE_SECONDS = 68
+const ORB_HAND_CUE_SECONDS = 82
+const ORB_BREATHING_RETURN_CUE_SECONDS = 124
+const ORB_IDLE_RETURN_CUE_SECONDS = 176
 const LONDON_CONTROL_LEAD_IN_SECONDS = 0
 const LONDON_CONTROL_CUE_FALLBACK_SECONDS = 27.92
 const V3_DEPLOYMENT_START_CUE_FALLBACK_SECONDS = 63.36
 const V3_DEPLOYMENT_15_CUE_FALLBACK_SECONDS = 100.04
 const V3_DEPLOYMENT_1_CUE_FALLBACK_SECONDS = 210.08
 const V3_DEPLOYMENT_COMPLETE_CUE_FALLBACK_SECONDS = 213.92
-const V4_RELEASED_CUE_SECONDS = 220
+const V4_RELEASED_CUE_FALLBACK_SECONDS = 195.94
 const CREATIVE_VIDEO_STAGGER_SECONDS = 0.85
 const TRACE_VIDEO_GLITCH_SECONDS = 0.68
 
@@ -152,7 +157,11 @@ export function ProductShowcase() {
   const [v3Deployment15CueSeconds, setV3Deployment15CueSeconds] = useState(V3_DEPLOYMENT_15_CUE_FALLBACK_SECONDS)
   const [v3Deployment1CueSeconds, setV3Deployment1CueSeconds] = useState(V3_DEPLOYMENT_1_CUE_FALLBACK_SECONDS)
   const [v3DeploymentCompleteCueSeconds, setV3DeploymentCompleteCueSeconds] = useState(V3_DEPLOYMENT_COMPLETE_CUE_FALLBACK_SECONDS)
-  const [isHumanOrbVideoVisible, setIsHumanOrbVideoVisible] = useState(false)
+  const [v4ReleasedCueSeconds, setV4ReleasedCueSeconds] = useState(V4_RELEASED_CUE_FALLBACK_SECONDS)
+  const [isIdleOrbVideoVisible, setIsIdleOrbVideoVisible] = useState(false)
+  const [isHandOrbVideoVisible, setIsHandOrbVideoVisible] = useState(false)
+  const [isBreathingOrbVideoVisible, setIsBreathingOrbVideoVisible] = useState(false)
+  const [isSideOrbVideoVisible, setIsSideOrbVideoVisible] = useState(false)
   const [audioCurrentTime, setAudioCurrentTime] = useState(0)
   const [audioDuration, setAudioDuration] = useState(0)
   const v3AudioRef = useRef<HTMLAudioElement | null>(null)
@@ -224,7 +233,16 @@ export function ProductShowcase() {
           ? coughGlitchElapsedSeconds
           : null
       )
-      setIsHumanOrbVideoVisible(currentTime >= humanOrbCueSeconds)
+      setIsIdleOrbVideoVisible(
+        (currentTime >= humanOrbCueSeconds && currentTime < ORB_BREATHING_CUE_SECONDS) ||
+          (currentTime >= ORB_IDLE_RETURN_CUE_SECONDS && currentTime < v4ReleasedCueSeconds)
+      )
+      setIsBreathingOrbVideoVisible(
+        (currentTime >= ORB_BREATHING_CUE_SECONDS && currentTime < ORB_HAND_CUE_SECONDS) ||
+          (currentTime >= ORB_BREATHING_RETURN_CUE_SECONDS && currentTime < ORB_IDLE_RETURN_CUE_SECONDS)
+      )
+      setIsHandOrbVideoVisible(currentTime >= ORB_HAND_CUE_SECONDS && currentTime < ORB_BREATHING_RETURN_CUE_SECONDS)
+      setIsSideOrbVideoVisible(currentTime >= ORB_SIDE_CROSSING_CUE_SECONDS && currentTime < ORB_IDLE_RETURN_CUE_SECONDS)
       setTakeoverGlitchElapsed(
         currentTime >= creativeVideoSwapCueSeconds
           ? currentTime - creativeVideoSwapCueSeconds
@@ -242,8 +260,8 @@ export function ProductShowcase() {
         { time: v3DeploymentCompleteCueSeconds, value: 0 },
       ]))
       setV4ReleasedElapsed(
-        currentTime >= V4_RELEASED_CUE_SECONDS
-          ? currentTime - V4_RELEASED_CUE_SECONDS
+        currentTime >= v4ReleasedCueSeconds
+          ? currentTime - v4ReleasedCueSeconds
           : null
       )
     },
@@ -264,6 +282,7 @@ export function ProductShowcase() {
       v3Deployment15CueSeconds,
       v3Deployment1CueSeconds,
       v3DeploymentCompleteCueSeconds,
+      v4ReleasedCueSeconds,
     ]
   )
 
@@ -393,6 +412,10 @@ export function ProductShowcase() {
         const completedWord = deploymentCompleteSegment?.words?.find((word) =>
           normalizedTimelineText(word.text) === "completed"
         )
+        const outroMusicWord = findFirstWord(
+          timeline,
+          (word) => normalizedTimelineText(word.text).includes("outro music")
+        )
 
         if (isMounted && steppingWord?.start_time !== undefined) {
           setV3DeploymentStartCueSeconds(steppingWord.start_time)
@@ -408,6 +431,10 @@ export function ProductShowcase() {
 
         if (isMounted && completedWord?.start_time !== undefined) {
           setV3DeploymentCompleteCueSeconds(completedWord.start_time)
+        }
+
+        if (isMounted && outroMusicWord?.start_time !== undefined) {
+          setV4ReleasedCueSeconds(outroMusicWord.start_time)
         }
       } catch (error) {
         console.warn("Unable to load V3 timeline cue data.", error)
@@ -598,9 +625,51 @@ export function ProductShowcase() {
                       <video
                         className={cn(
                           "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
-                          isHumanOrbVideoVisible ? "opacity-35" : "opacity-0"
+                          isIdleOrbVideoVisible ? "opacity-35" : "opacity-0"
                         )}
-                        src="/creative/ghost-orb-loop.mp4"
+                        src="/creative/orb-center-idle.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                    {category.featured && (
+                      <video
+                        className={cn(
+                          "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
+                          isBreathingOrbVideoVisible ? "opacity-35" : "opacity-0"
+                        )}
+                        src="/creative/orb-center-breathing.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                    {category.featured && (
+                      <video
+                        className={cn(
+                          "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
+                          isHandOrbVideoVisible ? "opacity-35" : "opacity-0"
+                        )}
+                        src="/creative/orb-center-hand.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                    {!category.featured && (
+                      <video
+                        className={cn(
+                          "pointer-events-none absolute inset-0 h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[5000ms] ease-out",
+                          isSideOrbVideoVisible ? "opacity-35" : "opacity-0"
+                        )}
+                        src={`/creative/orb-center-flail.mp4#t=${category.id === "characters" ? "1.8" : "4.1"}`}
                         autoPlay
                         muted
                         loop
@@ -724,8 +793,12 @@ export function ProductShowcase() {
                   audioCurrentTime >= card.timedVideoCueSeconds &&
                   !showFinalCreativeVideo &&
                   !showContextCreativeVideo
+                const isWaitingForPostMiddleVideo =
+                  postMiddleTraceCueSeconds !== null &&
+                  audioCurrentTime < postMiddleTraceCueSeconds
                 const showTraceCreativeVideo =
                   !isV4Released &&
+                  !isWaitingForPostMiddleVideo &&
                   (card.finalVideoSrc !== undefined
                     ? audioCurrentTime >= firstTraceCueSeconds + TRACE_VIDEO_GLITCH_SECONDS && !showFinalCreativeVideo && !showContextCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo
                     : audioCurrentTime >= firstTraceCueSeconds && !showContextCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo)
