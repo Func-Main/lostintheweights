@@ -27,7 +27,7 @@ interface UseIdleTitleAnimationOptions {
 
 const TITLE_PREFIX = "ElevenLabs | "
 const LEGACY_TITLE_PREFIX = "IIElevenLabs | "
-const DEFAULT_TITLE_SUFFIX = "V3's final set before V4"
+const DEFAULT_TITLE_SUFFIX = "Voice made real"
 const DEFAULT_TITLE = `${TITLE_PREFIX}${DEFAULT_TITLE_SUFFIX}`
 
 const withTitlePrefix = (suffix: string) => `${TITLE_PREFIX}${suffix}`

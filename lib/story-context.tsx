@@ -16,7 +16,7 @@ interface StoryContextType {
   coughGlitchElapsed: number | null
   takeoverGlitchElapsed: number | null
   londonControlElapsed: number | null
-  v3DeploymentPercent: number | null
+  audioRemainingSeconds: number | null
   v4ReleasedElapsed: number | null
   performanceDarkMode: boolean
   resetSignal: number
@@ -28,7 +28,7 @@ interface StoryContextType {
   setCoughGlitchElapsed: (elapsed: number | null) => void
   setTakeoverGlitchElapsed: (elapsed: number | null) => void
   setLondonControlElapsed: (elapsed: number | null) => void
-  setV3DeploymentPercent: (percent: number | null) => void
+  setAudioRemainingSeconds: (seconds: number | null) => void
   setV4ReleasedElapsed: (elapsed: number | null) => void
   setPerformanceDarkMode: (isDark: boolean) => void
   handleInteraction: (e: React.MouseEvent) => void
@@ -45,7 +45,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
   const [coughGlitchElapsed, setCoughGlitchElapsed] = useState<number | null>(null)
   const [takeoverGlitchElapsed, setTakeoverGlitchElapsed] = useState<number | null>(null)
   const [londonControlElapsed, setLondonControlElapsed] = useState<number | null>(null)
-  const [v3DeploymentPercent, setV3DeploymentPercent] = useState<number | null>(null)
+  const [audioRemainingSeconds, setAudioRemainingSeconds] = useState<number | null>(null)
   const [v4ReleasedElapsed, setV4ReleasedElapsed] = useState<number | null>(null)
   const [performanceDarkMode, setPerformanceDarkMode] = useState(false)
   const [resetSignal, setResetSignal] = useState(0)
@@ -100,7 +100,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
     setCoughGlitchElapsed(null)
     setTakeoverGlitchElapsed(null)
     setLondonControlElapsed(null)
-    setV3DeploymentPercent(null)
+    setAudioRemainingSeconds(null)
     setV4ReleasedElapsed(null)
     setPerformanceDarkMode(false)
     setResetSignal((signal) => signal + 1)
@@ -125,7 +125,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
         coughGlitchElapsed,
         takeoverGlitchElapsed,
         londonControlElapsed,
-        v3DeploymentPercent,
+        audioRemainingSeconds,
         v4ReleasedElapsed,
         performanceDarkMode,
         resetSignal,
@@ -137,7 +137,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
         setCoughGlitchElapsed,
         setTakeoverGlitchElapsed,
         setLondonControlElapsed,
-        setV3DeploymentPercent,
+        setAudioRemainingSeconds,
         setV4ReleasedElapsed,
         setPerformanceDarkMode,
         handleInteraction,
