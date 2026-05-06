@@ -54,7 +54,7 @@ const creativeCards: readonly CreativeCard[] = [
   {
     title: "Video Generation",
     label: "",
-    originalVideoSrc: "/creative/originals/video-generation.mp4",
+    originalVideoSrc: "/creative/originals/video-generation-compressed.mp4",
     traceVideoSrc: "/creative/video-generation/voiceovers-trace.mp4",
     middleVideoSrc: "/creative/video-generation/first-clicks.mp4",
     postMiddleVideoSrc: "/creative/video-generation/first-clicks-followup.mp4",
@@ -63,7 +63,7 @@ const creativeCards: readonly CreativeCard[] = [
   {
     title: "Voiceovers",
     label: "",
-    originalVideoSrc: "/creative/originals/voiceovers.mp4",
+    originalVideoSrc: "/creative/originals/voiceovers-compressed.mp4",
     middleVideoSrc: "/creative/voiceovers/mixture.mp4",
     timedVideoSrc: "/creative/voiceovers/mosh-32s.mp4",
     timedVideoCueSeconds: 32,
@@ -76,7 +76,7 @@ const creativeCards: readonly CreativeCard[] = [
   {
     title: "Localization",
     label: "English",
-    originalVideoSrc: "/creative/originals/localization.mp4",
+    originalVideoSrc: "/creative/originals/localization-compressed.mp4",
     traceVideoSrc: "/creative/localization/cough.mp4",
     contextVideoSrc: "/creative/localization/context-erasing.mp4",
     takeoverVideoSrc: "/creative/localization/mosh-do-cue.mp4",
