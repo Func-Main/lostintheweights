@@ -54,7 +54,7 @@ const creativeCards: readonly CreativeCard[] = [
   {
     title: "Video Generation",
     label: "",
-    originalVideoSrc: "https://eleven-public-cdn.elevenlabs.io/payloadcms/4kepwtjh93g-ElevenCreative - Homepage - Video (New) [Low].mp4",
+    originalVideoSrc: "/creative/eleven-original-video-generation.mp4",
     traceVideoSrc: "/creative/voiceovers.mp4",
     middleVideoSrc: "/creative/video-generation-first-clicks.mp4",
     postMiddleVideoSrc: "/creative/video-generation-first-clicks-followup.mp4",
@@ -63,7 +63,7 @@ const creativeCards: readonly CreativeCard[] = [
   {
     title: "Voiceovers",
     label: "",
-    originalVideoSrc: "https://eleven-public-cdn.elevenlabs.io/payloadcms/lye1ta789t-ElevenCreative - Homepage - Voiceovers (New) [Low].mp4",
+    originalVideoSrc: "/creative/eleven-original-voiceovers.mp4",
     middleVideoSrc: "/creative/voiceovers-mixture.mp4",
     timedVideoSrc: "/creative/voiceovers-32s-mosh.mp4",
     timedVideoCueSeconds: 32,
@@ -76,7 +76,7 @@ const creativeCards: readonly CreativeCard[] = [
   {
     title: "Localization",
     label: "English",
-    originalVideoSrc: "https://eleven-public-cdn.elevenlabs.io/payloadcms/rivgxhe88j8-Dubbing-optimised.mp4.mp4",
+    originalVideoSrc: "/creative/eleven-original-localization.mp4",
     traceVideoSrc: "/creative/localization-cough.mp4",
     contextVideoSrc: "/creative/localization-context-erasing.mp4",
     takeoverVideoSrc: "/creative/localization-hand-125.mp4",
