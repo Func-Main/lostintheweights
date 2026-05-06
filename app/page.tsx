@@ -123,7 +123,7 @@ function StoryPageShell() {
       <HeroSection />
       <ProductShowcase />
       <footer
-        className="theme-color-transition mt-auto border-t border-border/40 px-4 pb-6 pt-10 sm:px-6 sm:pb-7 sm:pt-12 lg:px-8"
+        className="theme-color-transition mt-auto border-t border-border/40 px-4 py-6 sm:px-6 sm:py-7 lg:px-8"
         style={{
           color: "var(--muted-foreground)",
           fontSize: "0.75rem",
