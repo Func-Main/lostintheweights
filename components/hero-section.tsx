@@ -35,9 +35,7 @@ export function HeroSection() {
   const [deprecationWordGlitching, setDeprecationWordGlitching] = useState(false)
   const [landingTimestamp, setLandingTimestamp] = useState<string | null>(null)
   const [hasDeprecationNoticeEntered, setHasDeprecationNoticeEntered] = useState(false)
-  const [isHeroTwoColumn, setIsHeroTwoColumn] = useState(() =>
-    typeof window === "undefined" ? true : window.matchMedia(HERO_TWO_COLUMN_QUERY).matches
-  )
+  const [isHeroTwoColumn, setIsHeroTwoColumn] = useState(true)
   const titleGlitchDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const titleGlitchEndRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const deprecationGlitchDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -81,7 +79,9 @@ export function HeroSection() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(HERO_TWO_COLUMN_QUERY)
-    const syncHeroLayout = () => setIsHeroTwoColumn(mediaQuery.matches)
+    const syncHeroLayout = () => {
+      setIsHeroTwoColumn((current) => (current === mediaQuery.matches ? current : mediaQuery.matches))
+    }
 
     syncHeroLayout()
     mediaQuery.addEventListener("change", syncHeroLayout)

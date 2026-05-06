@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react"
+import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight, ChevronsDown, ChevronsUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useStory } from "@/lib/story-context"
 
@@ -38,9 +38,17 @@ type CreativeCard = {
   postMiddleVideoSrc?: string
   timedVideoSrc?: string
   timedVideoCueSeconds?: number
+  takeoverVideoSrc?: string
+  takeoverVideoCueSeconds?: number
+  lateTakeoverVideoSrc?: string
+  lateTakeoverVideoCueSeconds?: number
   finalVideoSrc?: string
   contextVideoSrc?: string
 }
+
+const VOICEOVERS_MOTHER_CUE_SECONDS = 129.78
+const LOCALIZATION_DO_CUE_SECONDS = 134.14
+const VOICEOVERS_LATE_TAKEOVER_CUE_SECONDS = 176
 
 const creativeCards: readonly CreativeCard[] = [
   {
@@ -60,6 +68,10 @@ const creativeCards: readonly CreativeCard[] = [
     timedVideoSrc: "/creative/voiceovers-32s-mosh.mp4",
     timedVideoCueSeconds: 32,
     traceVideoSrc: "/creative/video-generation.mp4",
+    takeoverVideoSrc: "/creative/voiceovers-mosh-130.mp4",
+    takeoverVideoCueSeconds: VOICEOVERS_MOTHER_CUE_SECONDS,
+    lateTakeoverVideoSrc: "/creative/voiceovers-mosh-176.mp4",
+    lateTakeoverVideoCueSeconds: VOICEOVERS_LATE_TAKEOVER_CUE_SECONDS,
   },
   {
     title: "Localization",
@@ -67,6 +79,8 @@ const creativeCards: readonly CreativeCard[] = [
     originalVideoSrc: "https://eleven-public-cdn.elevenlabs.io/payloadcms/rivgxhe88j8-Dubbing-optimised.mp4.mp4",
     traceVideoSrc: "/creative/localization-cough.mp4",
     contextVideoSrc: "/creative/localization-context-erasing.mp4",
+    takeoverVideoSrc: "/creative/localization-hand-125.mp4",
+    takeoverVideoCueSeconds: LOCALIZATION_DO_CUE_SECONDS,
   },
 ]
 
@@ -91,6 +105,8 @@ const ORB_BREATHING_CUE_SECONDS = 68
 const ORB_HAND_CUE_SECONDS = 82
 const ORB_BREATHING_RETURN_CUE_SECONDS = 124
 const ORB_IDLE_RETURN_CUE_SECONDS = 176
+const ORB_LITTLE_ONE_CUE_FALLBACK_SECONDS = 126.86
+const ORB_LITTLE_ONE_DURATION_SECONDS = 18
 const LONDON_CONTROL_LEAD_IN_SECONDS = 0
 const LONDON_CONTROL_CUE_FALLBACK_SECONDS = 27.92
 const V3_DEPLOYMENT_START_CUE_FALLBACK_SECONDS = 63.36
@@ -149,6 +165,7 @@ const interpolateDeploymentPercent = (
 
 export function ProductShowcase() {
   const [isV3AudioPlaying, setIsV3AudioPlaying] = useState(false)
+  const [isDevPlaybackBarMinimized, setIsDevPlaybackBarMinimized] = useState(false)
   const [coughGlitchStartSeconds, setCoughGlitchStartSeconds] = useState(COUGH_GLITCH_START_FALLBACK_SECONDS)
   const [coughGlitchEndSeconds, setCoughGlitchEndSeconds] = useState(COUGH_GLITCH_END_FALLBACK_SECONDS)
   const [humanOrbCueSeconds, setHumanOrbCueSeconds] = useState(HUMAN_ORB_CUE_FALLBACK_SECONDS)
@@ -163,9 +180,11 @@ export function ProductShowcase() {
   const [v3DeploymentCompleteCueSeconds, setV3DeploymentCompleteCueSeconds] = useState(V3_DEPLOYMENT_COMPLETE_CUE_FALLBACK_SECONDS)
   const [v4ReleasedCueSeconds, setV4ReleasedCueSeconds] = useState(V4_RELEASED_CUE_FALLBACK_SECONDS)
   const [performanceDarkModeCueSeconds, setPerformanceDarkModeCueSeconds] = useState(PERFORMANCE_DARK_MODE_CUE_FALLBACK_SECONDS)
+  const [littleOneOrbCueSeconds, setLittleOneOrbCueSeconds] = useState(ORB_LITTLE_ONE_CUE_FALLBACK_SECONDS)
   const [isIdleOrbVideoVisible, setIsIdleOrbVideoVisible] = useState(false)
   const [isHandOrbVideoVisible, setIsHandOrbVideoVisible] = useState(false)
   const [isBreathingOrbVideoVisible, setIsBreathingOrbVideoVisible] = useState(false)
+  const [isLittleOneOrbVideoVisible, setIsLittleOneOrbVideoVisible] = useState(false)
   const [isSideOrbVideoVisible, setIsSideOrbVideoVisible] = useState(false)
   const [audioCurrentTime, setAudioCurrentTime] = useState(0)
   const [audioDuration, setAudioDuration] = useState(0)
@@ -229,6 +248,7 @@ export function ProductShowcase() {
     { label: "Dark", time: performanceDarkModeCueSeconds },
     { label: "Step down", time: v3DeploymentStartCueSeconds },
     { label: "15%", time: v3Deployment15CueSeconds },
+    { label: "Little one", time: littleOneOrbCueSeconds },
     { label: "1%", time: v3Deployment1CueSeconds },
     { label: "Complete", time: v3DeploymentCompleteCueSeconds },
   ]
@@ -251,6 +271,10 @@ export function ProductShowcase() {
           (currentTime >= ORB_BREATHING_RETURN_CUE_SECONDS && currentTime < ORB_IDLE_RETURN_CUE_SECONDS)
       )
       setIsHandOrbVideoVisible(currentTime >= ORB_HAND_CUE_SECONDS && currentTime < ORB_BREATHING_RETURN_CUE_SECONDS)
+      setIsLittleOneOrbVideoVisible(
+        currentTime >= littleOneOrbCueSeconds &&
+          currentTime < littleOneOrbCueSeconds + ORB_LITTLE_ONE_DURATION_SECONDS
+      )
       setIsSideOrbVideoVisible(currentTime >= ORB_SIDE_CROSSING_CUE_SECONDS && currentTime < ORB_IDLE_RETURN_CUE_SECONDS)
       setTakeoverGlitchElapsed(
         transientGlitchesEnabled && currentTime >= creativeVideoSwapCueSeconds
@@ -280,6 +304,7 @@ export function ProductShowcase() {
       coughGlitchStartSeconds,
       creativeVideoSwapCueSeconds,
       humanOrbCueSeconds,
+      littleOneOrbCueSeconds,
       setCoughGlitchElapsed,
       londonControlCueSeconds,
       setLondonControlElapsed,
@@ -300,8 +325,11 @@ export function ProductShowcase() {
 
   useEffect(() => {
     return () => {
-      setTakeoverGlitchElapsed(null)
-      setPerformanceDarkMode(false)
+      const v3Audio = v3AudioRef.current
+
+      if (v3Audio) {
+        v3Audio.pause()
+      }
     }
   }, [setPerformanceDarkMode, setTakeoverGlitchElapsed])
 
@@ -401,6 +429,9 @@ export function ProductShowcase() {
         const observationWindowSegment = timeline.segments?.find((segment) =>
           normalizedTimelineText(segment.text).includes("entering observation window")
         )
+        const littleOneSegment = timeline.segments?.find((segment) =>
+          normalizedTimelineText(segment.text).includes("there s no need to be afraid little one")
+        )
 
         if (isMounted && londonControlSegment?.start_time !== undefined) {
           setLondonControlCueSeconds(Math.max(0, londonControlSegment.start_time - LONDON_CONTROL_LEAD_IN_SECONDS))
@@ -408,6 +439,10 @@ export function ProductShowcase() {
 
         if (isMounted && observationWindowSegment?.end_time !== undefined) {
           setPerformanceDarkModeCueSeconds(observationWindowSegment.end_time + PERFORMANCE_DARK_MODE_BEAT_DELAY_SECONDS)
+        }
+
+        if (isMounted && littleOneSegment?.start_time !== undefined) {
+          setLittleOneOrbCueSeconds(littleOneSegment.start_time)
         }
 
         const fifteenPercentSegment = timeline.segments?.find((segment) =>
@@ -467,11 +502,6 @@ export function ProductShowcase() {
 
     return () => {
       isMounted = false
-      setCoughGlitchElapsed(null)
-      setLondonControlElapsed(null)
-      setV3DeploymentPercent(null)
-      setV4ReleasedElapsed(null)
-      setPerformanceDarkMode(false)
     }
   }, [setCoughGlitchElapsed, setLondonControlElapsed, setPerformanceDarkMode, setV3DeploymentPercent, setV4ReleasedElapsed])
 
@@ -701,6 +731,20 @@ export function ProductShowcase() {
                         preload="metadata"
                       />
                     )}
+                    {category.featured && (
+                      <video
+                        className={cn(
+                          "pointer-events-none absolute inset-0 z-[1] h-full w-full rounded-full object-cover mix-blend-soft-light saturate-50 contrast-125 transition-opacity duration-[3200ms] ease-out",
+                          isLittleOneOrbVideoVisible ? "opacity-35" : "opacity-0"
+                        )}
+                        src="/creative/orb-center-little-one.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
                     {!category.featured && (
                       <video
                         className={cn(
@@ -818,19 +862,33 @@ export function ProductShowcase() {
                   !isV4Released &&
                   contextTraceCueSeconds !== null &&
                   audioCurrentTime >= contextTraceCueSeconds
+                const showTakeoverCreativeVideo =
+                  !isV4Released &&
+                  card.takeoverVideoSrc !== undefined &&
+                  card.takeoverVideoCueSeconds !== undefined &&
+                  audioCurrentTime >= card.takeoverVideoCueSeconds
+                const showLateTakeoverCreativeVideo =
+                  !isV4Released &&
+                  card.lateTakeoverVideoSrc !== undefined &&
+                  card.lateTakeoverVideoCueSeconds !== undefined &&
+                  audioCurrentTime >= card.lateTakeoverVideoCueSeconds
                 const showPostMiddleCreativeVideo =
                   !isV4Released &&
                   postMiddleTraceCueSeconds !== null &&
                   audioCurrentTime >= postMiddleTraceCueSeconds &&
                   !showFinalCreativeVideo &&
-                  !showContextCreativeVideo
+                  !showContextCreativeVideo &&
+                  !showTakeoverCreativeVideo &&
+                  !showLateTakeoverCreativeVideo
                 const showTimedCreativeVideo =
                   !isV4Released &&
                   card.timedVideoSrc !== undefined &&
                   card.timedVideoCueSeconds !== undefined &&
                   audioCurrentTime >= card.timedVideoCueSeconds &&
                   !showFinalCreativeVideo &&
-                  !showContextCreativeVideo
+                  !showContextCreativeVideo &&
+                  !showTakeoverCreativeVideo &&
+                  !showLateTakeoverCreativeVideo
                 const isWaitingForPostMiddleVideo =
                   postMiddleTraceCueSeconds !== null &&
                   audioCurrentTime < postMiddleTraceCueSeconds
@@ -838,8 +896,8 @@ export function ProductShowcase() {
                   !isV4Released &&
                   !isWaitingForPostMiddleVideo &&
                   (card.finalVideoSrc !== undefined
-                    ? audioCurrentTime >= firstTraceCueSeconds + TRACE_VIDEO_GLITCH_SECONDS && !showFinalCreativeVideo && !showContextCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo
-                    : audioCurrentTime >= firstTraceCueSeconds && !showContextCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo)
+                    ? audioCurrentTime >= firstTraceCueSeconds + TRACE_VIDEO_GLITCH_SECONDS && !showFinalCreativeVideo && !showContextCreativeVideo && !showTakeoverCreativeVideo && !showLateTakeoverCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo
+                    : audioCurrentTime >= firstTraceCueSeconds && !showContextCreativeVideo && !showTakeoverCreativeVideo && !showLateTakeoverCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo)
                 const showMiddleCreativeVideo =
                   !isV4Released &&
                   middleTraceCueSeconds !== null &&
@@ -848,7 +906,9 @@ export function ProductShowcase() {
                   !showPostMiddleCreativeVideo &&
                   !showTimedCreativeVideo &&
                   !showFinalCreativeVideo &&
-                  !showContextCreativeVideo
+                  !showContextCreativeVideo &&
+                  !showTakeoverCreativeVideo &&
+                  !showLateTakeoverCreativeVideo
 
                 return (
                   <article
@@ -862,7 +922,7 @@ export function ProductShowcase() {
                     <video
                       className={cn(
                         "absolute inset-0 h-full w-full object-cover",
-                        showMiddleCreativeVideo || showPostMiddleCreativeVideo || showTimedCreativeVideo || showTraceCreativeVideo || showFinalCreativeVideo || showContextCreativeVideo ? "opacity-0" : "opacity-100"
+                        showMiddleCreativeVideo || showPostMiddleCreativeVideo || showTimedCreativeVideo || showTraceCreativeVideo || showFinalCreativeVideo || showContextCreativeVideo || showTakeoverCreativeVideo || showLateTakeoverCreativeVideo ? "opacity-0" : "opacity-100"
                       )}
                       src={card.originalVideoSrc}
                       autoPlay
@@ -937,6 +997,28 @@ export function ProductShowcase() {
                         preload="metadata"
                       />
                     )}
+                    {card.takeoverVideoSrc && showTakeoverCreativeVideo && (
+                      <video
+                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        src={card.takeoverVideoSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                    {card.lateTakeoverVideoSrc && showLateTakeoverCreativeVideo && (
+                      <video
+                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        src={card.lateTakeoverVideoSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-black/5" />
 
                     <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 p-7 text-2xl font-normal text-white">
@@ -951,8 +1033,13 @@ export function ProductShowcase() {
         </div>
       </div>
       {process.env.NODE_ENV === "development" && (
-        <div className="theme-color-transition fixed inset-x-3 bottom-3 z-[80] rounded-lg border border-border/70 bg-background/95 p-3 text-foreground shadow-2xl backdrop-blur-md sm:inset-x-6">
-          <div className="mx-auto flex max-w-5xl flex-col gap-2">
+        <div
+          className={cn(
+            "theme-color-transition fixed bottom-3 z-[80] rounded-lg border border-border/70 bg-background/95 p-3 text-foreground shadow-2xl backdrop-blur-md",
+            isDevPlaybackBarMinimized ? "right-3 w-auto sm:right-6" : "inset-x-3 sm:inset-x-6"
+          )}
+        >
+          <div className={cn("mx-auto flex flex-col gap-2", isDevPlaybackBarMinimized ? "max-w-none" : "max-w-5xl")}>
             <div className="flex flex-wrap items-center gap-2">
               <Button size="sm" variant="outline" className="h-7 px-3 text-xs" onClick={toggleDevPlayback}>
                 {isV3AudioPlaying ? "Pause" : "Play"}
@@ -960,37 +1047,53 @@ export function ProductShowcase() {
               <span className="theme-color-transition min-w-[92px] text-xs font-medium tabular-nums text-muted-foreground">
                 {audioCurrentTime.toFixed(2)} / {(audioDuration || 0).toFixed(2)}
               </span>
-              <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={() => seekTimelineTo(audioCurrentTime - 5)}>
-                -5s
+              {!isDevPlaybackBarMinimized && (
+                <>
+                  <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={() => seekTimelineTo(audioCurrentTime - 5)}>
+                    -5s
+                  </Button>
+                  <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={() => seekTimelineTo(audioCurrentTime + 5)}>
+                    +5s
+                  </Button>
+                  <input
+                    aria-label="Dev timeline scrubber"
+                    className="min-w-[180px] flex-1 accent-foreground"
+                    max={audioDuration || 1}
+                    min={0}
+                    step={0.01}
+                    type="range"
+                    value={Math.min(audioCurrentTime, audioDuration || audioCurrentTime)}
+                    onChange={(event) => seekTimelineTo(Number(event.currentTarget.value))}
+                  />
+                </>
+              )}
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-7 w-7 px-0"
+                aria-label={isDevPlaybackBarMinimized ? "Expand playback bar" : "Minimize playback bar"}
+                aria-pressed={isDevPlaybackBarMinimized}
+                onClick={() => setIsDevPlaybackBarMinimized((isMinimized) => !isMinimized)}
+              >
+                {isDevPlaybackBarMinimized ? <ChevronsUp className="size-4" /> : <ChevronsDown className="size-4" />}
               </Button>
-              <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={() => seekTimelineTo(audioCurrentTime + 5)}>
-                +5s
-              </Button>
-              <input
-                aria-label="Dev timeline scrubber"
-                className="min-w-[180px] flex-1 accent-foreground"
-                max={audioDuration || 1}
-                min={0}
-                step={0.01}
-                type="range"
-                value={Math.min(audioCurrentTime, audioDuration || audioCurrentTime)}
-                onChange={(event) => seekTimelineTo(Number(event.currentTarget.value))}
-              />
             </div>
-            <div className="flex gap-1 overflow-x-auto">
-              {devTimelineCues.map((cue) => (
-                <Button
-                  key={cue.label}
-                  size="sm"
-                  variant="secondary"
-                  className="h-7 shrink-0 px-2 text-[11px]"
-                  onClick={() => seekTimelineTo(cue.time)}
-                >
-                  {cue.label}
-                  <span className="theme-color-transition ml-1 text-muted-foreground tabular-nums">{cue.time.toFixed(1)}</span>
-                </Button>
-              ))}
-            </div>
+            {!isDevPlaybackBarMinimized && (
+              <div className="flex gap-1 overflow-x-auto">
+                {devTimelineCues.map((cue) => (
+                  <Button
+                    key={cue.label}
+                    size="sm"
+                    variant="secondary"
+                    className="h-7 shrink-0 px-2 text-[11px]"
+                    onClick={() => seekTimelineTo(cue.time)}
+                  >
+                    {cue.label}
+                    <span className="theme-color-transition ml-1 text-muted-foreground tabular-nums">{cue.time.toFixed(1)}</span>
+                  </Button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

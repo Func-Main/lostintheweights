@@ -172,11 +172,16 @@ select,
 @keyframes london-control-red-fade {
   0%,
   100% {
-    background-color: oklch(0.145 0 0);
+    background-color: rgb(16 16 16);
   }
   50% {
-    background-color: oklch(0.19 0.11 26);
+    background-color: rgb(58 12 18);
   }
+}
+
+.london-control-banner {
+  background-color: rgb(16 16 16);
+  color: rgb(255 255 255);
 }
 
 .london-control-red-fade {

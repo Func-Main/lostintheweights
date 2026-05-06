@@ -79,9 +79,13 @@ export function Header() {
     >
       <div
         className={cn(
-          "overflow-hidden border-b border-red-950/40 bg-[oklch(0.145_0_0)] text-white shadow-[0_18px_60px_rgb(0_0_0_/_0.18)] transition-[max-height,opacity] duration-1000 ease-out",
-          showControlBanner ? "max-h-20 opacity-100 london-control-red-fade" : "max-h-0 opacity-0"
+          "overflow-hidden border-b border-red-950/40 shadow-[0_18px_60px_rgb(0_0_0_/_0.18)] transition-[max-height,opacity] duration-1000 ease-out",
+          showControlBanner ? "max-h-20 opacity-100" : "max-h-0 opacity-0"
         )}
+        style={{
+          background: "linear-gradient(90deg, rgb(12 12 12) 0%, rgb(48 10 16) 50%, rgb(12 12 12) 100%)",
+          color: "rgb(255 255 255)",
+        }}
       >
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 text-xs font-medium tracking-[0.02em]">
@@ -90,7 +94,9 @@ export function Header() {
                 <span className="mr-1 size-1.5 animate-pulse rounded-full bg-red-400" />
                 LIVE
               </Badge>
-              <span className="truncate text-white/90">V4 deployment in progress. London Control is live.</span>
+              <span className="truncate" style={{ color: "rgb(255 255 255 / 0.92)" }}>
+                V4 deployment in progress. London Control is live.
+              </span>
             </div>
             {showDeploymentStatus && (
               <div className="ml-auto flex shrink-0 items-center gap-2 border-l border-white/20 pl-3">

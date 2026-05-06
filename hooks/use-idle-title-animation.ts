@@ -25,7 +25,8 @@ interface UseIdleTitleAnimationOptions {
   pauseBetweenMessages?: number
 }
 
-const TITLE_PREFIX = "IIElevenLabs | "
+const TITLE_PREFIX = "ElevenLabs | "
+const LEGACY_TITLE_PREFIX = "IIElevenLabs | "
 const DEFAULT_TITLE_SUFFIX = "V3's final set before V4"
 const DEFAULT_TITLE = `${TITLE_PREFIX}${DEFAULT_TITLE_SUFFIX}`
 
@@ -51,7 +52,11 @@ export function useIdleTitleAnimation({
     // Store original title on mount
     if (!originalTitleRef.current) {
       const title = document.title || DEFAULT_TITLE
-      originalTitleRef.current = title.startsWith(TITLE_PREFIX) ? title : DEFAULT_TITLE
+      originalTitleRef.current = title.startsWith(LEGACY_TITLE_PREFIX)
+        ? `${TITLE_PREFIX}${title.slice(LEGACY_TITLE_PREFIX.length)}`
+        : title.startsWith(TITLE_PREFIX)
+          ? title
+          : DEFAULT_TITLE
     }
 
     const clearTimers = () => {
