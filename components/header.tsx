@@ -80,7 +80,7 @@ export function Header() {
       <div
         className={cn(
           "overflow-hidden bg-foreground text-background transition-[max-height,opacity] duration-1000 ease-out",
-          showControlBanner ? "max-h-20 opacity-100" : "max-h-0 opacity-0"
+          showControlBanner ? "max-h-20 opacity-100 london-control-red-fade" : "max-h-0 opacity-0"
         )}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-0 text-xs font-medium tracking-[0.02em]">

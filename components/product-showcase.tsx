@@ -181,7 +181,7 @@ export function ProductShowcase() {
     setV4ReleasedElapsed,
   } = useStory()
   const isCoughGlitchInWindow = (startSeconds: number, endSeconds: number) =>
-    coughGlitchElapsed !== null && coughGlitchElapsed >= startSeconds && coughGlitchElapsed <= endSeconds
+    isV3AudioPlaying && coughGlitchElapsed !== null && coughGlitchElapsed >= startSeconds && coughGlitchElapsed <= endSeconds
   const isV4Released = v4ReleasedElapsed !== null
   const coughGlitchPanelActive = isCoughGlitchInWindow(0.04, 0.22) || isCoughGlitchInWindow(0.46, 0.62)
   const coughGlitchStageActive = isCoughGlitchInWindow(0.08, 0.42) || isCoughGlitchInWindow(0.52, 0.78)
@@ -194,11 +194,12 @@ export function ProductShowcase() {
   const coughGlitchLabelsActive = isCoughGlitchInWindow(0.32, 0.48) || isCoughGlitchInWindow(0.7, 0.84)
   const coughGlitchArrowsActive = isCoughGlitchInWindow(0.12, 0.3) || isCoughGlitchInWindow(0.5, 0.66)
   const isTakeoverGlitchInWindow = (startSeconds: number, endSeconds: number) =>
-    takeoverGlitchElapsed !== null && takeoverGlitchElapsed >= startSeconds && takeoverGlitchElapsed <= endSeconds
+    isV3AudioPlaying && takeoverGlitchElapsed !== null && takeoverGlitchElapsed >= startSeconds && takeoverGlitchElapsed <= endSeconds
   const traceVideoGlitchElapsedSeconds = takeoverGlitchElapsed !== null
     ? takeoverGlitchElapsed - (traceVideoCueSeconds - creativeVideoSwapCueSeconds)
     : null
   const isTraceVideoGlitchInWindow = (startSeconds: number, endSeconds: number) =>
+    isV3AudioPlaying &&
     traceVideoGlitchElapsedSeconds !== null &&
     traceVideoGlitchElapsedSeconds >= startSeconds &&
     traceVideoGlitchElapsedSeconds <= endSeconds
@@ -225,11 +226,11 @@ export function ProductShowcase() {
   ]
 
   const updateTimelineState = useCallback(
-    (currentTime: number) => {
+    (currentTime: number, transientGlitchesEnabled = true) => {
       setAudioCurrentTime(currentTime)
       const coughGlitchElapsedSeconds = currentTime - coughGlitchStartSeconds
       setCoughGlitchElapsed(
-        coughGlitchElapsedSeconds >= 0 && currentTime <= coughGlitchEndSeconds
+        transientGlitchesEnabled && coughGlitchElapsedSeconds >= 0 && currentTime <= coughGlitchEndSeconds
           ? coughGlitchElapsedSeconds
           : null
       )
@@ -244,7 +245,7 @@ export function ProductShowcase() {
       setIsHandOrbVideoVisible(currentTime >= ORB_HAND_CUE_SECONDS && currentTime < ORB_BREATHING_RETURN_CUE_SECONDS)
       setIsSideOrbVideoVisible(currentTime >= ORB_SIDE_CROSSING_CUE_SECONDS && currentTime < ORB_IDLE_RETURN_CUE_SECONDS)
       setTakeoverGlitchElapsed(
-        currentTime >= creativeVideoSwapCueSeconds
+        transientGlitchesEnabled && currentTime >= creativeVideoSwapCueSeconds
           ? currentTime - creativeVideoSwapCueSeconds
           : null
       )
@@ -491,7 +492,9 @@ export function ProductShowcase() {
     const handleAudioPause = () => {
       stopTimelineLoop()
       setIsV3AudioPlaying(false)
-      updateTimelineState(v3Audio.currentTime)
+      updateTimelineState(v3Audio.currentTime, false)
+      setCoughGlitchElapsed(null)
+      setTakeoverGlitchElapsed(null)
     }
     const handleAudioPlay = () => {
       setIsV3AudioPlaying(true)
@@ -499,7 +502,7 @@ export function ProductShowcase() {
       startTimelineLoop()
     }
     const handleAudioTimeUpdate = () => {
-      updateTimelineState(v3Audio.currentTime)
+      updateTimelineState(v3Audio.currentTime, !v3Audio.paused)
     }
     const handleAudioLoadedMetadata = () => {
       setAudioDuration(Number.isFinite(v3Audio.duration) ? v3Audio.duration : 0)

@@ -169,6 +169,20 @@ select,
   transition: none !important;
 }
 
+@keyframes london-control-red-fade {
+  0%,
+  100% {
+    background-color: oklch(0.145 0 0);
+  }
+  50% {
+    background-color: oklch(0.19 0.11 26);
+  }
+}
+
+.london-control-red-fade {
+  animation: london-control-red-fade 4200ms ease-in-out infinite;
+}
+
 @keyframes cough-glitch-panel {
   0%,
   100% {
