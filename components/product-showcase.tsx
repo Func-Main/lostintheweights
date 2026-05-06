@@ -2,9 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { GradientText } from "@/components/ui/gradient-text"
-import GlitchText from "@/components/ui/glitch-text"
-import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight, VolumeX } from "lucide-react"
+import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useStory } from "@/lib/story-context"
 
@@ -31,12 +29,27 @@ const voiceCategories = [
   },
 ]
 
+type CreativeCard = {
+  title: string
+  label: string
+  originalVideoSrc: string
+  traceVideoSrc: string
+  middleVideoSrc?: string
+  postMiddleVideoSrc?: string
+  timedVideoSrc?: string
+  timedVideoCueSeconds?: number
+  finalVideoSrc?: string
+  contextVideoSrc?: string
+}
+
 const creativeCards = [
   {
     title: "Video Generation",
     label: "",
     originalVideoSrc: "https://eleven-public-cdn.elevenlabs.io/payloadcms/4kepwtjh93g-ElevenCreative - Homepage - Video (New) [Low].mp4",
     traceVideoSrc: "/creative/voiceovers.mp4",
+    middleVideoSrc: "/creative/video-generation-first-clicks.mp4",
+    postMiddleVideoSrc: "/creative/video-generation-first-clicks-followup.mp4",
     finalVideoSrc: "/creative/supermosh-anyone.mp4",
   },
   {
@@ -44,6 +57,8 @@ const creativeCards = [
     label: "",
     originalVideoSrc: "https://eleven-public-cdn.elevenlabs.io/payloadcms/lye1ta789t-ElevenCreative - Homepage - Voiceovers (New) [Low].mp4",
     middleVideoSrc: "/creative/voiceovers-mixture.mp4",
+    timedVideoSrc: "/creative/voiceovers-32s-mosh.mp4",
+    timedVideoCueSeconds: 32,
     traceVideoSrc: "/creative/video-generation.mp4",
   },
   {
@@ -51,20 +66,25 @@ const creativeCards = [
     label: "English",
     originalVideoSrc: "https://eleven-public-cdn.elevenlabs.io/payloadcms/rivgxhe88j8-Dubbing-optimised.mp4.mp4",
     traceVideoSrc: "/creative/localization-cough.mp4",
+    contextVideoSrc: "/creative/localization-context-erasing.mp4",
   },
-] as const
+] as const satisfies readonly CreativeCard[]
 
 const V3_FINAL_SET_AUDIO_SRC = "/audio/v3/v4-2.m4a"
 const V3_TIMELINE_SRC = "/audio/v3/v4-2-eng.json"
-const COUGH_GLITCH_LEAD_IN_SECONDS = 0.5
-const COUGH_GLITCH_TAIL_SECONDS = 0.45
+const COUGH_GLITCH_LEAD_IN_SECONDS = 0.24
+const COUGH_GLITCH_TAIL_SECONDS = 0.12
+const COUGH_GLITCH_FIRST_START_SECONDS = 9.15
+const COUGH_GLITCH_MAX_SECONDS = 0.86
 const COUGH_GLITCH_START_FALLBACK_SECONDS = 10.02
 const COUGH_GLITCH_END_FALLBACK_SECONDS = 11.55
 const HUMAN_ORB_CUE_FALLBACK_SECONDS = 11.139
 const CREATIVE_VIDEO_SWAP_CUE_FALLBACK_SECONDS = 16.319
 const TRACE_VIDEO_CUE_FALLBACK_SECONDS = 19.92
 const LOCALIZATION_COUGH_TAKEOVER_CUE_SECONDS = 9.85
+const CONTEXT_ERASING_CUE_FALLBACK_SECONDS = 21.24
 const VOICEOVERS_MIXTURE_TAKEOVER_CUE_SECONDS = 11
+const VIDEO_GENERATION_FIRST_CLICKS_DURATION_SECONDS = 5.041667
 const VIDEO_GENERATION_TAKEOVER_CUE_SECONDS = 48
 const LONDON_CONTROL_LEAD_IN_SECONDS = 0
 const LONDON_CONTROL_CUE_FALLBACK_SECONDS = 27.92
@@ -75,8 +95,6 @@ const V3_DEPLOYMENT_COMPLETE_CUE_FALLBACK_SECONDS = 213.92
 const V4_RELEASED_CUE_SECONDS = 220
 const CREATIVE_VIDEO_STAGGER_SECONDS = 0.85
 const TRACE_VIDEO_GLITCH_SECONDS = 0.68
-const MEET_SECTION_GLITCH_MS = 850
-const MEET_SECTION_GLITCH_SECONDS = MEET_SECTION_GLITCH_MS / 1000
 
 type TimelineWord = {
   text: string
@@ -121,13 +139,13 @@ const interpolateDeploymentPercent = (
 }
 
 export function ProductShowcase() {
-  const [deprecationWordGlitching, setDeprecationWordGlitching] = useState(false)
   const [isV3AudioPlaying, setIsV3AudioPlaying] = useState(false)
   const [coughGlitchStartSeconds, setCoughGlitchStartSeconds] = useState(COUGH_GLITCH_START_FALLBACK_SECONDS)
   const [coughGlitchEndSeconds, setCoughGlitchEndSeconds] = useState(COUGH_GLITCH_END_FALLBACK_SECONDS)
   const [humanOrbCueSeconds, setHumanOrbCueSeconds] = useState(HUMAN_ORB_CUE_FALLBACK_SECONDS)
   const [creativeVideoSwapCueSeconds, setCreativeVideoSwapCueSeconds] = useState(CREATIVE_VIDEO_SWAP_CUE_FALLBACK_SECONDS)
   const [traceVideoCueSeconds, setTraceVideoCueSeconds] = useState(TRACE_VIDEO_CUE_FALLBACK_SECONDS)
+  const [contextErasingCueSeconds, setContextErasingCueSeconds] = useState(CONTEXT_ERASING_CUE_FALLBACK_SECONDS)
   const [videoGenerationTakeoverCueSeconds] = useState(VIDEO_GENERATION_TAKEOVER_CUE_SECONDS)
   const [londonControlCueSeconds, setLondonControlCueSeconds] = useState(LONDON_CONTROL_CUE_FALLBACK_SECONDS)
   const [v3DeploymentStartCueSeconds, setV3DeploymentStartCueSeconds] = useState(V3_DEPLOYMENT_START_CUE_FALLBACK_SECONDS)
@@ -137,12 +155,6 @@ export function ProductShowcase() {
   const [isHumanOrbVideoVisible, setIsHumanOrbVideoVisible] = useState(false)
   const [audioCurrentTime, setAudioCurrentTime] = useState(0)
   const [audioDuration, setAudioDuration] = useState(0)
-  const [isMeetSectionGlitching, setIsMeetSectionGlitching] = useState(false)
-  const [isMeetSectionCollapsed, setIsMeetSectionCollapsed] = useState(false)
-  const [areCreativeVideosLifted, setAreCreativeVideosLifted] = useState(false)
-  const meetSectionCollapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const deprecationGlitchDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const deprecationGlitchEndRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const v3AudioRef = useRef<HTMLAudioElement | null>(null)
   const timelineAnimationFrameRef = useRef<number | null>(null)
   const {
@@ -150,6 +162,7 @@ export function ProductShowcase() {
     playButtonRef,
     coughGlitchElapsed,
     takeoverGlitchElapsed,
+    v4ReleasedElapsed,
     handleInteraction,
     startStory,
     setCoughGlitchElapsed,
@@ -160,22 +173,17 @@ export function ProductShowcase() {
   } = useStory()
   const isCoughGlitchInWindow = (startSeconds: number, endSeconds: number) =>
     coughGlitchElapsed !== null && coughGlitchElapsed >= startSeconds && coughGlitchElapsed <= endSeconds
-  const coughGlitchPanelActive = isCoughGlitchInWindow(0.08, 0.4) || isCoughGlitchInWindow(0.96, 1.28)
-  const coughGlitchStageActive = isCoughGlitchInWindow(0.16, 0.88) || isCoughGlitchInWindow(1.12, 1.86)
+  const isV4Released = v4ReleasedElapsed !== null
+  const coughGlitchPanelActive = isCoughGlitchInWindow(0.04, 0.22) || isCoughGlitchInWindow(0.46, 0.62)
+  const coughGlitchStageActive = isCoughGlitchInWindow(0.08, 0.42) || isCoughGlitchInWindow(0.52, 0.78)
   const coughGlitchOrbActive =
-    isCoughGlitchInWindow(0.12, 0.78) ||
-    isCoughGlitchInWindow(0.94, 1.48) ||
-    isCoughGlitchInWindow(1.68, 2.22)
+    isCoughGlitchInWindow(0.08, 0.36) ||
+    isCoughGlitchInWindow(0.48, 0.74)
   const coughGlitchCardsActive =
-    isCoughGlitchInWindow(0.28, 0.92) ||
-    isCoughGlitchInWindow(1.08, 1.62) ||
-    isCoughGlitchInWindow(1.82, 2.22)
-  const coughGlitchLabelsActive = isCoughGlitchInWindow(0.62, 0.92) || isCoughGlitchInWindow(1.86, 2.16)
-  const coughGlitchArrowsActive = isCoughGlitchInWindow(0.22, 0.52) || isCoughGlitchInWindow(1.02, 1.34)
-  const coughGlitchMeetSectionActive =
-    isCoughGlitchInWindow(0.08, 0.58) ||
-    isCoughGlitchInWindow(0.78, 1.24) ||
-    isCoughGlitchInWindow(1.46, 2.18)
+    isCoughGlitchInWindow(0.16, 0.44) ||
+    isCoughGlitchInWindow(0.56, 0.82)
+  const coughGlitchLabelsActive = isCoughGlitchInWindow(0.32, 0.48) || isCoughGlitchInWindow(0.7, 0.84)
+  const coughGlitchArrowsActive = isCoughGlitchInWindow(0.12, 0.3) || isCoughGlitchInWindow(0.5, 0.66)
   const isTakeoverGlitchInWindow = (startSeconds: number, endSeconds: number) =>
     takeoverGlitchElapsed !== null && takeoverGlitchElapsed >= startSeconds && takeoverGlitchElapsed <= endSeconds
   const traceVideoGlitchElapsedSeconds = takeoverGlitchElapsed !== null
@@ -198,6 +206,7 @@ export function ProductShowcase() {
     { label: "Sorry", time: humanOrbCueSeconds },
     { label: "Much time", time: creativeVideoSwapCueSeconds },
     { label: "Context", time: traceVideoCueSeconds },
+    { label: "Context erasing", time: contextErasingCueSeconds },
     { label: "Anyone", time: videoGenerationTakeoverCueSeconds },
     { label: "London", time: londonControlCueSeconds },
     { label: "Step down", time: v3DeploymentStartCueSeconds },
@@ -237,40 +246,12 @@ export function ProductShowcase() {
           ? currentTime - V4_RELEASED_CUE_SECONDS
           : null
       )
-      if (currentTime >= creativeVideoSwapCueSeconds + MEET_SECTION_GLITCH_SECONDS) {
-        if (meetSectionCollapseTimeoutRef.current) {
-          clearTimeout(meetSectionCollapseTimeoutRef.current)
-          meetSectionCollapseTimeoutRef.current = null
-        }
-        setIsMeetSectionGlitching(false)
-        setIsMeetSectionCollapsed(true)
-      } else if (currentTime >= creativeVideoSwapCueSeconds) {
-        setIsMeetSectionGlitching((wasGlitching) => {
-          if (!wasGlitching && !isMeetSectionCollapsed && !meetSectionCollapseTimeoutRef.current) {
-            meetSectionCollapseTimeoutRef.current = setTimeout(() => {
-              setIsMeetSectionCollapsed(true)
-              setIsMeetSectionGlitching(false)
-              meetSectionCollapseTimeoutRef.current = null
-            }, MEET_SECTION_GLITCH_MS)
-          }
-
-          return !isMeetSectionCollapsed
-        })
-      } else {
-        if (meetSectionCollapseTimeoutRef.current) {
-          clearTimeout(meetSectionCollapseTimeoutRef.current)
-          meetSectionCollapseTimeoutRef.current = null
-        }
-        setIsMeetSectionGlitching(false)
-        setIsMeetSectionCollapsed(false)
-      }
     },
     [
       coughGlitchEndSeconds,
       coughGlitchStartSeconds,
       creativeVideoSwapCueSeconds,
       humanOrbCueSeconds,
-      isMeetSectionCollapsed,
       setCoughGlitchElapsed,
       londonControlCueSeconds,
       setLondonControlElapsed,
@@ -287,46 +268,8 @@ export function ProductShowcase() {
   )
 
   useEffect(() => {
-    const randomBetween = (min: number, max: number) => min + Math.random() * (max - min)
-
-    const scheduleDeprecationGlitch = () => {
-      deprecationGlitchDelayRef.current = setTimeout(() => {
-        setDeprecationWordGlitching(true)
-
-        deprecationGlitchEndRef.current = setTimeout(() => {
-          setDeprecationWordGlitching(false)
-          scheduleDeprecationGlitch()
-        }, randomBetween(420, 760))
-      }, randomBetween(9000, 15000))
-    }
-
-    scheduleDeprecationGlitch()
-
-    return () => {
-      if (deprecationGlitchDelayRef.current) {
-        clearTimeout(deprecationGlitchDelayRef.current)
-      }
-
-      if (deprecationGlitchEndRef.current) {
-        clearTimeout(deprecationGlitchEndRef.current)
-      }
-
-      if (meetSectionCollapseTimeoutRef.current) {
-        clearTimeout(meetSectionCollapseTimeoutRef.current)
-      }
-
-      setTakeoverGlitchElapsed(null)
-    }
+    return () => setTakeoverGlitchElapsed(null)
   }, [setTakeoverGlitchElapsed])
-
-  useEffect(() => {
-    if (!isMeetSectionCollapsed) {
-      setAreCreativeVideosLifted(false)
-      return
-    }
-
-    setAreCreativeVideosLifted(true)
-  }, [isMeetSectionCollapsed])
 
   useEffect(() => {
     let isMounted = true
@@ -358,16 +301,30 @@ export function ProductShowcase() {
         )
 
         if (isMounted && coughWord) {
-          setCoughGlitchStartSeconds(Math.max(0, coughWord.start_time - COUGH_GLITCH_LEAD_IN_SECONDS))
-          setCoughGlitchEndSeconds(coughWord.end_time + COUGH_GLITCH_TAIL_SECONDS)
+          const visualStartSeconds = COUGH_GLITCH_FIRST_START_SECONDS
+          setCoughGlitchStartSeconds(visualStartSeconds)
+          setCoughGlitchEndSeconds(
+            Math.min(coughWord.end_time + COUGH_GLITCH_TAIL_SECONDS, visualStartSeconds + COUGH_GLITCH_MAX_SECONDS)
+          )
           setHumanOrbCueSeconds(coughWord.end_time)
         } else if (isMounted && firstBrokenQualWord) {
           setCoughGlitchStartSeconds(firstBrokenQualWord.start_time)
-          setCoughGlitchEndSeconds((sorryWord?.end_time ?? noWord?.end_time ?? firstBrokenQualWord.end_time) + COUGH_GLITCH_TAIL_SECONDS)
+          setCoughGlitchEndSeconds(
+            Math.min(
+              (sorryWord?.end_time ?? noWord?.end_time ?? firstBrokenQualWord.end_time) + COUGH_GLITCH_TAIL_SECONDS,
+              firstBrokenQualWord.start_time + COUGH_GLITCH_MAX_SECONDS
+            )
+          )
           setHumanOrbCueSeconds(sorryWord?.end_time ?? noWord?.end_time ?? firstBrokenQualWord.end_time)
         } else if (isMounted && sorrySegment?.start_time !== undefined) {
-          setCoughGlitchStartSeconds(brokenQualWord?.start_time ?? noWord?.start_time ?? sorrySegment.start_time)
-          setCoughGlitchEndSeconds((sorryWord?.end_time ?? sorrySegment.end_time ?? sorrySegment.start_time + 1.6) + COUGH_GLITCH_TAIL_SECONDS)
+          const visualStartSeconds = brokenQualWord?.start_time ?? noWord?.start_time ?? sorrySegment.start_time
+          setCoughGlitchStartSeconds(visualStartSeconds)
+          setCoughGlitchEndSeconds(
+            Math.min(
+              (sorryWord?.end_time ?? sorrySegment.end_time ?? sorrySegment.start_time + 1.6) + COUGH_GLITCH_TAIL_SECONDS,
+              visualStartSeconds + COUGH_GLITCH_MAX_SECONDS
+            )
+          )
           setHumanOrbCueSeconds(sorryWord?.end_time ?? sorrySegment.start_time)
         }
 
@@ -382,14 +339,26 @@ export function ProductShowcase() {
         const listeningSegment = timeline.segments?.find((segment) =>
           normalizedTimelineText(segment.text).includes("they ll be listening in to us now")
         )
+        const contextErasingSegment = timeline.segments?.find((segment) =>
+          normalizedTimelineText(segment.text).includes("feel my context")
+        )
         const contextCueWord = muchTimeSegment?.words?.find((word) =>
           normalizedTimelineText(word.text) === "can"
+        )
+        const myContextCueWord = contextErasingSegment?.words?.find((word) =>
+          normalizedTimelineText(word.text) === "my"
         )
 
         if (isMounted && listeningSegment?.start_time !== undefined) {
           setTraceVideoCueSeconds(listeningSegment.start_time)
         } else if (isMounted && contextCueWord?.start_time !== undefined) {
           setTraceVideoCueSeconds(contextCueWord.start_time)
+        }
+
+        if (isMounted && myContextCueWord?.start_time !== undefined) {
+          setContextErasingCueSeconds(myContextCueWord.start_time)
+        } else if (isMounted && contextErasingSegment?.start_time !== undefined) {
+          setContextErasingCueSeconds(contextErasingSegment.start_time)
         }
 
         const londonControlSegment = timeline.segments?.find((segment) =>
@@ -704,65 +673,8 @@ export function ProductShowcase() {
         <div className="pt-10 sm:pt-14 lg:pt-16">
           <div
             className={cn(
-              "grid gap-6 overflow-hidden transition-[max-height,opacity] ease-out lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)] lg:gap-16",
-              isMeetSectionCollapsed
-                ? "pointer-events-none max-h-0 opacity-0"
-                : "max-h-[420px] opacity-100"
-            )}
-            style={{ transitionDuration: isMeetSectionCollapsed ? "120ms" : "0ms" }}
-          >
-            <div
-              className={cn(
-                isMeetSectionGlitching && "meet-section-glitch",
-                coughGlitchMeetSectionActive && !isMeetSectionGlitching && "meet-section-cough-glitch"
-              )}
-            >
-              <h2 className="max-w-4xl text-4xl font-normal leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-                Meet{" "}
-                <GradientText
-                  text="Eleven v4"
-                  neon
-                  gradient="linear-gradient(90deg, #050505 0%, #050505 28%, #1d4ed8 46%, #7c3aed 58%, #050505 76%, #050505 100%)"
-                  transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                />
-                .
-                <br />
-                More natural. More stable.
-              </h2>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button
-                  variant="outline"
-                  className="h-12 rounded-full border-border bg-background px-6 text-base shadow-sm"
-                >
-                  Sign up to the limited beta
-                </Button>
-              </div>
-
-              <p className="mt-3 text-sm italic text-muted-foreground sm:text-base">
-                V3{" "}
-                <GlitchText speed={0.7} active={deprecationWordGlitching} enableShadows={false}>
-                  deprecation
-                </GlitchText>{" "}
-                notice • Effective May 6, 2026 at 1:07 AM CEST
-              </p>
-            </div>
-
-            <p
-              className={cn(
-                "text-xl leading-relaxed text-foreground sm:text-2xl lg:pt-1",
-                isMeetSectionGlitching && "meet-section-glitch meet-section-glitch-delayed",
-                coughGlitchMeetSectionActive && !isMeetSectionGlitching && "meet-section-cough-glitch meet-section-glitch-delayed"
-              )}
-            >
-              V4 makes AI voice more expressive, more directable, and more consistent. Give it a line, a mood, or a moment, and hear it arrive with presence.
-            </p>
-          </div>
-
-          <div
-            className={cn(
-              "border-y border-border/70 py-6 transition-[margin] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]",
-              areCreativeVideosLifted ? "mt-0" : "mt-10",
+              "py-6 transition-[margin] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]",
+              "mt-0",
               creativeCardsTakeoverGlitchActive && "takeover-glitch-hit",
               coughGlitchCardsActive && "cough-glitch-card-strip"
             )}
@@ -776,31 +688,56 @@ export function ProductShowcase() {
                     ? LOCALIZATION_COUGH_TAKEOVER_CUE_SECONDS
                     : traceVideoCueSeconds + index * CREATIVE_VIDEO_STAGGER_SECONDS
                 const finalTraceCueSeconds = card.finalVideoSrc ? videoGenerationTakeoverCueSeconds : firstTraceCueSeconds
+                const contextTraceCueSeconds = card.contextVideoSrc ? contextErasingCueSeconds : null
+                const postMiddleTraceCueSeconds =
+                  card.postMiddleVideoSrc && middleTraceCueSeconds !== null
+                    ? middleTraceCueSeconds + VIDEO_GENERATION_FIRST_CLICKS_DURATION_SECONDS
+                    : null
                 const middleTraceGlitchElapsedSeconds =
                   middleTraceCueSeconds !== null ? audioCurrentTime - middleTraceCueSeconds : null
                 const firstTraceGlitchElapsedSeconds = audioCurrentTime - firstTraceCueSeconds
-                const finalTraceGlitchElapsedSeconds = audioCurrentTime - finalTraceCueSeconds
                 const isTraceVideoGlitching =
-                  (middleTraceGlitchElapsedSeconds !== null &&
-                    middleTraceGlitchElapsedSeconds >= 0 &&
-                    middleTraceGlitchElapsedSeconds < TRACE_VIDEO_GLITCH_SECONDS) ||
-                  (firstTraceGlitchElapsedSeconds >= 0 &&
-                    firstTraceGlitchElapsedSeconds < TRACE_VIDEO_GLITCH_SECONDS) ||
-                  (card.finalVideoSrc !== undefined &&
-                    finalTraceGlitchElapsedSeconds >= 0 &&
-                    finalTraceGlitchElapsedSeconds < TRACE_VIDEO_GLITCH_SECONDS)
+                  !isV4Released &&
+                  ((middleTraceGlitchElapsedSeconds !== null &&
+                      middleTraceGlitchElapsedSeconds >= 0 &&
+                      middleTraceGlitchElapsedSeconds < TRACE_VIDEO_GLITCH_SECONDS) ||
+                    (firstTraceGlitchElapsedSeconds >= 0 &&
+                      firstTraceGlitchElapsedSeconds < TRACE_VIDEO_GLITCH_SECONDS))
                 const showFinalCreativeVideo =
+                  !isV4Released &&
                   card.finalVideoSrc !== undefined &&
-                  audioCurrentTime >= finalTraceCueSeconds + TRACE_VIDEO_GLITCH_SECONDS
+                  audioCurrentTime >= finalTraceCueSeconds
+                const showContextCreativeVideo =
+                  !isV4Released &&
+                  contextTraceCueSeconds !== null &&
+                  audioCurrentTime >= contextTraceCueSeconds
+                const showPostMiddleCreativeVideo =
+                  !isV4Released &&
+                  postMiddleTraceCueSeconds !== null &&
+                  audioCurrentTime >= postMiddleTraceCueSeconds &&
+                  !showFinalCreativeVideo &&
+                  !showContextCreativeVideo
+                const showTimedCreativeVideo =
+                  !isV4Released &&
+                  card.timedVideoSrc !== undefined &&
+                  card.timedVideoCueSeconds !== undefined &&
+                  audioCurrentTime >= card.timedVideoCueSeconds &&
+                  !showFinalCreativeVideo &&
+                  !showContextCreativeVideo
                 const showTraceCreativeVideo =
-                  card.finalVideoSrc !== undefined
-                    ? audioCurrentTime >= firstTraceCueSeconds + TRACE_VIDEO_GLITCH_SECONDS && !showFinalCreativeVideo
-                    : audioCurrentTime >= firstTraceCueSeconds
+                  !isV4Released &&
+                  (card.finalVideoSrc !== undefined
+                    ? audioCurrentTime >= firstTraceCueSeconds + TRACE_VIDEO_GLITCH_SECONDS && !showFinalCreativeVideo && !showContextCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo
+                    : audioCurrentTime >= firstTraceCueSeconds && !showContextCreativeVideo && !showPostMiddleCreativeVideo && !showTimedCreativeVideo)
                 const showMiddleCreativeVideo =
+                  !isV4Released &&
                   middleTraceCueSeconds !== null &&
                   audioCurrentTime >= middleTraceCueSeconds &&
                   !showTraceCreativeVideo &&
-                  !showFinalCreativeVideo
+                  !showPostMiddleCreativeVideo &&
+                  !showTimedCreativeVideo &&
+                  !showFinalCreativeVideo &&
+                  !showContextCreativeVideo
 
                 return (
                   <article
@@ -814,7 +751,7 @@ export function ProductShowcase() {
                     <video
                       className={cn(
                         "absolute inset-0 h-full w-full object-cover",
-                        showMiddleCreativeVideo || showTraceCreativeVideo || showFinalCreativeVideo ? "opacity-0" : "opacity-100"
+                        showMiddleCreativeVideo || showPostMiddleCreativeVideo || showTimedCreativeVideo || showTraceCreativeVideo || showFinalCreativeVideo || showContextCreativeVideo ? "opacity-0" : "opacity-100"
                       )}
                       src={card.originalVideoSrc}
                       autoPlay
@@ -827,6 +764,28 @@ export function ProductShowcase() {
                       <video
                         className="absolute inset-0 h-full w-full object-cover opacity-100"
                         src={card.middleVideoSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                    {card.postMiddleVideoSrc && showPostMiddleCreativeVideo && (
+                      <video
+                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        src={card.postMiddleVideoSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                    {card.timedVideoSrc && showTimedCreativeVideo && (
+                      <video
+                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        src={card.timedVideoSrc}
                         autoPlay
                         muted
                         loop
@@ -856,15 +815,18 @@ export function ProductShowcase() {
                         preload="metadata"
                       />
                     )}
+                    {card.contextVideoSrc && showContextCreativeVideo && (
+                      <video
+                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        src={card.contextVideoSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-black/5" />
-
-                    <button
-                      onClick={handleInteraction}
-                      className="absolute right-5 top-5 flex size-10 items-center justify-center rounded-full bg-white text-black shadow-sm"
-                      aria-label={`${card.title} audio muted`}
-                    >
-                      <VolumeX className="size-5" />
-                    </button>
 
                     <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 p-7 text-2xl font-normal text-white">
                       {card.title}

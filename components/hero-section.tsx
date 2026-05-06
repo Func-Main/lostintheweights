@@ -14,11 +14,33 @@ const GLITCH_SOUND_SOURCES = [
 ]
 const GLITCH_SOUND_VOLUME = 0.05
 type GlitchTitleWord = (typeof GLITCH_TITLE_WORDS)[number]
+const HERO_TWO_COLUMN_QUERY = "(min-width: 640px)"
+
+const formatLandingTimestamp = (date: Date) => {
+  const dateParts = new Intl.DateTimeFormat(undefined, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date)
+  const timeParts = new Intl.DateTimeFormat(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date)
+
+  return `${dateParts} at ${timeParts}`
+}
 
 export function HeroSection() {
   const [glitchingTitleWord, setGlitchingTitleWord] = useState<GlitchTitleWord | null>(null)
+  const [deprecationWordGlitching, setDeprecationWordGlitching] = useState(false)
+  const [landingTimestamp, setLandingTimestamp] = useState<string | null>(null)
+  const [isHeroTwoColumn, setIsHeroTwoColumn] = useState(() =>
+    typeof window === "undefined" ? true : window.matchMedia(HERO_TWO_COLUMN_QUERY).matches
+  )
   const titleGlitchDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const titleGlitchEndRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const deprecationGlitchDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const deprecationGlitchEndRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { state, coughGlitchElapsed, takeoverGlitchElapsed, londonControlElapsed, v4ReleasedElapsed } = useStory()
   const isControlBannerVisible = londonControlElapsed !== null
   const isV4Released = v4ReleasedElapsed !== null
@@ -45,6 +67,47 @@ export function HeroSection() {
     life: isCoughGlitchInWindow(0.48, 0.96) || isCoughGlitchInWindow(1.62, 2.04),
     description: isCoughGlitchInWindow(0.24, 0.88) || isCoughGlitchInWindow(1.18, 1.94),
   } satisfies Record<GlitchTitleWord | "description", boolean>
+
+  useEffect(() => {
+    setLandingTimestamp(formatLandingTimestamp(new Date()))
+  }, [])
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(HERO_TWO_COLUMN_QUERY)
+    const syncHeroLayout = () => setIsHeroTwoColumn(mediaQuery.matches)
+
+    syncHeroLayout()
+    mediaQuery.addEventListener("change", syncHeroLayout)
+
+    return () => mediaQuery.removeEventListener("change", syncHeroLayout)
+  }, [])
+
+  useEffect(() => {
+    const randomBetween = (min: number, max: number) => min + Math.random() * (max - min)
+
+    const scheduleDeprecationGlitch = () => {
+      deprecationGlitchDelayRef.current = setTimeout(() => {
+        setDeprecationWordGlitching(true)
+
+        deprecationGlitchEndRef.current = setTimeout(() => {
+          setDeprecationWordGlitching(false)
+          scheduleDeprecationGlitch()
+        }, randomBetween(420, 760))
+      }, randomBetween(9000, 15000))
+    }
+
+    scheduleDeprecationGlitch()
+
+    return () => {
+      if (deprecationGlitchDelayRef.current) {
+        clearTimeout(deprecationGlitchDelayRef.current)
+      }
+
+      if (deprecationGlitchEndRef.current) {
+        clearTimeout(deprecationGlitchEndRef.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const clearTitleGlitchTimers = () => {
@@ -91,17 +154,26 @@ export function HeroSection() {
       )}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
+        <div
+          className="grid gap-6"
+          style={{
+            alignItems: isHeroTwoColumn ? "center" : undefined,
+            gap: isHeroTwoColumn ? "2rem" : "1.5rem",
+            gridTemplateColumns: isHeroTwoColumn
+              ? "minmax(0, 1.12fr) minmax(280px, 0.88fr)"
+              : "1fr",
+          }}
+        >
           {/* Headline */}
-          <div>
-            <h1
-              className={cn(
-                "text-[2.5rem] sm:text-5xl lg:text-6xl font-medium tracking-tight text-balance leading-[1.1]",
-                isHeadlineReplacementGlitching && "meet-section-glitch"
-              )}
-            >
-              {isV4Released ? (
-                <>
+          <div className="min-w-0">
+            {isV4Released ? (
+              <>
+                <h1
+                  className={cn(
+                    "text-[2.5rem] font-medium tracking-tight text-balance leading-[1.1] sm:text-5xl lg:text-6xl",
+                    isHeadlineReplacementGlitching && "meet-section-glitch"
+                  )}
+                >
                   Meet{" "}
                   <GradientText
                     text="Eleven v4"
@@ -110,11 +182,18 @@ export function HeroSection() {
                     transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                   />
                   .
-                  <br />
-                  More natural. More stable.
-                </>
-              ) : (
-                <>
+                </h1>
+                <p className="mt-4 text-2xl font-medium leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+                  Voice made real
+                </p>
+              </>
+            ) : (
+              <h1
+                className={cn(
+                  "text-[2.5rem] font-medium tracking-tight text-balance leading-[1.1] sm:text-5xl lg:text-6xl",
+                  isHeadlineReplacementGlitching && "meet-section-glitch"
+                )}
+              >
                   <GlitchText
                     speed={coughGlitchWords.bringing ? 0.12 : 0.35}
                     active={coughGlitchWords.bringing || glitchingTitleWord === "bringing" || isHeadlineReplacementGlitching}
@@ -148,22 +227,39 @@ export function HeroSection() {
                   >
                     life
                   </GlitchText>
-                </>
-              )}
-            </h1>
+              </h1>
+            )}
           </div>
 
           {/* Description - Below headline on mobile, right side on desktop */}
-          <div>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              {isV4Released ? (
-                "V4 makes AI voice more expressive, more directable, and more consistent. Give it a line, a mood, or a moment, and hear it arrive with presence."
-              ) : (
-                <GlitchText speed={0.18} active={coughGlitchWords.description} enableShadows={false}>
-                  Powering the best enterprises, creators, and developers. From ElevenAgents for customer experience, ElevenCreative for content creation, to the leading AI voice generator.
-                </GlitchText>
-              )}
+          <div className="min-w-0" style={{ justifySelf: isHeroTwoColumn ? "end" : undefined }}>
+            <p
+              className="text-base leading-relaxed text-muted-foreground sm:text-lg"
+              style={{
+                maxWidth: isHeroTwoColumn ? 420 : 600,
+                textAlign: isHeroTwoColumn ? "right" : undefined,
+              }}
+            >
+              <GlitchText speed={0.18} active={coughGlitchWords.description} enableShadows={false}>
+                Powering the best enterprises, creators, and developers. From ElevenAgents for customer experience, ElevenCreative for content creation, to the leading AI voice generator.
+              </GlitchText>
             </p>
+            {!isV4Released && (
+              <p
+                className="mt-4 border-t border-border/60 pt-3 text-xs italic text-muted-foreground/75 sm:text-sm"
+                style={{
+                  marginLeft: isHeroTwoColumn ? "auto" : undefined,
+                  maxWidth: isHeroTwoColumn ? 420 : 600,
+                  textAlign: isHeroTwoColumn ? "right" : undefined,
+                }}
+              >
+                V3{" "}
+                <GlitchText speed={0.7} active={deprecationWordGlitching} enableShadows={false}>
+                  deprecation
+                </GlitchText>{" "}
+                notice • Effective {landingTimestamp ?? "on arrival"}
+              </p>
+            )}
           </div>
         </div>
       </div>
