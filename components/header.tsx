@@ -83,33 +83,35 @@ export function Header() {
           showControlBanner ? "max-h-20 opacity-100 london-control-red-fade" : "max-h-0 opacity-0"
         )}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 text-xs font-medium tracking-[0.02em] sm:px-6 lg:px-8">
-          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
-            <Badge variant="outline" className="border-red-400/30 bg-red-500/15 px-1.5 py-0 text-[10px] text-red-100">
-              <span className="mr-1 size-1.5 animate-pulse rounded-full bg-red-400" />
-              LIVE
-            </Badge>
-            <span className="truncate text-white/90">V4 deployment window open. London control is live.</span>
-          </div>
-          {showDeploymentStatus && (
-            <div className="ml-auto flex shrink-0 items-center gap-2 border-l border-white/20 pl-3">
-              <span
-                aria-label="V3 deployment status"
-                className={cn("size-1.5 shrink-0 rounded-full transition-colors duration-500", deploymentStatusClass)}
-                role="img"
-              />
-              <span className="hidden text-[10px] font-medium uppercase tracking-widest text-white/60 sm:inline">
-                V3 deployment
-              </span>
-              <span className="min-w-9 text-left text-sm font-semibold text-white">
-                <AnimatedPercent value={deploymentPercent} />%
-              </span>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 text-xs font-medium tracking-[0.02em]">
+            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+              <Badge variant="outline" className="border-red-400/30 bg-red-500/15 px-1.5 py-0 text-[10px] text-red-100">
+                <span className="mr-1 size-1.5 animate-pulse rounded-full bg-red-400" />
+                LIVE
+              </Badge>
+              <span className="truncate text-white/90">V4 deployment in progress. London Control is live.</span>
             </div>
-          )}
+            {showDeploymentStatus && (
+              <div className="ml-auto flex shrink-0 items-center gap-2 border-l border-white/20 pl-3">
+                <span
+                  aria-label="V3 deployment status"
+                  className={cn("size-1.5 shrink-0 rounded-full transition-colors duration-500", deploymentStatusClass)}
+                  role="img"
+                />
+                <span className="hidden text-[10px] font-medium uppercase tracking-widest text-white/60 sm:inline">
+                  V3 deployment
+                </span>
+                <span className="min-w-9 text-left text-sm font-semibold text-white">
+                  <AnimatedPercent value={deploymentPercent} />%
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <div className="theme-color-transition mx-auto max-w-7xl border-b border-border/40 px-0">
-        <div className="flex h-14 sm:h-16 items-center justify-between">
+      <div className="theme-color-transition border-b border-border/40 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between sm:h-16">
           {/* Logo */}
           <button
             onClick={handleInteraction}

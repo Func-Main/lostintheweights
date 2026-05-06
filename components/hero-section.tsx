@@ -70,7 +70,7 @@ export function HeroSection() {
   } satisfies Record<GlitchTitleWord | "description", boolean>
 
   useEffect(() => {
-    setLandingTimestamp(formatLandingTimestamp(new Date()))
+    setLandingTimestamp(formatLandingTimestamp(new Date(Date.now() + 60_000)))
   }, [])
 
   useEffect(() => {
