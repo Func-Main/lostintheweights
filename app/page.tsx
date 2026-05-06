@@ -6,7 +6,6 @@ import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
 import { ProductShowcase } from "@/components/product-showcase"
 import { IdleEffects } from "@/components/idle-effects"
-import { PageTitle } from "@/components/page-title"
 import { useStory } from "@/lib/story-context"
 
 const THEME_CROSSFADE_MS = 2800
@@ -159,7 +158,6 @@ function StoryPageShell() {
 export default function Home() {
   return (
     <StoryProvider>
-      <PageTitle />
       <IdleEffects />
       <StoryPageShell />
     </StoryProvider>

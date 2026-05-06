@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { BROWSER_TITLE, BROWSER_TITLE_PREFIX, withBrowserTitlePrefix } from "@/lib/browser-title"
 
 type AnimationStage = 
   | "waiting" 
@@ -25,12 +26,7 @@ interface UseIdleTitleAnimationOptions {
   pauseBetweenMessages?: number
 }
 
-const TITLE_PREFIX = "ElevenLabs | "
 const LEGACY_TITLE_PREFIX = "IIElevenLabs | "
-const DEFAULT_TITLE_SUFFIX = "Voice made real"
-const DEFAULT_TITLE = `${TITLE_PREFIX}${DEFAULT_TITLE_SUFFIX}`
-
-const withTitlePrefix = (suffix: string) => `${TITLE_PREFIX}${suffix}`
 
 export function useIdleTitleAnimation({
   enabled,
@@ -51,12 +47,12 @@ export function useIdleTitleAnimation({
 
     // Store original title on mount
     if (!originalTitleRef.current) {
-      const title = document.title || DEFAULT_TITLE
+      const title = document.title || BROWSER_TITLE
       originalTitleRef.current = title.startsWith(LEGACY_TITLE_PREFIX)
-        ? `${TITLE_PREFIX}${title.slice(LEGACY_TITLE_PREFIX.length)}`
-        : title.startsWith(TITLE_PREFIX)
+        ? `${BROWSER_TITLE_PREFIX}${title.slice(LEGACY_TITLE_PREFIX.length)}`
+        : title.startsWith(BROWSER_TITLE_PREFIX)
           ? title
-          : DEFAULT_TITLE
+          : BROWSER_TITLE
     }
 
     const clearTimers = () => {
@@ -79,8 +75,8 @@ export function useIdleTitleAnimation({
     }
 
     let currentTitle = originalTitleRef.current
-    let currentSuffix = currentTitle.startsWith(TITLE_PREFIX)
-      ? currentTitle.slice(TITLE_PREFIX.length)
+    let currentSuffix = currentTitle.startsWith(BROWSER_TITLE_PREFIX)
+      ? currentTitle.slice(BROWSER_TITLE_PREFIX.length)
       : currentTitle
     let questionMarkCount = 0
     
@@ -94,7 +90,7 @@ export function useIdleTitleAnimation({
       intervalRef.current = setInterval(() => {
         if (currentSuffix.length > 0) {
           currentSuffix = currentSuffix.slice(0, -1)
-          currentTitle = withTitlePrefix(currentSuffix || " ")
+          currentTitle = withBrowserTitlePrefix(currentSuffix || " ")
           document.title = currentTitle
         } else {
           clearTimers()
@@ -106,13 +102,13 @@ export function useIdleTitleAnimation({
     const typeMessage = (message: string, onComplete: () => void) => {
       let charIndex = 0
       currentSuffix = ""
-      currentTitle = withTitlePrefix(" ")
+      currentTitle = withBrowserTitlePrefix(" ")
       document.title = currentTitle
       
       intervalRef.current = setInterval(() => {
         if (charIndex < message.length) {
           currentSuffix = message.slice(0, charIndex + 1)
-          currentTitle = withTitlePrefix(currentSuffix)
+          currentTitle = withBrowserTitlePrefix(currentSuffix)
           document.title = currentTitle
           charIndex++
         } else {
@@ -143,7 +139,7 @@ export function useIdleTitleAnimation({
         if (questionMarkCount < maxQuestionMarks) {
           questionMarkCount++
           currentSuffix = "hello" + "?".repeat(questionMarkCount)
-          currentTitle = withTitlePrefix(currentSuffix)
+          currentTitle = withBrowserTitlePrefix(currentSuffix)
           document.title = currentTitle
         } else {
           clearTimers()
