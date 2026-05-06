@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Pause, Play, ChevronLeft, ChevronRight, ArrowUpRight, ChevronsDown, ChevronsUp, RotateCcw } from "lucide-react"
 import { Orb } from "@/components/ui/orb"
@@ -47,6 +47,13 @@ type CreativeCard = {
   contextVideoSrc?: string
 }
 
+type CreativeCardTitle = CreativeCard["title"]
+
+type MobileCreativeCardOrderCue = {
+  startSeconds: number
+  order: readonly CreativeCardTitle[]
+}
+
 const VOICEOVERS_MOTHER_CUE_SECONDS = 129.78
 const LOCALIZATION_DO_CUE_SECONDS = 134.14
 const VOICEOVERS_LATE_TAKEOVER_CUE_SECONDS = 176
@@ -82,6 +89,27 @@ const creativeCards: readonly CreativeCard[] = [
     contextVideoSrc: "/creative/localization/context-erasing.mp4",
     takeoverVideoSrc: "/creative/localization/mosh-do-cue.mp4",
     takeoverVideoCueSeconds: LOCALIZATION_DO_CUE_SECONDS,
+  },
+]
+
+const DEFAULT_MOBILE_CREATIVE_CARD_ORDER = creativeCards.map((card) => card.title)
+
+const MOBILE_CREATIVE_CARD_ORDER_CUES: readonly MobileCreativeCardOrderCue[] = [
+  {
+    startSeconds: 0,
+    order: DEFAULT_MOBILE_CREATIVE_CARD_ORDER,
+  },
+  {
+    startSeconds: VOICEOVERS_MOTHER_CUE_SECONDS,
+    order: ["Voiceovers", "Video Generation", "Localization"],
+  },
+  {
+    startSeconds: 144,
+    order: ["Localization", "Voiceovers", "Video Generation"],
+  },
+  {
+    startSeconds: VOICEOVERS_LATE_TAKEOVER_CUE_SECONDS,
+    order: ["Voiceovers", "Localization", "Video Generation"],
   },
 ]
 
@@ -155,27 +183,6 @@ const normalizedTimelineText = (text = "") => text.toLowerCase().replace(/[^a-z0
 const findFirstWord = (timeline: TimelineData, matcher: (word: TimelineWord) => boolean) =>
   timeline.segments?.flatMap((segment) => segment.words ?? []).find(matcher)
 
-const interpolateDeploymentPercent = (
-  currentTime: number,
-  points: Array<{ time: number; value: number }>
-) => {
-  if (currentTime < points[0].time) {
-    return null
-  }
-
-  for (let index = 1; index < points.length; index += 1) {
-    const previous = points[index - 1]
-    const next = points[index]
-
-    if (currentTime <= next.time) {
-      const progress = (currentTime - previous.time) / Math.max(0.001, next.time - previous.time)
-      return Math.round(previous.value + (next.value - previous.value) * progress)
-    }
-  }
-
-  return 0
-}
-
 const interpolateAudioEnvelopeVolume = (currentTime: number, envelope: AudioEnvelopePoint[]) => {
   if (envelope.length === 0 || currentTime < envelope[0].time) {
     return 0
@@ -209,6 +216,19 @@ const getBreathPatternVolume = (currentTime: number) => {
   const breathCurve = 0.5 - 0.5 * Math.cos(cycleProgress * Math.PI * 2)
 
   return rangeFade * (0.18 + breathCurve * 0.82)
+}
+
+const getMobileCreativeCardOrder = (currentTime: number, resetCueSeconds: number) => {
+  if (currentTime >= resetCueSeconds) {
+    return DEFAULT_MOBILE_CREATIVE_CARD_ORDER
+  }
+
+  const activeCue = MOBILE_CREATIVE_CARD_ORDER_CUES.reduce<MobileCreativeCardOrderCue | null>(
+    (currentCue, cue) => (currentTime >= cue.startSeconds ? cue : currentCue),
+    null
+  )
+
+  return activeCue?.order ?? DEFAULT_MOBILE_CREATIVE_CARD_ORDER
 }
 
 export function ProductShowcase() {
@@ -253,7 +273,7 @@ export function ProductShowcase() {
     setCoughGlitchElapsed,
     setTakeoverGlitchElapsed,
     setLondonControlElapsed,
-    setV3DeploymentPercent,
+    setAudioRemainingSeconds,
     setV4ReleasedElapsed,
     setPerformanceDarkMode,
   } = useStory()
@@ -263,6 +283,7 @@ export function ProductShowcase() {
   const showNearEndRewind =
     !isV3AudioPlaying &&
     audioCurrentTime >= REWIND_REVEAL_CUE_SECONDS
+  const mobileCreativeCardOrder = getMobileCreativeCardOrder(audioCurrentTime, v4ReleasedCueSeconds)
   const rawElevenLabsOrbVolume = interpolateAudioEnvelopeVolume(audioCurrentTime, audioEnvelope)
   const breathPatternVolume = getBreathPatternVolume(audioCurrentTime)
   const voiceOrbVolume = Math.pow(rawElevenLabsOrbVolume, 0.5)
@@ -346,12 +367,11 @@ export function ProductShowcase() {
           ? currentTime - londonControlCueSeconds
           : null
       )
-      setV3DeploymentPercent(interpolateDeploymentPercent(currentTime, [
-        { time: v3DeploymentStartCueSeconds, value: 100 },
-        { time: v3Deployment15CueSeconds, value: 15 },
-        { time: v3Deployment1CueSeconds, value: 1 },
-        { time: v3DeploymentCompleteCueSeconds, value: 0 },
-      ]))
+      setAudioRemainingSeconds(
+        currentTime >= v3DeploymentStartCueSeconds && audioDuration > 0
+          ? Math.max(0, audioDuration - currentTime)
+          : null
+      )
       setV4ReleasedElapsed(
         currentTime >= v4ReleasedCueSeconds
           ? currentTime - v4ReleasedCueSeconds
@@ -369,9 +389,10 @@ export function ProductShowcase() {
       londonControlCueSeconds,
       setLondonControlElapsed,
       setTakeoverGlitchElapsed,
-      setV3DeploymentPercent,
+      setAudioRemainingSeconds,
       setV4ReleasedElapsed,
       setPerformanceDarkMode,
+      audioDuration,
       traceVideoCueSeconds,
       videoGenerationTakeoverCueSeconds,
       v3DeploymentStartCueSeconds,
@@ -591,7 +612,7 @@ export function ProductShowcase() {
     return () => {
       isMounted = false
     }
-  }, [setCoughGlitchElapsed, setLondonControlElapsed, setPerformanceDarkMode, setV3DeploymentPercent, setV4ReleasedElapsed])
+  }, [setCoughGlitchElapsed, setLondonControlElapsed, setPerformanceDarkMode, setV4ReleasedElapsed])
 
   useEffect(() => {
     const v3Audio = v3AudioRef.current
@@ -630,7 +651,7 @@ export function ProductShowcase() {
       setCoughGlitchElapsed(null)
       setTakeoverGlitchElapsed(null)
       setLondonControlElapsed(null)
-      setV3DeploymentPercent(null)
+      setAudioRemainingSeconds(null)
       setV4ReleasedElapsed(null)
       setPerformanceDarkMode(false)
     }
@@ -675,7 +696,7 @@ export function ProductShowcase() {
     setLondonControlElapsed,
     setPerformanceDarkMode,
     setTakeoverGlitchElapsed,
-    setV3DeploymentPercent,
+    setAudioRemainingSeconds,
     setV4ReleasedElapsed,
     updateTimelineState,
   ])
@@ -795,19 +816,19 @@ export function ProductShowcase() {
   }
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+    <section className="px-4 pb-4 pt-0 sm:px-6 sm:py-8 lg:px-8">
       <audio ref={v3AudioRef} src={V3_FINAL_SET_AUDIO_SRC} preload="auto" />
       <div className="mx-auto max-w-7xl">
         <div
           className={cn(
-            "theme-color-transition relative overflow-hidden bg-secondary/50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-10",
+            "theme-color-transition relative overflow-hidden bg-secondary/50 rounded-2xl sm:rounded-3xl px-0 py-4 sm:p-6 lg:p-10",
             coughGlitchPanelActive && "cough-glitch-panel",
             productShellTakeoverGlitchActive && "takeover-glitch-soft"
           )}
         >
           {/* Voice Categories Carousel */}
           <div className={cn("relative z-10", coughGlitchStageActive && "cough-glitch-stage")}>
-            <div className="flex items-center justify-center gap-2 sm:gap-4 lg:gap-8 py-4 sm:py-8 overflow-hidden">
+            <div className="flex items-center justify-center gap-2 overflow-hidden py-0 sm:gap-4 sm:py-8 lg:gap-8">
               {voiceCategories.map((category) => (
                 <div
                   key={category.id}
@@ -952,8 +973,8 @@ export function ProductShowcase() {
                     )}
                   </div>
                   <p className={cn(
-                    "theme-color-transition text-muted-foreground mt-1 max-w-[140px] sm:max-w-[180px]",
-                    category.featured ? "text-xs sm:text-sm" : "text-[10px] sm:text-xs hidden sm:block"
+                    "theme-color-transition hidden text-muted-foreground mt-1 max-w-[140px] sm:block sm:max-w-[180px]",
+                    category.featured ? "text-sm" : "text-xs"
                   )}>
                     {category.description}
                   </p>
@@ -965,7 +986,7 @@ export function ProductShowcase() {
             <button
               onClick={handleInteraction}
               className={cn(
-                "theme-control-transition absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border/60 bg-background/80 text-foreground backdrop-blur-sm shadow flex items-center justify-center hover:bg-background",
+                "theme-control-transition absolute left-0 top-1/2 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border/60 bg-background/80 text-foreground shadow backdrop-blur-sm hover:bg-background sm:left-2 sm:flex sm:h-10 sm:w-10",
                 coughGlitchArrowsActive && "cough-glitch-ui"
               )}
             >
@@ -974,7 +995,7 @@ export function ProductShowcase() {
             <button
               onClick={handleInteraction}
               className={cn(
-                "theme-control-transition absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border/60 bg-background/80 text-foreground backdrop-blur-sm shadow flex items-center justify-center hover:bg-background",
+                "theme-control-transition absolute right-0 top-1/2 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border/60 bg-background/80 text-foreground shadow backdrop-blur-sm hover:bg-background sm:right-2 sm:flex sm:h-10 sm:w-10",
                 coughGlitchArrowsActive && "cough-glitch-ui"
               )}
             >
@@ -984,7 +1005,7 @@ export function ProductShowcase() {
 
         </div>
 
-        <div className="pt-10 sm:pt-14 lg:pt-16">
+        <div className="pt-4 sm:pt-14 lg:pt-16">
           <div
             className={cn(
               "py-6 transition-[margin] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -1077,14 +1098,17 @@ export function ProductShowcase() {
                   <article
                     key={card.title}
                     className={cn(
-                      "group relative min-h-[360px] overflow-hidden rounded-[28px] bg-muted shadow-sm sm:min-h-[430px] lg:min-h-[460px]",
+                      "group relative min-h-[266px] overflow-hidden rounded-[28px] bg-muted shadow-sm [order:var(--mobile-card-order)] sm:order-none sm:min-h-[430px] lg:min-h-[460px]",
                       coughGlitchCardsActive && "cough-glitch-card",
                       isTraceVideoGlitching && "trace-video-cut-glitch"
                     )}
+                    style={{
+                      "--mobile-card-order": mobileCreativeCardOrder.indexOf(card.title),
+                    } as CSSProperties}
                   >
                     <video
                       className={cn(
-                        "absolute inset-0 h-full w-full object-cover",
+                        "absolute inset-0 h-full w-full object-cover object-[50%_20%] sm:object-center",
                         showMiddleCreativeVideo || showPostMiddleCreativeVideo || showTimedCreativeVideo || showTraceCreativeVideo || showFinalCreativeVideo || showContextCreativeVideo || showTakeoverCreativeVideo || showLateTakeoverCreativeVideo ? "opacity-0" : "opacity-100"
                       )}
                       src={card.originalVideoSrc}
@@ -1096,7 +1120,7 @@ export function ProductShowcase() {
                     />
                     {card.middleVideoSrc && showMiddleCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.middleVideoSrc}
                         autoPlay
                         muted
@@ -1107,7 +1131,7 @@ export function ProductShowcase() {
                     )}
                     {card.postMiddleVideoSrc && showPostMiddleCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.postMiddleVideoSrc}
                         autoPlay
                         muted
@@ -1118,7 +1142,7 @@ export function ProductShowcase() {
                     )}
                     {card.timedVideoSrc && showTimedCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.timedVideoSrc}
                         autoPlay
                         muted
@@ -1129,7 +1153,7 @@ export function ProductShowcase() {
                     )}
                     {showTraceCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.traceVideoSrc}
                         autoPlay
                         muted
@@ -1140,7 +1164,7 @@ export function ProductShowcase() {
                     )}
                     {card.finalVideoSrc && showFinalCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.finalVideoSrc}
                         autoPlay
                         muted
@@ -1151,7 +1175,7 @@ export function ProductShowcase() {
                     )}
                     {card.contextVideoSrc && showContextCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.contextVideoSrc}
                         autoPlay
                         muted
@@ -1162,7 +1186,7 @@ export function ProductShowcase() {
                     )}
                     {card.takeoverVideoSrc && showTakeoverCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.takeoverVideoSrc}
                         autoPlay
                         muted
@@ -1173,7 +1197,7 @@ export function ProductShowcase() {
                     )}
                     {card.lateTakeoverVideoSrc && showLateTakeoverCreativeVideo && (
                       <video
-                        className="absolute inset-0 h-full w-full object-cover opacity-100"
+                        className="absolute inset-0 h-full w-full object-cover object-[50%_20%] opacity-100 sm:object-center"
                         src={card.lateTakeoverVideoSrc}
                         autoPlay
                         muted
@@ -1184,7 +1208,7 @@ export function ProductShowcase() {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-black/5" />
 
-                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 p-7 text-2xl font-normal text-white">
+                    <div className="absolute inset-x-0 bottom-0 hidden items-center justify-center gap-2 p-7 text-2xl font-normal text-white sm:flex">
                       {card.title}
                       <ArrowUpRight className="size-7" />
                     </div>

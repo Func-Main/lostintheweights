@@ -149,8 +149,8 @@ export function HeroSection() {
   return (
     <section
       className={cn(
-        "px-4 pb-6 transition-[padding] duration-500 ease-out sm:px-6 sm:pb-8 lg:px-8",
-        isControlBannerVisible ? "pt-32 sm:pt-40" : "pt-24 sm:pt-32",
+        "px-4 pb-2 transition-[padding] duration-500 ease-out sm:px-6 sm:pb-8 lg:px-8",
+        isControlBannerVisible ? (isV4Released ? "pt-24 sm:pt-40" : "pt-30 sm:pt-40") : (isV4Released ? "pt-16 sm:pt-32" : "pt-20 sm:pt-32"),
         heroTakeoverGlitchActive && "takeover-glitch-soft"
       )}
     >
@@ -159,7 +159,7 @@ export function HeroSection() {
           className="grid gap-6"
           style={{
             alignItems: isHeroTwoColumn ? "center" : undefined,
-            gap: isHeroTwoColumn ? "2rem" : "1.5rem",
+            gap: isHeroTwoColumn ? "2rem" : isV4Released ? "0.75rem" : hasDeprecationNoticeEntered ? "0.5rem" : "0.75rem",
             gridTemplateColumns: isHeroTwoColumn
               ? "minmax(0, 1.12fr) minmax(280px, 0.88fr)"
               : "1fr",
@@ -171,7 +171,7 @@ export function HeroSection() {
               <>
                 <h1
                   className={cn(
-                    "theme-color-transition text-[2.5rem] font-medium tracking-tight text-balance text-foreground leading-[1.1] sm:text-5xl lg:text-6xl",
+                    "theme-color-transition text-[2rem] font-medium tracking-tight text-balance text-foreground leading-[1.1] sm:text-5xl lg:text-6xl",
                     isHeadlineReplacementGlitching && "meet-section-glitch"
                   )}
                 >
@@ -184,14 +184,14 @@ export function HeroSection() {
                   />
                   .
                 </h1>
-                <p className="theme-color-transition mt-4 text-2xl font-medium leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-                  Voice made real
+                <p className="theme-color-transition mt-2 text-2xl font-medium leading-tight tracking-tight text-foreground sm:mt-4 sm:text-3xl lg:text-4xl">
+                  Voice Made Real
                 </p>
               </>
             ) : (
               <h1
                 className={cn(
-                  "theme-color-transition text-[2.5rem] font-medium tracking-tight text-balance text-foreground leading-[1.1] sm:text-5xl lg:text-6xl",
+                  "theme-color-transition text-[2rem] font-medium tracking-tight text-balance text-foreground leading-[1.1] sm:text-5xl lg:text-6xl",
                   isHeadlineReplacementGlitching && "meet-section-glitch"
                 )}
               >
@@ -226,8 +226,21 @@ export function HeroSection() {
 
           {/* Description - Below headline on mobile, right side on desktop */}
           <div className="min-w-0" style={{ justifySelf: isHeroTwoColumn ? "end" : undefined }}>
+            {!isV4Released && (
+              <p
+                className="theme-color-transition text-base leading-relaxed text-muted-foreground sm:hidden"
+                style={{
+                  maxWidth: isHeroTwoColumn ? 420 : 600,
+                  textAlign: isHeroTwoColumn ? "right" : undefined,
+                }}
+              >
+                <GlitchText speed={0.18} active={coughGlitchWords.description} enableShadows={false}>
+                  Powering the best enterprises, creators, and developers.
+                </GlitchText>
+              </p>
+            )}
             <p
-              className="theme-color-transition text-base leading-relaxed text-muted-foreground sm:text-lg"
+              className="theme-color-transition hidden text-base leading-relaxed text-muted-foreground sm:block sm:text-lg"
               style={{
                 maxWidth: isHeroTwoColumn ? 420 : 600,
                 textAlign: isHeroTwoColumn ? "right" : undefined,
@@ -240,10 +253,10 @@ export function HeroSection() {
             {!isV4Released && (
               <p
                 className={cn(
-                  "theme-reveal-transition mt-4 border-t border-border/60 pt-3 text-xs italic text-muted-foreground/75 sm:text-sm",
+                  "theme-reveal-transition overflow-hidden border-t border-border/60 text-xs italic text-muted-foreground/75 sm:text-sm",
                   hasDeprecationNoticeEntered
-                    ? "translate-y-0 opacity-100"
-                    : "pointer-events-none -translate-y-3 opacity-0"
+                    ? "mt-4 max-h-24 translate-y-0 pt-3 pb-2 opacity-100 sm:pb-0"
+                    : "pointer-events-none mt-0 max-h-0 -translate-y-3 pt-0 opacity-0"
                 )}
                 style={{
                   marginLeft: isHeroTwoColumn ? "auto" : undefined,
@@ -260,7 +273,7 @@ export function HeroSection() {
             )}
             {isV4Released && (
               <p
-                className="theme-color-transition mt-4 border-t border-border/60 pt-3 text-xs text-muted-foreground/75 sm:text-sm"
+                className="theme-color-transition mt-2 border-t border-border/60 pt-2 text-xs text-muted-foreground/75 sm:mt-4 sm:pt-3 sm:text-sm"
                 style={{
                   marginLeft: isHeroTwoColumn ? "auto" : undefined,
                   maxWidth: isHeroTwoColumn ? 420 : 600,

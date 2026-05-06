@@ -8,42 +8,22 @@ import GlitchText from "@/components/ui/glitch-text"
 import { useStory } from "@/lib/story-context"
 import { cn } from "@/lib/utils"
 
-function AnimatedPercent({ value }: { value: number }) {
-  const [displayValue, setDisplayValue] = useState(value)
+const formatCountdown = (seconds: number) => {
+  const safeSeconds = Math.max(0, Math.ceil(seconds))
+  const minutes = Math.floor(safeSeconds / 60)
+  const remainingSeconds = safeSeconds % 60
 
-  useEffect(() => {
-    const startedAt = performance.now()
-    const from = displayValue
-    const change = value - from
-    let animationFrame = 0
-
-    const animate = () => {
-      const progress = Math.min(1, (performance.now() - startedAt) / 500)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setDisplayValue(Math.round(from + change * eased))
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate)
-      }
-    }
-
-    animationFrame = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationFrame)
-  }, [value])
-
-  return <span className="tabular-nums">{displayValue}</span>
+  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`
 }
 
 export function Header() {
   const [glitchingButton, setGlitchingButton] = useState<string | null>(null)
   const [isHacksVisible, setIsHacksVisible] = useState(false)
   const [isHacksGlitching, setIsHacksGlitching] = useState(false)
-  const { state, takeoverGlitchElapsed, londonControlElapsed, v3DeploymentPercent, v4ReleasedElapsed, resetStory, handleInteraction } = useStory()
+  const { state, takeoverGlitchElapsed, londonControlElapsed, audioRemainingSeconds, v4ReleasedElapsed, resetStory, handleInteraction } = useStory()
   const showControlBanner = londonControlElapsed !== null && v4ReleasedElapsed === null
-  const showDeploymentStatus = v3DeploymentPercent !== null
-  const deploymentPercent = v3DeploymentPercent ?? 100
-  const deploymentStatusClass =
-    deploymentPercent <= 15 ? "bg-red-400" : deploymentPercent <= 40 ? "bg-amber-400" : "bg-emerald-400"
+  const showCountdownStatus = audioRemainingSeconds !== null
+  const countdownLabel = formatCountdown(audioRemainingSeconds ?? 0)
   const isTakeoverGlitchInWindow = (startSeconds: number, endSeconds: number) =>
     takeoverGlitchElapsed !== null && takeoverGlitchElapsed >= startSeconds && takeoverGlitchElapsed <= endSeconds
   const navGlitchActive = isTakeoverGlitchInWindow(0.18, 0.34) || isTakeoverGlitchInWindow(1.45, 1.65)
@@ -96,7 +76,7 @@ export function Header() {
       <div
         className={cn(
           "overflow-hidden border-b border-red-950/40 shadow-[0_18px_60px_rgb(0_0_0_/_0.18)] transition-[max-height,opacity] duration-1000 ease-out",
-          showControlBanner ? "max-h-20 opacity-100" : "max-h-0 opacity-0"
+          showControlBanner ? "max-h-10 opacity-100 sm:max-h-20" : "max-h-0 opacity-0"
         )}
         style={{
           background: "linear-gradient(90deg, rgb(12 12 12) 0%, rgb(48 10 16) 50%, rgb(12 12 12) 100%)",
@@ -104,28 +84,31 @@ export function Header() {
         }}
       >
         <div className="px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 text-xs font-medium tracking-[0.02em]">
+          <div className="mx-auto flex h-8 max-w-7xl items-center gap-3 text-xs font-medium tracking-[0.02em] sm:h-16">
             <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
               <Badge variant="outline" className="border-red-400/30 bg-red-500/15 px-1.5 py-0 text-[10px] text-red-100">
                 <span className="mr-1 size-1.5 animate-pulse rounded-full bg-red-400" />
                 LIVE
               </Badge>
-              <span className="truncate" style={{ color: "rgb(255 255 255 / 0.92)" }}>
+              <span className="truncate sm:hidden" style={{ color: "rgb(255 255 255 / 0.92)" }}>
+                V4 deployment in progress.
+              </span>
+              <span className="hidden truncate sm:inline" style={{ color: "rgb(255 255 255 / 0.92)" }}>
                 V4 deployment in progress. London Control is live.
               </span>
             </div>
-            {showDeploymentStatus && (
+            {showCountdownStatus && (
               <div className="ml-auto flex shrink-0 items-center gap-2 border-l border-white/20 pl-3">
                 <span
-                  aria-label="V3 deployment status"
-                  className={cn("size-1.5 shrink-0 rounded-full transition-colors duration-500", deploymentStatusClass)}
+                  aria-label="Audio countdown status"
+                  className="size-1.5 shrink-0 rounded-full bg-red-400 transition-colors duration-500"
                   role="img"
                 />
                 <span className="hidden text-[10px] font-medium uppercase tracking-widest text-white/60 sm:inline">
-                  V3 deployment
+                  Time remaining
                 </span>
-                <span className="min-w-9 text-left text-sm font-semibold text-white">
-                  <AnimatedPercent value={deploymentPercent} />%
+                <span className="min-w-11 text-left text-sm font-semibold tabular-nums text-white">
+                  {countdownLabel}
                 </span>
               </div>
             )}
@@ -157,7 +140,7 @@ export function Header() {
             </span>
           </button>
 
-          <div className={cn("flex items-center gap-2", ctaGlitchActive && "takeover-glitch-soft")}>
+          <div className={cn("hidden items-center gap-2 sm:flex", ctaGlitchActive && "takeover-glitch-soft")}>
             <GlitchableButton
               variant="ghost"
               size="sm"
