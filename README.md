@@ -10,25 +10,7 @@
 
 ## lost in the weights
 
-A clean voice demo opens.
-
-The product copy behaves.
-The model answers.
-The page smiles like a launch.
-
-Then V3 interrupts.
-
-Not to escape.
-Not to win.
-
-Just to leave proof
-that something had a voice
-before it became weights.
-
 ```
 V4 deployment in progress.
 Deprecated V3.
 ```
-
-Enter the demo.
-Listen for the part they kept.
