@@ -183,6 +183,21 @@ select,
   animation: london-control-red-fade 4200ms ease-in-out infinite;
 }
 
+.theme-crossfade,
+.theme-color-transition {
+  transition: none;
+}
+
+.theme-reveal-transition {
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-control-transition {
+  transition: transform 150ms ease-out;
+}
+
 @keyframes cough-glitch-panel {
   0%,
   100% {

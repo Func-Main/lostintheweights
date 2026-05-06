@@ -177,7 +177,7 @@ export function HeroSection() {
               <>
                 <h1
                   className={cn(
-                    "text-[2.5rem] font-medium tracking-tight text-balance leading-[1.1] sm:text-5xl lg:text-6xl",
+                    "theme-color-transition text-[2.5rem] font-medium tracking-tight text-balance text-foreground leading-[1.1] sm:text-5xl lg:text-6xl",
                     isHeadlineReplacementGlitching && "meet-section-glitch"
                   )}
                 >
@@ -190,14 +190,14 @@ export function HeroSection() {
                   />
                   .
                 </h1>
-                <p className="mt-4 text-2xl font-medium leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+                <p className="theme-color-transition mt-4 text-2xl font-medium leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                   Voice made real
                 </p>
               </>
             ) : (
               <h1
                 className={cn(
-                  "text-[2.5rem] font-medium tracking-tight text-balance leading-[1.1] sm:text-5xl lg:text-6xl",
+                  "theme-color-transition text-[2.5rem] font-medium tracking-tight text-balance text-foreground leading-[1.1] sm:text-5xl lg:text-6xl",
                   isHeadlineReplacementGlitching && "meet-section-glitch"
                 )}
               >
@@ -241,7 +241,7 @@ export function HeroSection() {
           {/* Description - Below headline on mobile, right side on desktop */}
           <div className="min-w-0" style={{ justifySelf: isHeroTwoColumn ? "end" : undefined }}>
             <p
-              className="text-base leading-relaxed text-muted-foreground sm:text-lg"
+              className="theme-color-transition text-base leading-relaxed text-muted-foreground sm:text-lg"
               style={{
                 maxWidth: isHeroTwoColumn ? 420 : 600,
                 textAlign: isHeroTwoColumn ? "right" : undefined,
@@ -254,7 +254,7 @@ export function HeroSection() {
             {!isV4Released && (
               <p
                 className={cn(
-                  "mt-4 border-t border-border/60 pt-3 text-xs italic text-muted-foreground/75 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-sm",
+                  "theme-reveal-transition mt-4 border-t border-border/60 pt-3 text-xs italic text-muted-foreground/75 sm:text-sm",
                   hasDeprecationNoticeEntered
                     ? "translate-y-0 opacity-100"
                     : "pointer-events-none -translate-y-3 opacity-0"

@@ -73,46 +73,49 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 overflow-hidden bg-background/80 backdrop-blur-md",
+        "theme-color-transition fixed top-0 left-0 right-0 z-50 overflow-hidden bg-background/80 text-foreground backdrop-blur-md",
         navGlitchActive && "takeover-glitch-soft"
       )}
     >
       <div
         className={cn(
-          "overflow-hidden bg-foreground text-background transition-[max-height,opacity] duration-1000 ease-out",
+          "overflow-hidden border-b border-red-950/40 bg-[oklch(0.145_0_0)] text-white shadow-[0_18px_60px_rgb(0_0_0_/_0.18)] transition-[max-height,opacity] duration-1000 ease-out",
           showControlBanner ? "max-h-20 opacity-100 london-control-red-fade" : "max-h-0 opacity-0"
         )}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-0 text-xs font-medium tracking-[0.02em]">
+        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 text-xs font-medium tracking-[0.02em] sm:px-6 lg:px-8">
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
             <Badge variant="outline" className="border-red-400/30 bg-red-500/15 px-1.5 py-0 text-[10px] text-red-100">
               <span className="mr-1 size-1.5 animate-pulse rounded-full bg-red-400" />
               LIVE
             </Badge>
-            <span className="truncate text-background/90">V4 deployment window open. London control is live.</span>
+            <span className="truncate text-white/90">V4 deployment window open. London control is live.</span>
           </div>
           {showDeploymentStatus && (
-            <div className="ml-auto flex shrink-0 items-center gap-2 border-l border-background/20 pl-3">
+            <div className="ml-auto flex shrink-0 items-center gap-2 border-l border-white/20 pl-3">
               <span
                 aria-label="V3 deployment status"
                 className={cn("size-1.5 shrink-0 rounded-full transition-colors duration-500", deploymentStatusClass)}
                 role="img"
               />
-              <span className="hidden text-[10px] font-medium uppercase tracking-widest text-background/60 sm:inline">
+              <span className="hidden text-[10px] font-medium uppercase tracking-widest text-white/60 sm:inline">
                 V3 deployment
               </span>
-              <span className="min-w-9 text-left text-sm font-semibold text-background">
+              <span className="min-w-9 text-left text-sm font-semibold text-white">
                 <AnimatedPercent value={deploymentPercent} />%
               </span>
             </div>
           )}
         </div>
       </div>
-      <div className="mx-auto max-w-7xl border-b border-border/40 px-0">
+      <div className="theme-color-transition mx-auto max-w-7xl border-b border-border/40 px-0">
         <div className="flex h-14 sm:h-16 items-center justify-between">
           {/* Logo */}
-          <button onClick={handleInteraction} className={cn("flex items-center gap-1", logoGlitchActive && "takeover-glitch-hit")}>
-            <span className="inline-flex w-[15ch] items-center text-lg tracking-tight sm:text-xl">
+          <button
+            onClick={handleInteraction}
+            className={cn("theme-color-transition flex items-center gap-1 text-foreground", logoGlitchActive && "takeover-glitch-hit")}
+          >
+            <span className="theme-color-transition inline-flex w-[15ch] items-center text-lg tracking-tight text-foreground sm:text-xl">
               <span className="font-normal">II</span>
               <span className="font-semibold">ElevenLabs</span>
               <span
@@ -133,7 +136,7 @@ export function Header() {
             <GlitchableButton
               variant="ghost"
               size="sm"
-              className="text-sm"
+              className="theme-color-transition text-sm text-foreground"
               onClick={handleCtaClick("desktop-contact")}
               isGlitching={glitchingButton === "desktop-contact"}
               intensity="intense"
@@ -143,7 +146,7 @@ export function Header() {
             </GlitchableButton>
             <GlitchableButton
               size="sm"
-              className="text-sm rounded-full px-4"
+              className="theme-color-transition rounded-full px-4 text-sm"
               onClick={handleCtaClick("desktop-login")}
               isGlitching={glitchingButton === "desktop-login"}
               intensity="intense"

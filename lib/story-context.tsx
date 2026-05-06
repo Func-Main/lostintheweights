@@ -18,6 +18,7 @@ interface StoryContextType {
   londonControlElapsed: number | null
   v3DeploymentPercent: number | null
   v4ReleasedElapsed: number | null
+  performanceDarkMode: boolean
   bouncePlayButton: () => void
   startStory: () => void
   pauseStory: () => void
@@ -27,6 +28,7 @@ interface StoryContextType {
   setLondonControlElapsed: (elapsed: number | null) => void
   setV3DeploymentPercent: (percent: number | null) => void
   setV4ReleasedElapsed: (elapsed: number | null) => void
+  setPerformanceDarkMode: (isDark: boolean) => void
   handleInteraction: (e: React.MouseEvent) => void
 }
 
@@ -43,6 +45,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
   const [londonControlElapsed, setLondonControlElapsed] = useState<number | null>(null)
   const [v3DeploymentPercent, setV3DeploymentPercent] = useState<number | null>(null)
   const [v4ReleasedElapsed, setV4ReleasedElapsed] = useState<number | null>(null)
+  const [performanceDarkMode, setPerformanceDarkMode] = useState(false)
 
   const playButtonRef = useRef<HTMLButtonElement>(null)
   const bounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -106,6 +109,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
         londonControlElapsed,
         v3DeploymentPercent,
         v4ReleasedElapsed,
+        performanceDarkMode,
         bouncePlayButton,
         startStory,
         pauseStory,
@@ -115,6 +119,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
         setLondonControlElapsed,
         setV3DeploymentPercent,
         setV4ReleasedElapsed,
+        setPerformanceDarkMode,
         handleInteraction,
       }}
     >

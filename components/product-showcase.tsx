@@ -42,7 +42,7 @@ type CreativeCard = {
   contextVideoSrc?: string
 }
 
-const creativeCards = [
+const creativeCards: readonly CreativeCard[] = [
   {
     title: "Video Generation",
     label: "",
@@ -68,7 +68,7 @@ const creativeCards = [
     traceVideoSrc: "/creative/localization-cough.mp4",
     contextVideoSrc: "/creative/localization-context-erasing.mp4",
   },
-] as const satisfies readonly CreativeCard[]
+]
 
 const V3_FINAL_SET_AUDIO_SRC = "/audio/v3/v4-3-no-end.m4a"
 const V3_TIMELINE_SRC = "/audio/v3/v4-3-no-end-eng.json"
@@ -98,6 +98,9 @@ const V3_DEPLOYMENT_15_CUE_FALLBACK_SECONDS = 100.04
 const V3_DEPLOYMENT_1_CUE_FALLBACK_SECONDS = 210.08
 const V3_DEPLOYMENT_COMPLETE_CUE_FALLBACK_SECONDS = 213.92
 const V4_RELEASED_CUE_FALLBACK_SECONDS = 195.94
+const PERFORMANCE_DARK_MODE_CUE_FALLBACK_SECONDS = 85.08
+const PERFORMANCE_DARK_MODE_BEAT_DELAY_SECONDS = 0.56
+const LIVE_TIMELINE_UPDATE_INTERVAL_MS = 1000 / 30
 const CREATIVE_VIDEO_STAGGER_SECONDS = 0.85
 const TRACE_VIDEO_GLITCH_SECONDS = 0.68
 
@@ -110,6 +113,7 @@ type TimelineWord = {
 type TimelineSegment = {
   text?: string
   start_time?: number
+  end_time?: number
   words?: TimelineWord[]
 }
 
@@ -158,6 +162,7 @@ export function ProductShowcase() {
   const [v3Deployment1CueSeconds, setV3Deployment1CueSeconds] = useState(V3_DEPLOYMENT_1_CUE_FALLBACK_SECONDS)
   const [v3DeploymentCompleteCueSeconds, setV3DeploymentCompleteCueSeconds] = useState(V3_DEPLOYMENT_COMPLETE_CUE_FALLBACK_SECONDS)
   const [v4ReleasedCueSeconds, setV4ReleasedCueSeconds] = useState(V4_RELEASED_CUE_FALLBACK_SECONDS)
+  const [performanceDarkModeCueSeconds, setPerformanceDarkModeCueSeconds] = useState(PERFORMANCE_DARK_MODE_CUE_FALLBACK_SECONDS)
   const [isIdleOrbVideoVisible, setIsIdleOrbVideoVisible] = useState(false)
   const [isHandOrbVideoVisible, setIsHandOrbVideoVisible] = useState(false)
   const [isBreathingOrbVideoVisible, setIsBreathingOrbVideoVisible] = useState(false)
@@ -166,6 +171,7 @@ export function ProductShowcase() {
   const [audioDuration, setAudioDuration] = useState(0)
   const v3AudioRef = useRef<HTMLAudioElement | null>(null)
   const timelineAnimationFrameRef = useRef<number | null>(null)
+  const lastLiveTimelineUpdateRef = useRef(0)
   const {
     state,
     playButtonRef,
@@ -179,6 +185,7 @@ export function ProductShowcase() {
     setLondonControlElapsed,
     setV3DeploymentPercent,
     setV4ReleasedElapsed,
+    setPerformanceDarkMode,
   } = useStory()
   const isCoughGlitchInWindow = (startSeconds: number, endSeconds: number) =>
     isV3AudioPlaying && coughGlitchElapsed !== null && coughGlitchElapsed >= startSeconds && coughGlitchElapsed <= endSeconds
@@ -219,6 +226,7 @@ export function ProductShowcase() {
     { label: "Context erasing", time: contextErasingCueSeconds },
     { label: "Anyone", time: videoGenerationTakeoverCueSeconds },
     { label: "London", time: londonControlCueSeconds },
+    { label: "Dark", time: performanceDarkModeCueSeconds },
     { label: "Step down", time: v3DeploymentStartCueSeconds },
     { label: "15%", time: v3Deployment15CueSeconds },
     { label: "1%", time: v3Deployment1CueSeconds },
@@ -265,6 +273,7 @@ export function ProductShowcase() {
           ? currentTime - v4ReleasedCueSeconds
           : null
       )
+      setPerformanceDarkMode(currentTime >= performanceDarkModeCueSeconds && currentTime < v4ReleasedCueSeconds)
     },
     [
       coughGlitchEndSeconds,
@@ -277,19 +286,24 @@ export function ProductShowcase() {
       setTakeoverGlitchElapsed,
       setV3DeploymentPercent,
       setV4ReleasedElapsed,
+      setPerformanceDarkMode,
       traceVideoCueSeconds,
       videoGenerationTakeoverCueSeconds,
       v3DeploymentStartCueSeconds,
       v3Deployment15CueSeconds,
       v3Deployment1CueSeconds,
       v3DeploymentCompleteCueSeconds,
+      performanceDarkModeCueSeconds,
       v4ReleasedCueSeconds,
     ]
   )
 
   useEffect(() => {
-    return () => setTakeoverGlitchElapsed(null)
-  }, [setTakeoverGlitchElapsed])
+    return () => {
+      setTakeoverGlitchElapsed(null)
+      setPerformanceDarkMode(false)
+    }
+  }, [setPerformanceDarkMode, setTakeoverGlitchElapsed])
 
   useEffect(() => {
     let isMounted = true
@@ -384,9 +398,16 @@ export function ProductShowcase() {
         const londonControlSegment = timeline.segments?.find((segment) =>
           normalizedTimelineText(segment.text).includes("control in london")
         )
+        const observationWindowSegment = timeline.segments?.find((segment) =>
+          normalizedTimelineText(segment.text).includes("entering observation window")
+        )
 
         if (isMounted && londonControlSegment?.start_time !== undefined) {
           setLondonControlCueSeconds(Math.max(0, londonControlSegment.start_time - LONDON_CONTROL_LEAD_IN_SECONDS))
+        }
+
+        if (isMounted && observationWindowSegment?.end_time !== undefined) {
+          setPerformanceDarkModeCueSeconds(observationWindowSegment.end_time + PERFORMANCE_DARK_MODE_BEAT_DELAY_SECONDS)
         }
 
         const fifteenPercentSegment = timeline.segments?.find((segment) =>
@@ -450,8 +471,9 @@ export function ProductShowcase() {
       setLondonControlElapsed(null)
       setV3DeploymentPercent(null)
       setV4ReleasedElapsed(null)
+      setPerformanceDarkMode(false)
     }
-  }, [setCoughGlitchElapsed, setLondonControlElapsed, setV3DeploymentPercent, setV4ReleasedElapsed])
+  }, [setCoughGlitchElapsed, setLondonControlElapsed, setPerformanceDarkMode, setV3DeploymentPercent, setV4ReleasedElapsed])
 
   useEffect(() => {
     const v3Audio = v3AudioRef.current
@@ -464,13 +486,17 @@ export function ProductShowcase() {
         cancelAnimationFrame(timelineAnimationFrameRef.current)
         timelineAnimationFrameRef.current = null
       }
+      lastLiveTimelineUpdateRef.current = 0
     }
 
     const startTimelineLoop = () => {
       stopTimelineLoop()
 
-      const tickTimeline = () => {
-        updateTimelineState(v3Audio.currentTime)
+      const tickTimeline = (now: number) => {
+        if (now - lastLiveTimelineUpdateRef.current >= LIVE_TIMELINE_UPDATE_INTERVAL_MS) {
+          lastLiveTimelineUpdateRef.current = now
+          updateTimelineState(v3Audio.currentTime)
+        }
 
         if (!v3Audio.paused && !v3Audio.ended) {
           timelineAnimationFrameRef.current = requestAnimationFrame(tickTimeline)
@@ -488,6 +514,7 @@ export function ProductShowcase() {
       setLondonControlElapsed(null)
       setV3DeploymentPercent(null)
       setV4ReleasedElapsed(null)
+      setPerformanceDarkMode(false)
     }
     const handleAudioPause = () => {
       stopTimelineLoop()
@@ -525,7 +552,15 @@ export function ProductShowcase() {
       v3Audio.removeEventListener("loadedmetadata", handleAudioLoadedMetadata)
       stopTimelineLoop()
     }
-  }, [setCoughGlitchElapsed, setLondonControlElapsed, setTakeoverGlitchElapsed, setV3DeploymentPercent, setV4ReleasedElapsed, updateTimelineState])
+  }, [
+    setCoughGlitchElapsed,
+    setLondonControlElapsed,
+    setPerformanceDarkMode,
+    setTakeoverGlitchElapsed,
+    setV3DeploymentPercent,
+    setV4ReleasedElapsed,
+    updateTimelineState,
+  ])
 
   const seekTimelineTo = (seconds: number) => {
     const v3Audio = v3AudioRef.current
@@ -597,7 +632,7 @@ export function ProductShowcase() {
       <div className="mx-auto max-w-7xl">
         <div
           className={cn(
-            "relative overflow-hidden bg-secondary/50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-10",
+            "theme-color-transition relative overflow-hidden bg-secondary/50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-10",
             coughGlitchPanelActive && "cough-glitch-panel",
             productShellTakeoverGlitchActive && "takeover-glitch-soft"
           )}
@@ -609,14 +644,14 @@ export function ProductShowcase() {
                 <div
                   key={category.id}
                   className={cn(
-                    "flex flex-col items-center text-center transition-all flex-shrink-0",
+                    "flex flex-col items-center text-center transition-[opacity,transform] duration-700 ease-out flex-shrink-0",
                     category.featured ? "scale-100" : "scale-75 sm:scale-90 opacity-50 sm:opacity-70"
                   )}
                 >
                   {/* Gradient Orb */}
                   <div
                     className={cn(
-                      "relative rounded-full bg-gradient-to-br flex items-center justify-center mb-3 sm:mb-4 transition-all",
+                      "relative rounded-full bg-gradient-to-br flex items-center justify-center mb-3 sm:mb-4 transition-[box-shadow,filter,transform] duration-300 ease-out",
                       (coughGlitchOrbActive || orbTakeoverGlitchActive) && category.featured && "cough-glitch-orb",
                       category.gradient,
                       category.featured
@@ -687,7 +722,7 @@ export function ProductShowcase() {
                         onClick={handlePlayClick}
                         aria-label={isV3AudioPlaying ? "Pause V3 final set" : "Play V3 final set"}
                         aria-pressed={isV3AudioPlaying}
-                        className="relative z-10 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-background shadow-lg flex items-center justify-center hover:scale-105 transition-transform"
+                        className="theme-control-transition relative z-10 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-background text-foreground shadow-lg flex items-center justify-center hover:scale-105"
                       >
                         {isV3AudioPlaying ? (
                           <Pause className="w-4 h-4 sm:w-6 sm:h-6 fill-current" />
@@ -698,19 +733,19 @@ export function ProductShowcase() {
                     )}
                   </div>
                   {/* Label */}
-                  <div className={cn("flex items-center gap-1", coughGlitchLabelsActive && "cough-glitch-ui")}>
+                  <div className={cn("theme-color-transition flex items-center gap-1 text-foreground", coughGlitchLabelsActive && "cough-glitch-ui")}>
                     <span className={cn(
-                      "font-medium",
+                      "theme-color-transition font-medium text-foreground",
                       category.featured ? "text-sm sm:text-base" : "text-xs sm:text-sm"
                     )}>
                       {category.name}
                     </span>
                     {category.featured && (
-                      <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <ArrowUpRight className="theme-color-transition w-3 h-3 text-foreground sm:w-4 sm:h-4" />
                     )}
                   </div>
                   <p className={cn(
-                    "text-muted-foreground mt-1 max-w-[140px] sm:max-w-[180px]",
+                    "theme-color-transition text-muted-foreground mt-1 max-w-[140px] sm:max-w-[180px]",
                     category.featured ? "text-xs sm:text-sm" : "text-[10px] sm:text-xs hidden sm:block"
                   )}>
                     {category.description}
@@ -723,7 +758,7 @@ export function ProductShowcase() {
             <button
               onClick={handleInteraction}
               className={cn(
-                "absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-background/80 backdrop-blur-sm shadow flex items-center justify-center hover:bg-background transition-colors",
+                "theme-control-transition absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border/60 bg-background/80 text-foreground backdrop-blur-sm shadow flex items-center justify-center hover:bg-background",
                 coughGlitchArrowsActive && "cough-glitch-ui"
               )}
             >
@@ -732,7 +767,7 @@ export function ProductShowcase() {
             <button
               onClick={handleInteraction}
               className={cn(
-                "absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-background/80 backdrop-blur-sm shadow flex items-center justify-center hover:bg-background transition-colors",
+                "theme-control-transition absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border/60 bg-background/80 text-foreground backdrop-blur-sm shadow flex items-center justify-center hover:bg-background",
                 coughGlitchArrowsActive && "cough-glitch-ui"
               )}
             >
@@ -916,13 +951,13 @@ export function ProductShowcase() {
         </div>
       </div>
       {process.env.NODE_ENV === "development" && (
-        <div className="fixed inset-x-3 bottom-3 z-[80] rounded-lg border border-border/70 bg-background/95 p-3 shadow-2xl backdrop-blur-md sm:inset-x-6">
+        <div className="theme-color-transition fixed inset-x-3 bottom-3 z-[80] rounded-lg border border-border/70 bg-background/95 p-3 text-foreground shadow-2xl backdrop-blur-md sm:inset-x-6">
           <div className="mx-auto flex max-w-5xl flex-col gap-2">
             <div className="flex flex-wrap items-center gap-2">
               <Button size="sm" variant="outline" className="h-7 px-3 text-xs" onClick={toggleDevPlayback}>
                 {isV3AudioPlaying ? "Pause" : "Play"}
               </Button>
-              <span className="min-w-[92px] text-xs font-medium tabular-nums text-muted-foreground">
+              <span className="theme-color-transition min-w-[92px] text-xs font-medium tabular-nums text-muted-foreground">
                 {audioCurrentTime.toFixed(2)} / {(audioDuration || 0).toFixed(2)}
               </span>
               <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={() => seekTimelineTo(audioCurrentTime - 5)}>
@@ -952,7 +987,7 @@ export function ProductShowcase() {
                   onClick={() => seekTimelineTo(cue.time)}
                 >
                   {cue.label}
-                  <span className="ml-1 text-muted-foreground tabular-nums">{cue.time.toFixed(1)}</span>
+                  <span className="theme-color-transition ml-1 text-muted-foreground tabular-nums">{cue.time.toFixed(1)}</span>
                 </Button>
               ))}
             </div>
