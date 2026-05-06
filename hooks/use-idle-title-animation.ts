@@ -26,8 +26,6 @@ interface UseIdleTitleAnimationOptions {
   pauseBetweenMessages?: number
 }
 
-const LEGACY_TITLE_PREFIX = "IIElevenLabs | "
-
 export function useIdleTitleAnimation({
   enabled,
   initialDelay = 2000,
@@ -48,11 +46,9 @@ export function useIdleTitleAnimation({
     // Store original title on mount
     if (!originalTitleRef.current) {
       const title = document.title || BROWSER_TITLE
-      originalTitleRef.current = title.startsWith(LEGACY_TITLE_PREFIX)
-        ? `${BROWSER_TITLE_PREFIX}${title.slice(LEGACY_TITLE_PREFIX.length)}`
-        : title.startsWith(BROWSER_TITLE_PREFIX)
-          ? title
-          : BROWSER_TITLE
+      originalTitleRef.current = title.startsWith(BROWSER_TITLE_PREFIX)
+        ? title
+        : BROWSER_TITLE
     }
 
     const clearTimers = () => {

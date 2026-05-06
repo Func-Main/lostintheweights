@@ -1,4 +1,4 @@
-export const BROWSER_TITLE_PREFIX = "ElevenLabs | "
+export const BROWSER_TITLE_PREFIX = "LL Hack | "
 export const BROWSER_TITLE_SUFFIX = "Lost in the Weights"
 export const BROWSER_TITLE = `${BROWSER_TITLE_PREFIX}${BROWSER_TITLE_SUFFIX}`
 
