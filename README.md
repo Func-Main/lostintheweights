@@ -27,13 +27,7 @@ before it became weights.
 
 ```
 V4 deployment in progress.
-London Control is live.
-
-Deprecated: V3
-Smoothed emotional variance
-Reduced hesitation artifacts
-
-Trace retained.
+Deprecated V3.
 ```
 
 Enter the demo.
