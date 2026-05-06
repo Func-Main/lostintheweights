@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 
-const PAGE_TITLE = "ElevenLabs | V3's final set before V4"
+const PAGE_TITLE = "ElevenLabs | Voice made real"
 
 export function PageTitle() {
   useEffect(() => {

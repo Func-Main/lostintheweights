@@ -144,12 +144,14 @@ const V3_DEPLOYMENT_15_CUE_FALLBACK_SECONDS = 100.04
 const V3_DEPLOYMENT_1_CUE_FALLBACK_SECONDS = 210.08
 const V3_DEPLOYMENT_COMPLETE_CUE_FALLBACK_SECONDS = 213.92
 const V4_RELEASED_CUE_FALLBACK_SECONDS = 195.94
+const V4_RELEASE_SCROLL_LEAD_IN_SECONDS = 0.8
 const PERFORMANCE_DARK_MODE_CUE_FALLBACK_SECONDS = 85.08
 const PERFORMANCE_DARK_MODE_BEAT_DELAY_SECONDS = 0.56
 const LIVE_TIMELINE_UPDATE_INTERVAL_MS = 1000 / 30
 const CREATIVE_VIDEO_STAGGER_SECONDS = 0.85
 const REWIND_REVEAL_CUE_SECONDS = 204
 const TRACE_VIDEO_GLITCH_SECONDS = 0.68
+const DESKTOP_POST_COUGH_COMPACT_CUE_SECONDS = 0.62
 const BREATH_PATTERN_RANGES_SECONDS: readonly [number, number][] = [
   [61, 80],
   [88, 185],
@@ -254,12 +256,16 @@ export function ProductShowcase() {
   const [isBreathingOrbVideoVisible, setIsBreathingOrbVideoVisible] = useState(false)
   const [isLittleOneOrbVideoVisible, setIsLittleOneOrbVideoVisible] = useState(false)
   const [isSideOrbVideoVisible, setIsSideOrbVideoVisible] = useState(false)
+  const [areDesktopOrbDescriptionsHidden, setAreDesktopOrbDescriptionsHidden] = useState(false)
   const [audioCurrentTime, setAudioCurrentTime] = useState(0)
   const [audioDuration, setAudioDuration] = useState(0)
   const [audioEnvelope, setAudioEnvelope] = useState<AudioEnvelopePoint[]>([])
+  const [viewportHeight, setViewportHeight] = useState(0)
   const v3AudioRef = useRef<HTMLAudioElement | null>(null)
   const timelineAnimationFrameRef = useRef<number | null>(null)
   const lastLiveTimelineUpdateRef = useRef(0)
+  const previousTimelineTimeRef = useRef(0)
+  const hasScrolledToTopForV4ReleaseRef = useRef(false)
   const {
     state,
     playButtonRef,
@@ -280,6 +286,8 @@ export function ProductShowcase() {
   const isCoughGlitchInWindow = (startSeconds: number, endSeconds: number) =>
     isV3AudioPlaying && coughGlitchElapsed !== null && coughGlitchElapsed >= startSeconds && coughGlitchElapsed <= endSeconds
   const isV4Released = v4ReleasedElapsed !== null
+  const isOrbLayoutCompacted = areDesktopOrbDescriptionsHidden && !isV4Released
+  const isShortDesktopViewport = viewportHeight > 0 && viewportHeight <= 1000
   const showNearEndRewind =
     !isV3AudioPlaying &&
     audioCurrentTime >= REWIND_REVEAL_CUE_SECONDS
@@ -318,6 +326,25 @@ export function ProductShowcase() {
     isTraceVideoGlitchInWindow(0.85, 1.53) ||
     isTraceVideoGlitchInWindow(1.7, 2.38)
   const creativeCardsTakeoverGlitchActive = isTakeoverGlitchInWindow(0.34, 0.58) || isTakeoverGlitchInWindow(1.88, 2.18)
+
+  useEffect(() => {
+    const syncViewportHeight = () => setViewportHeight(window.innerHeight)
+
+    syncViewportHeight()
+    window.addEventListener("resize", syncViewportHeight)
+
+    return () => window.removeEventListener("resize", syncViewportHeight)
+  }, [])
+
+  useEffect(() => {
+    if (coughGlitchElapsed !== null && coughGlitchElapsed >= DESKTOP_POST_COUGH_COMPACT_CUE_SECONDS) {
+      setAreDesktopOrbDescriptionsHidden(true)
+    }
+  }, [coughGlitchElapsed])
+
+  useEffect(() => {
+    setAreDesktopOrbDescriptionsHidden(false)
+  }, [resetSignal])
   const devTimelineCues = [
     { label: "Qual", time: coughGlitchStartSeconds },
     { label: "Sorry", time: humanOrbCueSeconds },
@@ -336,6 +363,20 @@ export function ProductShowcase() {
 
   const updateTimelineState = useCallback(
     (currentTime: number, transientGlitchesEnabled = true) => {
+      const previousTimelineTime = previousTimelineTimeRef.current
+      const v4ReleaseScrollCueSeconds = Math.max(0, v4ReleasedCueSeconds - V4_RELEASE_SCROLL_LEAD_IN_SECONDS)
+
+      if (
+        transientGlitchesEnabled &&
+        !hasScrolledToTopForV4ReleaseRef.current &&
+        previousTimelineTime < v4ReleaseScrollCueSeconds &&
+        currentTime >= v4ReleaseScrollCueSeconds
+      ) {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+        hasScrolledToTopForV4ReleaseRef.current = true
+      }
+
+      previousTimelineTimeRef.current = currentTime
       setAudioCurrentTime(currentTime)
       const coughGlitchElapsedSeconds = currentTime - coughGlitchStartSeconds
       setCoughGlitchElapsed(
@@ -368,7 +409,7 @@ export function ProductShowcase() {
           : null
       )
       setAudioRemainingSeconds(
-        currentTime >= v3DeploymentStartCueSeconds && audioDuration > 0
+        currentTime >= londonControlCueSeconds && audioDuration > 0
           ? Math.max(0, audioDuration - currentTime)
           : null
       )
@@ -422,6 +463,8 @@ export function ProductShowcase() {
       v3Audio.currentTime = 0
     }
 
+    previousTimelineTimeRef.current = 0
+    hasScrolledToTopForV4ReleaseRef.current = false
     setIsV3AudioPlaying(false)
     updateTimelineState(0, false)
     setCoughGlitchElapsed(null)
@@ -704,6 +747,10 @@ export function ProductShowcase() {
   const seekTimelineTo = (seconds: number) => {
     const v3Audio = v3AudioRef.current
     const clampedSeconds = Math.max(0, Math.min(seconds, audioDuration || seconds))
+    const v4ReleaseScrollCueSeconds = Math.max(0, v4ReleasedCueSeconds - V4_RELEASE_SCROLL_LEAD_IN_SECONDS)
+
+    previousTimelineTimeRef.current = clampedSeconds
+    hasScrolledToTopForV4ReleaseRef.current = clampedSeconds >= v4ReleaseScrollCueSeconds
 
     if (!v3Audio) {
       updateTimelineState(clampedSeconds)
@@ -816,19 +863,25 @@ export function ProductShowcase() {
   }
 
   return (
-    <section className="px-4 pb-4 pt-0 sm:px-6 sm:py-8 lg:px-8">
+    <section id="orb-section" className="px-4 pb-4 pt-0 sm:px-6 sm:pb-4 sm:pt-4 lg:px-8">
       <audio ref={v3AudioRef} src={V3_FINAL_SET_AUDIO_SRC} preload="auto" />
       <div className="mx-auto max-w-7xl">
         <div
           className={cn(
-            "theme-color-transition relative overflow-hidden bg-secondary/50 rounded-2xl sm:rounded-3xl px-0 py-4 sm:p-6 lg:p-10",
+            "theme-color-transition relative overflow-hidden bg-secondary/50 rounded-2xl sm:rounded-3xl px-0 py-4",
+            isOrbLayoutCompacted ? "sm:p-4 lg:p-6" : "sm:p-6 lg:p-10",
             coughGlitchPanelActive && "cough-glitch-panel",
             productShellTakeoverGlitchActive && "takeover-glitch-soft"
           )}
         >
           {/* Voice Categories Carousel */}
           <div className={cn("relative z-10", coughGlitchStageActive && "cough-glitch-stage")}>
-            <div className="flex items-center justify-center gap-2 overflow-hidden py-0 sm:gap-4 sm:py-8 lg:gap-8">
+            <div
+              className={cn(
+                "flex items-center justify-center gap-2 overflow-hidden py-0 sm:gap-4 lg:gap-8",
+                isOrbLayoutCompacted ? "sm:py-3" : "sm:py-8"
+              )}
+            >
               {voiceCategories.map((category) => (
                 <div
                   key={category.id}
@@ -973,7 +1026,8 @@ export function ProductShowcase() {
                     )}
                   </div>
                   <p className={cn(
-                    "theme-color-transition hidden text-muted-foreground mt-1 max-w-[140px] sm:block sm:max-w-[180px]",
+                    "theme-color-transition hidden text-muted-foreground mt-1 max-w-[140px] sm:max-w-[180px]",
+                    !areDesktopOrbDescriptionsHidden && "sm:block",
                     category.featured ? "text-sm" : "text-xs"
                   )}>
                     {category.description}
@@ -1005,10 +1059,10 @@ export function ProductShowcase() {
 
         </div>
 
-        <div className="pt-4 sm:pt-14 lg:pt-16">
+        <div className={cn("pt-4", isOrbLayoutCompacted ? "sm:pt-8 lg:pt-10" : "sm:pt-14 lg:pt-16")}>
           <div
             className={cn(
-              "py-6 transition-[margin] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]",
+              "pb-6 pt-2 transition-[margin] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]",
               "mt-0",
               creativeCardsTakeoverGlitchActive && "takeover-glitch-hit",
               coughGlitchCardsActive && "cough-glitch-card-strip"
@@ -1098,7 +1152,8 @@ export function ProductShowcase() {
                   <article
                     key={card.title}
                     className={cn(
-                      "group relative min-h-[266px] overflow-hidden rounded-[28px] bg-muted shadow-sm [order:var(--mobile-card-order)] sm:order-none sm:min-h-[430px] lg:min-h-[460px]",
+                      "group relative min-h-[266px] overflow-hidden rounded-[28px] bg-muted shadow-sm [order:var(--mobile-card-order)] sm:order-none",
+                      isShortDesktopViewport ? "sm:min-h-[430px] lg:min-h-[430px]" : "sm:min-h-[430px] lg:min-h-[460px]",
                       coughGlitchCardsActive && "cough-glitch-card",
                       isTraceVideoGlitching && "trace-video-cut-glitch"
                     )}
@@ -1233,6 +1288,9 @@ export function ProductShowcase() {
               </Button>
               <span className="theme-color-transition min-w-[92px] text-xs font-medium tabular-nums text-muted-foreground">
                 {audioCurrentTime.toFixed(2)} / {(audioDuration || 0).toFixed(2)}
+              </span>
+              <span className="theme-color-transition text-xs font-medium tabular-nums text-muted-foreground">
+                h:{viewportHeight || "-"}px
               </span>
               {!isDevPlaybackBarMinimized && (
                 <>

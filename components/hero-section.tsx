@@ -9,6 +9,10 @@ import { cn } from "@/lib/utils"
 const GLITCH_TITLE_WORDS = ["bringing", "technology", "to", "life"] as const
 type GlitchTitleWord = (typeof GLITCH_TITLE_WORDS)[number]
 const HERO_TWO_COLUMN_QUERY = "(min-width: 640px)"
+const SHORT_DESKTOP_HEIGHT_QUERY = "(min-width: 640px) and (max-height: 1000px)"
+const DESKTOP_HERO_SCROLL_CUE_SECONDS = 0.62
+const DESKTOP_ORB_SCROLL_OFFSET_PX = 96
+const DESKTOP_ORB_SCROLL_DURATION_MS = 1100
 
 const formatLandingTimestamp = (date: Date) => {
   const dateParts = new Intl.DateTimeFormat(undefined, {
@@ -24,17 +28,23 @@ const formatLandingTimestamp = (date: Date) => {
   return `${dateParts} at ${timeParts}`
 }
 
+const easeOutCubic = (progress: number) => 1 - Math.pow(1 - progress, 3)
+
 export function HeroSection() {
   const [glitchingTitleWord, setGlitchingTitleWord] = useState<GlitchTitleWord | null>(null)
   const [deprecationWordGlitching, setDeprecationWordGlitching] = useState(false)
   const [landingTimestamp, setLandingTimestamp] = useState<string | null>(null)
   const [hasDeprecationNoticeEntered, setHasDeprecationNoticeEntered] = useState(false)
+  const [hasScrolledDesktopHeroOut, setHasScrolledDesktopHeroOut] = useState(false)
   const [isHeroTwoColumn, setIsHeroTwoColumn] = useState(true)
+  const [isShortDesktopViewport, setIsShortDesktopViewport] = useState(false)
   const titleGlitchDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const titleGlitchEndRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const deprecationGlitchDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const deprecationGlitchEndRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const { state, coughGlitchElapsed, takeoverGlitchElapsed, londonControlElapsed, v4ReleasedElapsed } = useStory()
+  const desktopHeroScrollAnimationRef = useRef<number | null>(null)
+  const previousCoughGlitchElapsedRef = useRef<number | null>(null)
+  const { state, coughGlitchElapsed, takeoverGlitchElapsed, londonControlElapsed, v4ReleasedElapsed, resetSignal } = useStory()
   const isControlBannerVisible = londonControlElapsed !== null
   const isV4Released = v4ReleasedElapsed !== null
   const isCoughGlitchInWindow = (startSeconds: number, endSeconds: number) =>
@@ -72,15 +82,96 @@ export function HeroSection() {
   }, [takeoverGlitchElapsed])
 
   useEffect(() => {
+    const previousCoughGlitchElapsed = previousCoughGlitchElapsedRef.current
+    const crossedScrollCue =
+      coughGlitchElapsed !== null &&
+      coughGlitchElapsed >= DESKTOP_HERO_SCROLL_CUE_SECONDS &&
+      previousCoughGlitchElapsed !== null &&
+      previousCoughGlitchElapsed < DESKTOP_HERO_SCROLL_CUE_SECONDS
+
+    previousCoughGlitchElapsedRef.current = coughGlitchElapsed
+
+    if (isShortDesktopViewport && !hasScrolledDesktopHeroOut && !isV4Released && crossedScrollCue) {
+      const orbSection = document.getElementById("orb-section")
+
+      if (orbSection) {
+        const targetTop = orbSection.getBoundingClientRect().top + window.scrollY - DESKTOP_ORB_SCROLL_OFFSET_PX
+        const targetScrollY = Math.max(0, targetTop)
+        const startScrollY = window.scrollY
+        const scrollDistance = targetScrollY - startScrollY
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+        if (desktopHeroScrollAnimationRef.current !== null) {
+          cancelAnimationFrame(desktopHeroScrollAnimationRef.current)
+          desktopHeroScrollAnimationRef.current = null
+        }
+
+        if (prefersReducedMotion || Math.abs(scrollDistance) < 1) {
+          window.scrollTo({ top: targetScrollY, behavior: "instant" })
+        } else {
+          const startedAt = performance.now()
+
+          const animateScroll = (now: number) => {
+            const progress = Math.min(1, (now - startedAt) / DESKTOP_ORB_SCROLL_DURATION_MS)
+            const easedProgress = easeOutCubic(progress)
+
+            window.scrollTo({
+              top: startScrollY + scrollDistance * easedProgress,
+              behavior: "instant",
+            })
+
+            if (progress < 1) {
+              desktopHeroScrollAnimationRef.current = requestAnimationFrame(animateScroll)
+            } else {
+              desktopHeroScrollAnimationRef.current = null
+            }
+          }
+
+          desktopHeroScrollAnimationRef.current = requestAnimationFrame(animateScroll)
+        }
+      }
+
+      setHasScrolledDesktopHeroOut(true)
+    }
+  }, [coughGlitchElapsed, hasScrolledDesktopHeroOut, isShortDesktopViewport, isV4Released])
+
+  useEffect(() => {
+    if (desktopHeroScrollAnimationRef.current !== null) {
+      cancelAnimationFrame(desktopHeroScrollAnimationRef.current)
+      desktopHeroScrollAnimationRef.current = null
+    }
+
+    previousCoughGlitchElapsedRef.current = null
+    setHasDeprecationNoticeEntered(false)
+    setHasScrolledDesktopHeroOut(false)
+  }, [resetSignal])
+
+  useEffect(() => {
+    return () => {
+      if (desktopHeroScrollAnimationRef.current !== null) {
+        cancelAnimationFrame(desktopHeroScrollAnimationRef.current)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
     const mediaQuery = window.matchMedia(HERO_TWO_COLUMN_QUERY)
+    const shortDesktopMediaQuery = window.matchMedia(SHORT_DESKTOP_HEIGHT_QUERY)
     const syncHeroLayout = () => {
       setIsHeroTwoColumn((current) => (current === mediaQuery.matches ? current : mediaQuery.matches))
+      setIsShortDesktopViewport((current) =>
+        current === shortDesktopMediaQuery.matches ? current : shortDesktopMediaQuery.matches
+      )
     }
 
     syncHeroLayout()
     mediaQuery.addEventListener("change", syncHeroLayout)
+    shortDesktopMediaQuery.addEventListener("change", syncHeroLayout)
 
-    return () => mediaQuery.removeEventListener("change", syncHeroLayout)
+    return () => {
+      mediaQuery.removeEventListener("change", syncHeroLayout)
+      shortDesktopMediaQuery.removeEventListener("change", syncHeroLayout)
+    }
   }, [])
 
   useEffect(() => {
@@ -230,7 +321,7 @@ export function HeroSection() {
               <p
                 className="theme-color-transition text-base leading-relaxed text-muted-foreground sm:hidden"
                 style={{
-                  maxWidth: isHeroTwoColumn ? 420 : 600,
+                  maxWidth: isHeroTwoColumn ? 520 : 600,
                   textAlign: isHeroTwoColumn ? "right" : undefined,
                 }}
               >
@@ -242,7 +333,7 @@ export function HeroSection() {
             <p
               className="theme-color-transition hidden text-base leading-relaxed text-muted-foreground sm:block sm:text-lg"
               style={{
-                maxWidth: isHeroTwoColumn ? 420 : 600,
+                maxWidth: isHeroTwoColumn ? 520 : 600,
                 textAlign: isHeroTwoColumn ? "right" : undefined,
               }}
             >
@@ -260,7 +351,7 @@ export function HeroSection() {
                 )}
                 style={{
                   marginLeft: isHeroTwoColumn ? "auto" : undefined,
-                  maxWidth: isHeroTwoColumn ? 420 : 600,
+                  maxWidth: isHeroTwoColumn ? 520 : 600,
                   textAlign: isHeroTwoColumn ? "right" : undefined,
                 }}
               >
@@ -276,7 +367,7 @@ export function HeroSection() {
                 className="theme-color-transition mt-2 border-t border-border/60 pt-2 text-xs text-muted-foreground/75 sm:mt-4 sm:pt-3 sm:text-sm"
                 style={{
                   marginLeft: isHeroTwoColumn ? "auto" : undefined,
-                  maxWidth: isHeroTwoColumn ? 420 : 600,
+                  maxWidth: isHeroTwoColumn ? 520 : 600,
                   textAlign: isHeroTwoColumn ? "right" : undefined,
                 }}
               >
